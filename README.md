@@ -18,9 +18,9 @@ function App() {
   }
 
   return (
-      <div>
-        <AIChatView systemPrompt={prompt} fetchAIChatAPI={fetchAIChatAPI} />
-      </div>
+    <div>
+      <AIChatView systemPrompt={prompt} fetchAIChatAPI={fetchAIChatAPI} />
+    </div>
   )
 }
 
