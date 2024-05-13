@@ -29,6 +29,9 @@ importers:
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
+      vite-plugin-css-injected-by-js:
+        specifier: ^3.5.1
+        version: 3.5.1(vite@5.2.11)
       zustand:
         specifier: ^4.5.2
         version: 4.5.2(@types/react@18.3.1)(react@18.3.1)
@@ -1565,6 +1568,11 @@ packages:
   validator@13.12.0:
     resolution: {integrity: sha512-c1Q0mCiPlgdTVVVIJIrBuxNicYE+t/7oKeI9MWLj3fh/uq2Pxh/3eeWbVZ4OcGW1TUf53At0njHw5SMdA3tmMg==}
     engines: {node: '>= 0.10'}
+
+  vite-plugin-css-injected-by-js@3.5.1:
+    resolution: {integrity: sha512-9ioqwDuEBxW55gNoWFEDhfLTrVKXEEZgl5adhWmmqa88EQGKfTmexy4v1Rh0pAS6RhKQs2bUYQArprB32JpUZQ==}
+    peerDependencies:
+      vite: '>2.0.0-0'
 
   vite-plugin-dts@3.9.1:
     resolution: {integrity: sha512-rVp2KM9Ue22NGWB8dNtWEr+KekN3rIgz1tWD050QnRGlriUCmaDwa7qA5zDEjbXg5lAXhYMSBJtx3q3hQIJZSg==}
@@ -3151,6 +3159,10 @@ snapshots:
   uuid@9.0.1: {}
 
   validator@13.12.0: {}
+
+  vite-plugin-css-injected-by-js@3.5.1(vite@5.2.11):
+    dependencies:
+      vite: 5.2.11
 
   vite-plugin-dts@3.9.1(rollup@4.17.2)(typescript@5.4.5)(vite@5.2.11):
     dependencies:
