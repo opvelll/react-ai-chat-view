@@ -53,7 +53,7 @@ export default function ChatView({
   return (
     <div className="flex flex-row w-full">
       <main className="flex-1 flex flex-col items-center w-full px-0 md:px-20">
-        <div className="pt-2 min-h-screen border-l border-r w-full px-5 pb-32">
+        <div className="pt-2 min-h-screen md:border-l md:border-r w-full px-5 pb-32">
           {context
             .filter((chat) => chat.role !== "system") // contextから1引く
             .map((chat, index) => {
