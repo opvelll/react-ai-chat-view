@@ -52,8 +52,8 @@ export default function ChatView({
 
   return (
     <div className="flex flex-row w-full">
-      <main className="flex-1 flex flex-col items-center w-full px-20">
-        <div className="pt-12 min-h-screen border-l border-r w-full px-5 pb-32">
+      <main className="flex-1 flex flex-col items-center w-full px-0 md:px-20">
+        <div className="pt-2 min-h-screen border-l border-r w-full px-5 pb-32">
           {context
             .filter((chat) => chat.role !== "system") // contextから1引く
             .map((chat, index) => {
@@ -118,16 +118,16 @@ function ChatBubbleView(index: number, chat: ChatType, context: ChatContextType,
 function FormView(inputTextValue: string, setInputTextValue: (value: string) => void, isLoading: boolean, handleKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void, handleChatButton: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) {
   return (
 
-    <form className="fixed z-40 bottom-0 left-1/2 transform -translate-x-1/2 w-10/12 p-4">
-      <div className="flex flex-row">
+    <form className="fixed z-40 bottom-0 w-full p-4">
+      <div className="flex w-full justify-center">
         <input
           type="text"
-          className="w-full bg-gray-100 border border-gray-300 rounded-l py-2 px-4"
+          className=" bg-gray-100 border border-gray-300 rounded-l w-full md:w-10/12 px-2"
           value={inputTextValue}
           onChange={(e) => setInputTextValue(e.target.value)}
           onKeyDown={handleKeyPress}
           disabled={isLoading}
-          placeholder=""
+          placeholder="..."
         />
         {/* ローディングスピナー */}
         {isLoading && (
