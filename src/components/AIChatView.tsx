@@ -11,7 +11,7 @@ const AIChatView: React.FC<ChatProp> = (chatProp: ChatProp) => {
 
     return (
         <div className="w-full">
-            <HeaderMenu resetChat={resetChat} />
+            <HeaderMenu resetChat={resetChat} isOudio={!!chatProp.fetchVoiceAPI} />
             <div className="flex flex-row w-full">
                 <ChatView {...props} />
             </div>

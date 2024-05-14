@@ -4,6 +4,7 @@ import useChatStore from "./useChatStore";
 
 export type HeaderMenuProps = {
     resetChat: () => void;
+    isOudio: boolean;
 };
 const modelList = [
     "gpt-3.5-turbo-0125",
@@ -15,7 +16,7 @@ const modelList = [
     "gpt-3.5-turbo-16k-0613",
 ] as const;
 
-export default function HeaderMenu({ resetChat }: HeaderMenuProps) {
+export default function HeaderMenu({ resetChat, isOudio }: HeaderMenuProps) {
     const isRunAudio = useChatStore((state) => state.isRunAudio);
     const toggleAudio = useChatStore((state) => state.toggleAudio);
 
@@ -23,8 +24,8 @@ export default function HeaderMenu({ resetChat }: HeaderMenuProps) {
     const setModel = useChatStore((state) => state.setModelName);
 
     return (
-        <nav className="fixed top-0 left-0 z-50 w-full px-2 py-2 shadow bg-white flex items-center justify-end">
-            <div className="flex text-lg gap-x-0.5 flex-row-reverse">
+        <nav className="w-full px-2 py-2 flex items-center justify-end border-b">
+            <div className="flex w-full text-lg gap-x-0.5 flex-row-reverse">
                 <button
                     onClick={resetChat}
                     className=" bg-white hover:bg-slate-300 font-bold py-1 px-3 rounded-full"
@@ -33,15 +34,15 @@ export default function HeaderMenu({ resetChat }: HeaderMenuProps) {
                     <IoReload />
                 </button>
 
-                <button
+                {isOudio && <button
                     onClick={toggleAudio}
                     className=" bg-white hover:bg-slate-300 font-bold py-1 px-3 rounded-full"
                     title={isRunAudio ? "Mute Audio" : "Unmute Audio"}
                 >
                     {isRunAudio ? <HiSpeakerWave /> : <HiSpeakerXMark />}
-                </button>
+                </button>}
+                <div className="flex-1"></div>
                 <div className="inline-block text-sm ml-1">
-                    <label htmlFor="model-select">model:</label>
                     <select
                         id="model-select"
                         className="form-select inline-block mt-1 border border-gray-300 ml-1"
