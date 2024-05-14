@@ -5,10 +5,14 @@ import { useChatContext } from "./useChatContext";
 import { showErrorToast } from "./Toast";
 import { useAudio } from "./useAudio";
 import { ChatContextType } from "./ChatContextType";
+import useChatStore from "./useChatStore";
 
 export type ChatProp = {
   systemPrompt: string;
-  fetchAIChatAPI: (context: ChatContextType) => Promise<string>;
+  fetchAIChatAPI: (
+    modelName: string,
+    context: ChatContextType
+  ) => Promise<string>;
   fetchVoiceAPI?: ((text: string) => Promise<Blob>) | null;
 };
 
@@ -19,6 +23,7 @@ export function useChat({
 }: ChatProp) {
   const [inputTextValue, setInputTextValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const modelName = useChatStore((state) => state.modelName);
 
   const {
     context,
@@ -49,7 +54,7 @@ export function useChat({
     try {
       resetInputAndLoadingState(); // 入力とローディング状態のリセット
       setContext(context); // コンテキストの更新、画面に反映されるのは後なので//
-      await handleResponse(await fetchAIChatAPI(context)); // ChatGPT等AIからの応答をフェッチ + 応答の処理 音声化も行う
+      await handleResponse(await fetchAIChatAPI(modelName, context)); // ChatGPT等AIからの応答をフェッチ + 応答の処理 音声化も行う
     } catch (e) {
       handleError(e as Error); // エラー処理
     }

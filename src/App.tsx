@@ -5,8 +5,8 @@ import { ChatContextType } from './components/ChatContextType'
 function App() {
 
   const prompt = "hello"
-  const fetchAIChatAPI = async (context: ChatContextType) => {
-    console.log(context)
+  const fetchAIChatAPI = async (modelName: string, context: ChatContextType) => {
+    console.log(modelName, context);
     return "hello"
   }
 
