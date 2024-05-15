@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import { FaArrowUp } from "react-icons/fa";
+import { FaRegCopy } from "react-icons/fa";
+import { MdOutlineSubtitles } from "react-icons/md";
 
 export type ChatFormProps = {
     inputTextValue: string,
@@ -28,9 +30,12 @@ export default function ChatForm({ inputTextValue, setInputTextValue, isLoading,
     return (
         <div className="fixed z-40 bottom-0 p-4 w-full md:w-10/12">
             <div className="flex mb-1">
-                <div className="rounded bg-gray-200 px-2 py-1" title="Screenshot"></div>
-                <div className="rounded bg-gray-200 px-2 py-1 ml-1" title="copy paste"></div>
-                <div className="rounded bg-gray-200 px-2 py-1 ml-1" title="subtitles"></div>
+                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg" title="copy paste">
+                    <FaRegCopy />
+                </button>
+                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg" title="subtitles">
+                    <MdOutlineSubtitles />
+                </button>
             </div>
             <form className="flex justify-center bg-gray-100 md:shadow-md drop-shadow-md rounded-lg">
                 <div className="flex flex-col items-center w-full">
