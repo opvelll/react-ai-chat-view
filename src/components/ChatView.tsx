@@ -90,7 +90,7 @@ function ChatBubbleView(index: number, chat: ChatType, context: ChatContextType,
     >
       <div
         className={`${chat.role === "user"
-          ? "bg-blue-400 text-white"
+          ? "bg-blue-100"
           : "bg-gray-200"
           } inline-block rounded-lg p-2 whitespace-pre-wrap`}
       >
