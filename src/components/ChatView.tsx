@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useRef } from "react";
 import { SlReload } from "react-icons/sl";
 import { MdCancel } from "react-icons/md";
-import { FaArrowUp } from "react-icons/fa";
+import ChatForm from "./ChatForm";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -38,8 +38,11 @@ export default function ChatView({
   const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   useEffect(() => scrollToBottom(), [context]);
 
-  async function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter" && inputTextValue !== "") await submitChatWithUserMessage(inputTextValue);
+  async function handleKeyPress(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "Enter" && !e.shiftKey && inputTextValue !== "") {
+      e.preventDefault();
+      await submitChatWithUserMessage(inputTextValue);
+    }
   }
 
   async function handleChatButton(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -67,7 +70,7 @@ export default function ChatView({
 
         <div ref={messagesEndRef}></div>
 
-        {FormView(inputTextValue, setInputTextValue, isLoading, handleKeyPress, handleChatButton)}
+        <ChatForm {...{ inputTextValue, setInputTextValue, isLoading, handleKeyPress, handleChatButton }} />
         {/* エラー表示 */}
         <ToastContainer position="bottom-right" closeOnClick />
       </main>
@@ -111,41 +114,5 @@ function ChatBubbleView(index: number, chat: ChatType, context: ChatContextType,
         </span>
       </div>
     </div>
-  )
-}
-
-// 入力画面
-function FormView(inputTextValue: string, setInputTextValue: (value: string) => void, isLoading: boolean, handleKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void, handleChatButton: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void) {
-  return (
-
-    <form className="fixed z-40 bottom-0 w-full p-4">
-      <div className="flex w-full justify-center">
-        <input
-          type="text"
-          className=" bg-gray-100 border border-gray-300 rounded-l w-full md:w-10/12 px-2"
-          value={inputTextValue}
-          onChange={(e) => setInputTextValue(e.target.value)}
-          onKeyDown={handleKeyPress}
-          disabled={isLoading}
-          placeholder="..."
-        />
-        {/* ローディングスピナー */}
-        {isLoading && (
-          <div className="absolute inset-y-0 left-8 flex items-center pr-3">
-            <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
-          </div>
-        )}
-        {/* 送信ボタン */}
-        <button className="bg-gray-100 hover:bg-gray-300 border border-gray-300 rounded-r p-2"
-          onClick={handleChatButton}
-          title="Send">
-          <div className="flex justify-center">
-            <FaArrowUp />
-          </div>
-        </button>
-      </div>
-
-    </form>
-
   )
 }
