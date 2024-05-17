@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { ChatContextType, ChatType } from "./ChatContextType";
+import ChatForm from "./ChatForm";
 
 type ChatViewProps =
   {
@@ -39,7 +40,7 @@ export default function ChatView({
 
   const handleResetLastMessage = async () => await processChatWithoutLastMessage();
 
-  const { ChatForm } = useChatForm({ isLoading, submitChatWithUserMessage, submitChat, isLastMessageUser, handleGetSelectionButton });
+  const { ...props } = useChatForm({ submitChatWithUserMessage, submitChat, isLastMessageUser });
 
   return (
     <div className="flex flex-row w-full">
@@ -58,7 +59,8 @@ export default function ChatView({
 
         <div ref={messagesEndRef}></div>
 
-        <ChatForm />
+        <ChatForm isLoading={isLoading} {...props} handleGetSelectionButton={handleGetSelectionButton} />
+
         {/* エラー表示 */}
         <ToastContainer position="bottom-right" closeOnClick />
       </main>

@@ -1,96 +1,32 @@
-import { useEffect, useRef, useState } from "react";
-import { FaArrowUp } from "react-icons/fa";
-import { FaRegCopy } from "react-icons/fa";
-import { MdOutlineSubtitles } from "react-icons/md";
+import { useCallback, useState } from "react";
 
 export type ChatFormProps = {
-    isLoading: boolean,
-    submitChatWithUserMessage: (inputTextValue: string) => Promise<void>,
     submitChat: () => Promise<void>,
     isLastMessageUser: () => boolean,
-
-    handleGetSelectionButton: (inputTextValue: string, setInputTextValue: (value: string) => void) => Promise<void>
+    submitChatWithUserMessage: (inputTextValue: string) => Promise<void>,
 }
 
 // 入力画面
-export default function useChatForm({ isLoading, isLastMessageUser, submitChat, submitChatWithUserMessage, handleGetSelectionButton }: ChatFormProps) {
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
+export default function useChatForm({ submitChat, isLastMessageUser, submitChatWithUserMessage }: ChatFormProps) {
     const [inputTextValue, setInputTextValue] = useState<string>("");
 
-    useEffect(() => {
-        adjustHeight();
-        console.log("inputTextValue", inputTextValue);
-    }, [inputTextValue]);
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => setInputTextValue(e.target.value), []);
 
-    const adjustHeight = () => {
-        const textArea = textAreaRef.current;
-        if (textArea) {
-            textArea.style.height = '1em'; // 高さを一旦リセット
-            textArea.style.height = textArea.scrollHeight + 'px'; // 内容に基づいて高さを設定
-        }
-    };
+    const handleKeyPress = useCallback(
+        async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+            if (e.key === "Enter" && !e.shiftKey && inputTextValue !== "") {
+                e.preventDefault();
+                await submitChatWithUserMessage(inputTextValue);
+            }
+        },
+        [inputTextValue, submitChatWithUserMessage],
+    );
 
-    async function handleKeyPress(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-        if (e.key === "Enter" && !e.shiftKey && inputTextValue !== "") {
-            e.preventDefault();
-            await submitChatWithUserMessage(inputTextValue);
-        }
-    }
-
-    async function handleChatButton(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    const handleChatButton = useCallback(async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (inputTextValue !== "") return await submitChatWithUserMessage(inputTextValue);
         if (isLastMessageUser()) return await submitChat();// 会話の編集時(最後のアシスタントメッセージを削除した状態)用
-    }
+    }, [inputTextValue, isLastMessageUser, submitChatWithUserMessage, submitChat]);
 
-    const ChatForm = () => (
-        <div className="fixed z-40 bottom-0 p-4 w-full md:w-10/12">
-            <div className="flex mb-1">
-                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg"
-                    title="get selection"
-                    onClick={() => handleGetSelectionButton(inputTextValue, setInputTextValue)}
-                >
-                    <FaRegCopy />
-                </button>
-                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg"
-                    title="subtitles">
-                    <MdOutlineSubtitles />
-                </button>
-            </div>
-            <form id="chatForm" name="chatForm" className="flex justify-center bg-gray-100 md:shadow-md drop-shadow-md rounded-lg">
-                <div className="flex flex-col items-center w-full">
-                    <textarea
-                        ref={textAreaRef}
-                        className="bg-gray-100 m-1 w-full p-3 border-0 resize-none rounded-lg focus:outline-none"
-                        value={inputTextValue}
-                        onChange={(e) => setInputTextValue(e.target.value)}
-                        onKeyDown={handleKeyPress}
-                        disabled={isLoading}
-                        placeholder="..."
-                    />
-                </div>
-                {/* ローディングスピナー */}
-                {isLoading && (
-                    <div className="absolute inset-y-0 left-8 flex items-center pr-3">
-                        <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                )}
-                <div className="flex flex-col-reverse">
-                    {/* 送信ボタン */}
-                    <button className="bg-gray-100 hover:bg-gray-300 border-2 border-gray-300 m-2 size-10 rounded-lg"
-                        onClick={handleChatButton}
-                        title="Send">
-                        <div className="flex justify-center">
-                            <FaArrowUp />
-                        </div>
-                    </button>
-                </div>
-
-
-            </form>
-        </div>
-    )
-
-    return { ChatForm, inputTextValue, setInputTextValue }
+    return { inputTextValue, setInputTextValue, handleChange, handleKeyPress, handleChatButton }
 }
