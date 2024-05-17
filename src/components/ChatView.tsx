@@ -19,7 +19,9 @@ type ChatViewProps =
     removeMessage: (index: number) => void,
     isLastMessageUser: () => boolean,
     submitChatWithUserMessage: (inputTextValue: string) => Promise<void>,
-    processChatWithoutLastMessage: () => Promise<void>
+    processChatWithoutLastMessage: () => Promise<void>,
+
+    handleGetSelectionButton: (inputTextValue: string, setInputTextValue: (value: string) => void) => Promise<void>
   }
 
 export default function ChatView({
@@ -31,7 +33,8 @@ export default function ChatView({
   removeMessage,
   isLastMessageUser,
   submitChatWithUserMessage,
-  processChatWithoutLastMessage
+  processChatWithoutLastMessage,
+  handleGetSelectionButton
 }: ChatViewProps) {
   // チャット状態の更新時に最下部にスクロール
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -70,7 +73,7 @@ export default function ChatView({
 
         <div ref={messagesEndRef}></div>
 
-        <ChatForm {...{ inputTextValue, setInputTextValue, isLoading, handleKeyPress, handleChatButton }} />
+        <ChatForm {...{ inputTextValue, setInputTextValue, isLoading, handleKeyPress, handleChatButton, handleGetSelectionButton }} />
         {/* エラー表示 */}
         <ToastContainer position="bottom-right" closeOnClick />
       </main>
