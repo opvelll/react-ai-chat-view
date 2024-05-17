@@ -1,39 +1,34 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { FaArrowUp, FaRegCopy } from 'react-icons/fa';
 import { MdOutlineSubtitles } from 'react-icons/md';
 
 interface ChatFormProps {
     inputTextValue: string;
     setInputTextValue: (value: string) => void;
+    textAreaRef: React.RefObject<HTMLTextAreaElement>;
     handleGetSelectionButton: (inputTextValue: string, setInputTextValue: (value: string) => void) => Promise<void>
     handleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
     handleKeyPress: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
     handleChatButton: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     isLoading: boolean;
+    adjustHeight: () => void;
 }
 
 const ChatForm: React.FC<ChatFormProps> = ({
     inputTextValue,
     setInputTextValue,
+    textAreaRef,
     handleGetSelectionButton,
     handleChange,
     handleKeyPress,
     handleChatButton,
-    isLoading
+    isLoading,
+    adjustHeight
 }) => {
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
-    const adjustHeight = () => {
-        const textArea = textAreaRef.current;
-        if (textArea) {
-            textArea.style.height = '1em';  // 高さを一旦リセット
-            textArea.style.height = `${textArea.scrollHeight}px`; // 内容に基づいて高さを設定
-        }
-    };
 
     useEffect(() => {
         adjustHeight();
-    }, [inputTextValue]); // inputTextValueが変わるたびに実行
+    }, [adjustHeight, inputTextValue]); // inputTextValueが変わるたびに実行
 
     return (<div className="fixed z-40 bottom-0 p-4 w-full md:w-10/12">
         <div className="flex mb-1">
