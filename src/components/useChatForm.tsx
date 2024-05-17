@@ -1,14 +1,16 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 export type ChatFormProps = {
+    inputTextValue: string,
+    setInputTextValue: (value: string) => void,
+    textAreaRef: React.RefObject<HTMLTextAreaElement>,
     submitChat: () => Promise<void>,
     isLastMessageUser: () => boolean,
     submitChatWithUserMessage: (inputTextValue: string) => Promise<void>,
 }
 
 // 入力画面
-export default function useChatForm({ submitChat, isLastMessageUser, submitChatWithUserMessage }: ChatFormProps) {
-    const [inputTextValue, setInputTextValue] = useState<string>("");
+export default function useChatForm({ inputTextValue, setInputTextValue, textAreaRef, submitChat, isLastMessageUser, submitChatWithUserMessage }: ChatFormProps) {
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => setInputTextValue(e.target.value), []);
 
@@ -28,5 +30,12 @@ export default function useChatForm({ submitChat, isLastMessageUser, submitChatW
         if (isLastMessageUser()) return await submitChat();// 会話の編集時(最後のアシスタントメッセージを削除した状態)用
     }, [inputTextValue, isLastMessageUser, submitChatWithUserMessage, submitChat]);
 
-    return { inputTextValue, setInputTextValue, handleChange, handleKeyPress, handleChatButton }
+    const adjustHeight = useCallback(() => {
+        if (textAreaRef.current) {
+            textAreaRef.current.style.height = '1em';  // 高さを一旦リセット
+            textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`; // 内容に基づいて高さを設定
+        }
+    }, [textAreaRef]);
+
+    return { inputTextValue, setInputTextValue, handleChange, handleKeyPress, handleChatButton, adjustHeight }
 }
