@@ -1,24 +1,26 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 import { FaRegCopy } from "react-icons/fa";
 import { MdOutlineSubtitles } from "react-icons/md";
 
 export type ChatFormProps = {
-    inputTextValue: string,
-    setInputTextValue: (value: string) => void,
     isLoading: boolean,
-    handleKeyPress: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void,
-    handleChatButton: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+    submitChatWithUserMessage: (inputTextValue: string) => Promise<void>,
+    submitChat: () => Promise<void>,
+    isLastMessageUser: () => boolean,
 
     handleGetSelectionButton: (inputTextValue: string, setInputTextValue: (value: string) => void) => Promise<void>
 }
 
 // 入力画面
-export default function ChatForm({ inputTextValue, setInputTextValue, isLoading, handleKeyPress, handleChatButton, handleGetSelectionButton }: ChatFormProps) {
+export default function useChatForm({ isLoading, isLastMessageUser, submitChat, submitChatWithUserMessage, handleGetSelectionButton }: ChatFormProps) {
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+    const [inputTextValue, setInputTextValue] = useState<string>("");
 
     useEffect(() => {
         adjustHeight();
+        console.log("inputTextValue", inputTextValue);
     }, [inputTextValue]);
 
     const adjustHeight = () => {
@@ -29,13 +31,26 @@ export default function ChatForm({ inputTextValue, setInputTextValue, isLoading,
         }
     };
 
+    async function handleKeyPress(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+        if (e.key === "Enter" && !e.shiftKey && inputTextValue !== "") {
+            e.preventDefault();
+            await submitChatWithUserMessage(inputTextValue);
+        }
+    }
 
-    return (
+    async function handleChatButton(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        e.preventDefault();
+        if (inputTextValue !== "") return await submitChatWithUserMessage(inputTextValue);
+        if (isLastMessageUser()) return await submitChat();// 会話の編集時(最後のアシスタントメッセージを削除した状態)用
+    }
+
+    const ChatForm = () => (
         <div className="fixed z-40 bottom-0 p-4 w-full md:w-10/12">
             <div className="flex mb-1">
                 <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg"
                     title="get selection"
-                    onClick={async () => await handleGetSelectionButton(inputTextValue, setInputTextValue)}>
+                    onClick={() => handleGetSelectionButton(inputTextValue, setInputTextValue)}
+                >
                     <FaRegCopy />
                 </button>
                 <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg"
@@ -43,7 +58,7 @@ export default function ChatForm({ inputTextValue, setInputTextValue, isLoading,
                     <MdOutlineSubtitles />
                 </button>
             </div>
-            <form className="flex justify-center bg-gray-100 md:shadow-md drop-shadow-md rounded-lg">
+            <form id="chatForm" name="chatForm" className="flex justify-center bg-gray-100 md:shadow-md drop-shadow-md rounded-lg">
                 <div className="flex flex-col items-center w-full">
                     <textarea
                         ref={textAreaRef}
@@ -76,4 +91,6 @@ export default function ChatForm({ inputTextValue, setInputTextValue, isLoading,
             </form>
         </div>
     )
+
+    return { ChatForm, inputTextValue, setInputTextValue }
 }

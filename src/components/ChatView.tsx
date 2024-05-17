@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useRef } from "react";
 import { SlReload } from "react-icons/sl";
 import { MdCancel } from "react-icons/md";
-import ChatForm from "./ChatForm";
+import useChatForm from "./useChatForm";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,8 +11,6 @@ import { ChatContextType, ChatType } from "./ChatContextType";
 
 type ChatViewProps =
   {
-    inputTextValue: string,
-    setInputTextValue: (value: string) => void,
     isLoading: boolean,
     context: ChatContextType,
     submitChat: () => Promise<void>,
@@ -25,8 +23,6 @@ type ChatViewProps =
   }
 
 export default function ChatView({
-  inputTextValue,
-  setInputTextValue,
   isLoading,
   context,
   submitChat,
@@ -41,20 +37,9 @@ export default function ChatView({
   const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   useEffect(() => scrollToBottom(), [context]);
 
-  async function handleKeyPress(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === "Enter" && !e.shiftKey && inputTextValue !== "") {
-      e.preventDefault();
-      await submitChatWithUserMessage(inputTextValue);
-    }
-  }
-
-  async function handleChatButton(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault();
-    if (inputTextValue !== "") return await submitChatWithUserMessage(inputTextValue);
-    if (isLastMessageUser()) return await submitChat();// 会話の編集時(最後のアシスタントメッセージを削除した状態)用
-  }
-
   const handleResetLastMessage = async () => await processChatWithoutLastMessage();
+
+  const { ChatForm } = useChatForm({ isLoading, submitChatWithUserMessage, submitChat, isLastMessageUser, handleGetSelectionButton });
 
   return (
     <div className="flex flex-row w-full">
@@ -73,7 +58,7 @@ export default function ChatView({
 
         <div ref={messagesEndRef}></div>
 
-        <ChatForm {...{ inputTextValue, setInputTextValue, isLoading, handleKeyPress, handleChatButton, handleGetSelectionButton }} />
+        <ChatForm />
         {/* エラー表示 */}
         <ToastContainer position="bottom-right" closeOnClick />
       </main>

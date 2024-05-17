@@ -14,8 +14,6 @@ export type AIChatViewProps = ChatProp & ChatFormButtonHandlers;
 export default function useAIChatView(aiChatProp: AIChatViewProps) {
     const {
         resetChat,
-        inputTextValue,
-        setInputTextValue,
         ...props
     } = useChat(aiChatProp);
 
@@ -23,13 +21,12 @@ export default function useAIChatView(aiChatProp: AIChatViewProps) {
         <div className="w-full">
             <HeaderMenu resetChat={resetChat} isOudio={!!aiChatProp.fetchVoiceAPI} />
             <div className="flex flex-row w-full">
-                <ChatView inputTextValue={inputTextValue}
-                    setInputTextValue={setInputTextValue}
+                <ChatView
                     handleGetSelectionButton={aiChatProp.handleGetSelectionButton}
                     {...props} />
             </div>
         </div>
     )
 
-    return { inputTextValue, setInputTextValue, AIChatView }
+    return { AIChatView }
 }
