@@ -1,22 +1,35 @@
 import HeaderMenu from "./HeaderMenu";
 import { useChat, ChatProp } from "./useChat";
 import ChatView from "./ChatView";
-import React from 'react';
 
-const AIChatView: React.FC<ChatProp> = (chatProp: ChatProp) => {
+export type ChatFormButtonHandlers = {
+    handleGetSelectionButton: (
+        inputTextValue: string,
+        setInputTextValue: (value: string) => void
+    ) => Promise<void>;
+}
+
+export type AIChatViewProps = ChatProp & ChatFormButtonHandlers;
+
+export default function useAIChatView(aiChatProp: AIChatViewProps) {
     const {
         resetChat,
+        inputTextValue,
+        setInputTextValue,
         ...props
-    } = useChat(chatProp);
+    } = useChat(aiChatProp);
 
-    return (
+    const AIChatView = () => (
         <div className="w-full">
-            <HeaderMenu resetChat={resetChat} isOudio={!!chatProp.fetchVoiceAPI} />
+            <HeaderMenu resetChat={resetChat} isOudio={!!aiChatProp.fetchVoiceAPI} />
             <div className="flex flex-row w-full">
-                <ChatView {...props} />
+                <ChatView inputTextValue={inputTextValue}
+                    setInputTextValue={setInputTextValue}
+                    handleGetSelectionButton={aiChatProp.handleGetSelectionButton}
+                    {...props} />
             </div>
         </div>
     )
-}
 
-export default AIChatView;
+    return { inputTextValue, setInputTextValue, AIChatView }
+}
