@@ -13,9 +13,7 @@ export type ChatBubbleViewProps = {
 export default function ChatBubbleView({ index, chat, context, handleResetLastMessage, removeMessage }: ChatBubbleViewProps) {
     return (
         <div
-
-            className={`mb-1 flex ${chat.role === "user" ? "flex-row" : "flex-row-reverse"
-                }`}
+            className={`mb-1 flex ${chat.role === "user" ? "flex-row" : "flex-row-reverse"}`}
         >
             <div
                 className={`${chat.role === "user"

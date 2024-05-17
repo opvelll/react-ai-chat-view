@@ -18,7 +18,6 @@ type ChatViewProps =
     isLastMessageUser: () => boolean,
     submitChatWithUserMessage: (inputTextValue: string) => Promise<void>,
     processChatWithoutLastMessage: () => Promise<void>,
-
     handleGetSelectionButton: (inputTextValue: string, setInputTextValue: (value: string) => void) => Promise<void>
   }
 
@@ -32,6 +31,7 @@ export default function ChatView({
   processChatWithoutLastMessage,
   handleGetSelectionButton
 }: ChatViewProps) {
+
   // チャット状態の更新時に最下部にスクロール
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
