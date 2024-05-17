@@ -12,7 +12,7 @@ export type ChatFormProps = {
 // 入力画面
 export default function useChatForm({ inputTextValue, setInputTextValue, textAreaRef, submitChat, isLastMessageUser, submitChatWithUserMessage }: ChatFormProps) {
 
-    const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => setInputTextValue(e.target.value), []);
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => setInputTextValue(e.target.value), [setInputTextValue]);
 
     const handleKeyPress = useCallback(
         async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
