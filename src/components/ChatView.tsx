@@ -1,11 +1,11 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import useChatForm from "./useChatForm";
+import useChatForm from "./ChatForm/useChatForm";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { ChatContextType } from "./ChatContextType";
-import ChatForm from "./ChatForm";
+import ChatForm from "./ChatForm/ChatForm";
 import ChatBubbleView from "./ChatBubbleView";
 
 type ChatViewProps =
