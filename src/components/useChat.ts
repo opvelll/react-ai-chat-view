@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { useChatContext } from "./useChatContext";
 import { showErrorToast } from "./Toast";
@@ -22,6 +22,8 @@ export function useChat({
   fetchVoiceAPI = null,
 }: ChatProp) {
   const [inputTextValue, setInputTextValue] = useState("");
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
   const [isLoading, setIsLoading] = useState(false);
   const modelName = useChatStore((state) => state.modelName);
 
@@ -63,6 +65,9 @@ export function useChat({
   // 入力とローディング状態のリセット
   function resetInputAndLoadingState() {
     setInputTextValue("");
+    setTimeout(() => {
+      textAreaRef.current?.focus(); // 少し遅延させてフォーカスを設定
+    }, 0);
     setIsLoading(true);
   }
 
@@ -90,6 +95,7 @@ export function useChat({
     setContext,
     inputTextValue,
     setInputTextValue,
+    textAreaRef,
     isLoading,
     removeMessage,
     submitChat,
