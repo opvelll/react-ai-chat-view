@@ -10,10 +10,11 @@ export type ChatFormProps = {
     handleKeyPress: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void,
     handleChatButton: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 
+    handleGetSelectionButton: (inputTextValue: string, setInputTextValue: (value: string) => void) => Promise<void>
 }
 
 // 入力画面
-export default function ChatForm({ inputTextValue, setInputTextValue, isLoading, handleKeyPress, handleChatButton }: ChatFormProps) {
+export default function ChatForm({ inputTextValue, setInputTextValue, isLoading, handleKeyPress, handleChatButton, handleGetSelectionButton }: ChatFormProps) {
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
@@ -27,13 +28,18 @@ export default function ChatForm({ inputTextValue, setInputTextValue, isLoading,
             textArea.style.height = textArea.scrollHeight + 'px'; // 内容に基づいて高さを設定
         }
     };
+
+
     return (
         <div className="fixed z-40 bottom-0 p-4 w-full md:w-10/12">
             <div className="flex mb-1">
-                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg" title="copy paste">
+                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg"
+                    title="get selection"
+                    onClick={async () => await handleGetSelectionButton(inputTextValue, setInputTextValue)}>
                     <FaRegCopy />
                 </button>
-                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg" title="subtitles">
+                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg"
+                    title="subtitles">
                     <MdOutlineSubtitles />
                 </button>
             </div>
