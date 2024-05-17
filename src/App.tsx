@@ -1,5 +1,5 @@
 
-import useAIChatView from './components/AIChatView'
+import AIChatView from './components/AIChatView'
 import { ChatContextType } from './components/ChatContextType'
 
 function App() {
@@ -14,11 +14,9 @@ function App() {
     setInputTextValue(inputTextValue);
   }
 
-  const { AIChatView } = useAIChatView({ systemPrompt, fetchAIChatAPI, handleGetSelectionButton })
-
   return (
     <div>
-      <AIChatView />
+      <AIChatView {...{ systemPrompt, fetchAIChatAPI, handleGetSelectionButton }} />
     </div>
   )
 }
