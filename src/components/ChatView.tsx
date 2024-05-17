@@ -1,5 +1,4 @@
-"use client"
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import useChatForm from "./useChatForm";
 
 import { ToastContainer } from 'react-toastify';
@@ -11,6 +10,9 @@ import ChatBubbleView from "./ChatBubbleView";
 
 type ChatViewProps =
   {
+    inputTextValue: string,
+    setInputTextValue: (value: string) => void,
+    textAreaRef: React.RefObject<HTMLTextAreaElement>,
     isLoading: boolean,
     context: ChatContextType,
     submitChat: () => Promise<void>,
@@ -22,6 +24,9 @@ type ChatViewProps =
   }
 
 export default function ChatView({
+  inputTextValue,
+  setInputTextValue,
+  textAreaRef,
   isLoading,
   context,
   submitChat,
@@ -34,12 +39,19 @@ export default function ChatView({
 
   // チャット状態の更新時に最下部にスクロール
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [prevMessageCount, setPrevMessageCount] = useState(0);
+
   const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  useEffect(() => scrollToBottom(), [context]);
+  useEffect(() => {
+    if (prevMessageCount !== 0 && context.length > prevMessageCount) {
+      scrollToBottom();
+    }
+    setPrevMessageCount(context.length);
+  }, [context.length, prevMessageCount]);
 
-  const handleResetLastMessage = async () => await processChatWithoutLastMessage();
+  const handleResetLastMessage = useCallback(async () => await processChatWithoutLastMessage(), [processChatWithoutLastMessage]);
 
-  const { ...props } = useChatForm({ submitChatWithUserMessage, submitChat, isLastMessageUser });
+  const { ...props } = useChatForm({ inputTextValue, setInputTextValue, textAreaRef, submitChatWithUserMessage, submitChat, isLastMessageUser });
 
   return (
     <div className="flex flex-row w-full">
@@ -58,7 +70,7 @@ export default function ChatView({
 
         <div ref={messagesEndRef}></div>
 
-        <ChatForm isLoading={isLoading} {...props} handleGetSelectionButton={handleGetSelectionButton} />
+        <ChatForm isLoading={isLoading} textAreaRef={textAreaRef} {...props} handleGetSelectionButton={handleGetSelectionButton} />
 
         {/* エラー表示 */}
         <ToastContainer position="bottom-right" closeOnClick />

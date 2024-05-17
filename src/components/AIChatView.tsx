@@ -12,6 +12,7 @@ export type ChatFormButtonHandlers = {
 export type AIChatViewProps = ChatProp & ChatFormButtonHandlers;
 
 export default function AIChatView(aiChatProp: AIChatViewProps) {
+
     const {
         resetChat,
         ...props
