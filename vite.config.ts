@@ -14,7 +14,7 @@ export default defineConfig({
     lib: {
       entry: "./src/index.ts",
       name: "ReactAIChatView",
-      formats: ["es", "umd"],
+      formats: ["es", "cjs", "umd"],
       fileName: (format) => `react-ai-chat-view.${format}.js`,
     },
     rollupOptions: {

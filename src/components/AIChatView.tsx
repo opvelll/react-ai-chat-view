@@ -28,5 +28,4 @@ export default function AIChatView(aiChatProp: AIChatViewProps) {
             </div>
         </div>
     )
-
 }
