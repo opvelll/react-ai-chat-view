@@ -6,22 +6,14 @@ export type HeaderMenuProps = {
     resetChat: () => void;
     isOudio: boolean;
 };
-const modelList = [
-    "gpt-3.5-turbo-0125",
-    "gpt-3.5-turbo",
-    "gpt-3.5-turbo-1106",
-    "gpt-3.5-turbo-instruct",
-    "gpt-3.5-turbo-16k",
-    "gpt-3.5-turbo-0613",
-    "gpt-3.5-turbo-16k-0613",
-] as const;
 
 export default function HeaderMenu({ resetChat, isOudio }: HeaderMenuProps) {
     const isRunAudio = useChatStore((state) => state.isRunAudio);
     const toggleAudio = useChatStore((state) => state.toggleAudio);
 
-    const model = useChatStore((state) => state.modelName);
+    const modelName = useChatStore((state) => state.modelName);
     const setModel = useChatStore((state) => state.setModelName);
+    const modelList = useChatStore((state) => state.modelList);
 
     return (
         <nav className="w-full px-2 py-2 flex items-center justify-end border-b">
@@ -46,7 +38,7 @@ export default function HeaderMenu({ resetChat, isOudio }: HeaderMenuProps) {
                     <select
                         id="model-select"
                         className="form-select inline-block mt-1 border border-gray-300 ml-1"
-                        value={model}
+                        value={modelName}
                         onChange={(event) => setModel(event.target.value)}
                         title="Select Model"
                     >

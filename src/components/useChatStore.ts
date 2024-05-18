@@ -8,6 +8,8 @@ export type ChatStore = {
   toggleSidebar: () => void;
   modelName: string;
   setModelName: (model: string) => void;
+  modelList: string[];
+  setModelList: (modelList: string[]) => void;
 };
 
 const useChatStore = create<ChatStore>(
@@ -22,8 +24,10 @@ const useChatStore = create<ChatStore>(
         set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
 
       // モデル名
-      modelName: "gpt-3.5-turbo-0125",
+      modelName: "",
       setModelName: (model: string) => set({ modelName: model }),
+      modelList: [],
+      setModelList: (modelList: string[]) => set({ modelList: modelList }),
     }),
     { name: "chatStore" }
   )

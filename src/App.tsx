@@ -14,9 +14,12 @@ function App() {
     setInputTextValue(inputTextValue);
   }
 
+  const initModelName = "gpt-3.5-turbo-0125"
+  const modelList = ["gpt-3.5-turbo-0125", "gpt-3.5-turbo-0126", "gpt-3.5-turbo-0127"];
+
   return (
     <div>
-      <AIChatView {...{ systemPrompt, fetchAIChatAPI, handleGetSelectionButton }} />
+      <AIChatView {...{ systemPrompt, fetchAIChatAPI, handleGetSelectionButton, initModelName, modelList }} />
     </div>
   )
 }
