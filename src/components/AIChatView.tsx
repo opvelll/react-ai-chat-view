@@ -1,8 +1,7 @@
 import HeaderMenu from "./HeaderMenu";
 import { useChat, ChatProp } from "./useChat";
 import ChatView from "./ChatView";
-import useChatStore from "./useChatStore";
-import { useEffect } from "react";
+import { useState } from "react";
 
 export type ChatFormButtonHandlers = {
     handleGetSelectionButton: (
@@ -12,9 +11,7 @@ export type ChatFormButtonHandlers = {
 }
 
 export type ModelList = {
-    initModelName: string;
     modelList: string[];
-
 }
 
 export type AIChatViewProps = ChatProp & ChatFormButtonHandlers & ModelList;
@@ -24,27 +21,19 @@ export default function AIChatView({
     fetchAIChatAPI,
     handleGetSelectionButton,
     fetchVoiceAPI,
-    initModelName,
+    modelName,
     modelList }: AIChatViewProps) {
 
-    const setModelName = useChatStore((state) => state.setModelName);
-    const setModelList = useChatStore((state) => state.setModelList);
-
-    useEffect(() => {
-        setModelName(initModelName);
-        setModelList(modelList);
-    }, [initModelName, modelList, setModelList, setModelName])
+    const [model, setModel] = useState(modelName);
 
     const {
         resetChat,
         ...props
-    } = useChat({ fetchAIChatAPI, fetchVoiceAPI, systemPrompt });
-
-
+    } = useChat({ fetchAIChatAPI, fetchVoiceAPI, systemPrompt, modelName: model });
 
     return (
         <div className="w-full">
-            <HeaderMenu resetChat={resetChat} isOudio={!!fetchVoiceAPI} />
+            <HeaderMenu resetChat={resetChat} isOudio={!!fetchVoiceAPI} modelList={modelList} model={model} setModel={setModel} />
             <div className="flex flex-row w-full">
                 <ChatView
                     handleGetSelectionButton={handleGetSelectionButton}

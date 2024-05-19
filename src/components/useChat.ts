@@ -4,7 +4,6 @@ import { useChatContext } from "./useChatContext";
 import { showErrorToast } from "./Toast";
 import { useAudio } from "./useAudio";
 import { ChatContextType } from "./ChatContextType";
-import useChatStore from "./useChatStore";
 
 export type ChatProp = {
   systemPrompt: string;
@@ -13,18 +12,19 @@ export type ChatProp = {
     context: ChatContextType
   ) => Promise<string>;
   fetchVoiceAPI?: ((text: string) => Promise<Blob>) | null;
+  modelName: string;
 };
 
 export function useChat({
   systemPrompt,
   fetchAIChatAPI,
+  modelName,
   fetchVoiceAPI = null,
 }: ChatProp) {
   const [inputTextValue, setInputTextValue] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const [isLoading, setIsLoading] = useState(false);
-  const modelName = useChatStore((state) => state.modelName);
 
   const {
     context,

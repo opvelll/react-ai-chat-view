@@ -5,15 +5,15 @@ import useChatStore from "./useChatStore";
 export type HeaderMenuProps = {
     resetChat: () => void;
     isOudio: boolean;
+    model: string;
+    setModel: (model: string) => void;
+    modelList: string[];
 };
 
-export default function HeaderMenu({ resetChat, isOudio }: HeaderMenuProps) {
+export default function HeaderMenu({ resetChat, isOudio, model, setModel, modelList }: HeaderMenuProps) {
     const isRunAudio = useChatStore((state) => state.isRunAudio);
     const toggleAudio = useChatStore((state) => state.toggleAudio);
 
-    const modelName = useChatStore((state) => state.modelName);
-    const setModel = useChatStore((state) => state.setModelName);
-    const modelList = useChatStore((state) => state.modelList);
 
     return (
         <nav className="w-full px-2 py-2 flex items-center justify-end border-b">
@@ -38,7 +38,7 @@ export default function HeaderMenu({ resetChat, isOudio }: HeaderMenuProps) {
                     <select
                         id="model-select"
                         className="form-select inline-block mt-1 border border-gray-300 ml-1"
-                        value={modelName}
+                        value={model}
                         onChange={(event) => setModel(event.target.value)}
                         title="Select Model"
                     >

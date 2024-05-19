@@ -6,10 +6,6 @@ export type ChatStore = {
   toggleAudio: () => void;
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
-  modelName: string;
-  setModelName: (model: string) => void;
-  modelList: string[];
-  setModelList: (modelList: string[]) => void;
 };
 
 const useChatStore = create<ChatStore>(
@@ -22,12 +18,6 @@ const useChatStore = create<ChatStore>(
       isSidebarOpen: false,
       toggleSidebar: () =>
         set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
-
-      // モデル名
-      modelName: "",
-      setModelName: (model: string) => set({ modelName: model }),
-      modelList: [],
-      setModelList: (modelList: string[]) => set({ modelList: modelList }),
     }),
     { name: "chatStore" }
   )
