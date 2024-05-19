@@ -32,7 +32,7 @@ export default function useChatForm({ inputTextValue, setInputTextValue, textAre
 
     const adjustHeight = useCallback(() => {
         if (textAreaRef.current) {
-            textAreaRef.current.style.height = '42px';  // 高さを一旦リセット
+            textAreaRef.current.style.height = 'auto';  // 高さを一旦リセット
             textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`; // 内容に基づいて高さを設定
         }
     }, [textAreaRef]);
