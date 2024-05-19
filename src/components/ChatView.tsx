@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { ChatContextType } from "./ChatContextType";
-import ChatForm from "./ChatForm/ChatForm";
+import ChatForm, { ChatFormButtonHandles } from "./ChatForm/ChatForm";
 import ChatBubbleView from "./ChatBubbleView";
 
 type ChatViewProps =
@@ -19,9 +19,8 @@ type ChatViewProps =
     removeMessage: (index: number) => void,
     isLastMessageUser: () => boolean,
     submitChatWithUserMessage: (inputTextValue: string) => Promise<void>,
-    processChatWithoutLastMessage: () => Promise<void>,
-    handleGetSelectionButton: (inputTextValue: string, setInputTextValue: (value: string) => void) => Promise<void>
-  }
+    processChatWithoutLastMessage: () => Promise<void>
+  } & ChatFormButtonHandles;
 
 export default function ChatView({
   inputTextValue,
@@ -34,7 +33,9 @@ export default function ChatView({
   isLastMessageUser,
   submitChatWithUserMessage,
   processChatWithoutLastMessage,
-  handleGetSelectionButton
+  handleGetSelectionButton,
+  handleGetSubtitlesButton,
+  handleGetAllPageButton
 }: ChatViewProps) {
 
   // チャット状態の更新時に最下部にスクロール
@@ -70,7 +71,7 @@ export default function ChatView({
 
         <div ref={messagesEndRef}></div>
 
-        <ChatForm isLoading={isLoading} textAreaRef={textAreaRef} {...props} handleGetSelectionButton={handleGetSelectionButton} />
+        <ChatForm {...{ isLoading, textAreaRef, handleGetSubtitlesButton, handleGetSelectionButton, handleGetAllPageButton }} {...props} />
 
         {/* エラー表示 */}
         <ToastContainer position="bottom-right" closeOnClick />
