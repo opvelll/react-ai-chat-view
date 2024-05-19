@@ -20,7 +20,7 @@ export default function HeaderMenu({ resetChat, isOudio, model, setModel, modelL
             <div className="flex w-full text-lg gap-x-0.5 flex-row-reverse">
                 <button
                     onClick={resetChat}
-                    className=" bg-white hover:bg-slate-300 font-bold py-1 px-3 rounded-full"
+                    className=" bg-white hover:bg-slate-300 font-bold py-1 px-3 rounded-full border"
                     title="Reset Chat"
                 >
                     <IoReload />
