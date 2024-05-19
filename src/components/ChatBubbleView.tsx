@@ -2,6 +2,7 @@ import { ChatContextType, ChatType } from "./ChatContextType"
 import { SlReload } from "react-icons/sl";
 import { MdCancel } from "react-icons/md";
 
+
 export type ChatBubbleViewProps = {
     index: number,
     chat: ChatType,
@@ -19,7 +20,7 @@ export default function ChatBubbleView({ index, chat, context, handleResetLastMe
                 className={`${chat.role === "user"
                     ? "bg-blue-100"
                     : "bg-gray-200"
-                    } inline-block rounded-lg p-2 whitespace-pre-wrap`}
+                    } inline-block rounded-lg p-2 whitespace-pre-wrap break-all`}
             >
                 {chat.content}
                 <span className="text-black ml-1 inline-flex flex-row gap-1.5">
