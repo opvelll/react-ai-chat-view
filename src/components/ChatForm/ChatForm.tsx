@@ -43,10 +43,11 @@ const ChatForm: React.FC<ChatFormProps> = ({
         <div className="fixed bottom-0 px-4 py-1 w-full md:w-10/12">
 
             <form id="chatForm" name="chatForm" className="flex justify-center bg-gray-100 md:shadow-md drop-shadow-md rounded-lg">
-                <div className="flex flex-col items-center w-full">
+                <div className="flex items-center w-full">
                     <textarea
                         ref={textAreaRef}
-                        className="bg-gray-100 m-1 w-full p-3 border-0 resize-none rounded-lg focus:outline-none"
+                        className="bg-gray-100 box-border ml-3 mt-2 mb-2 p-1 w-full border-0 resize-none rounded-lg focus:outline-none overflow-auto whitespace-nowrap scrollbar-thin h-auto"
+                        style={{ maxHeight: "35rem" }}
                         value={inputTextValue}
                         onChange={handleChange}
                         onKeyDown={handleKeyPress}
@@ -62,7 +63,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
                 )}
                 <div className="flex flex-col-reverse">
                     {/* 送信ボタン */}
-                    <button className="bg-gray-100 hover:bg-gray-300 border-2 border-gray-300 m-2 size-10 rounded-lg"
+                    <button className="bg-gray-100 hover:bg-gray-300 border-2 border-gray-300 m-2 size-8 rounded-lg"
                         onClick={handleChatButton}
                         title="Send">
                         <div className="flex justify-center">
