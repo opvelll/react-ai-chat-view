@@ -46,7 +46,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
                 <div className="flex items-center w-full">
                     <textarea
                         ref={textAreaRef}
-                        className="bg-gray-100 box-border ml-3 mt-2 mb-2 p-1 w-full border-0 resize-none rounded-lg focus:outline-none overflow-auto whitespace-nowrap scrollbar-thin h-auto"
+                        className="bg-gray-100 box-border ml-3 mt-1 mb-1 pt-2 pb-2 pl-1 pr-1 w-full border-0 resize-none rounded-lg focus:outline-none overflow-auto whitespace-nowrap scrollbar-thin h-auto"
                         style={{ maxHeight: "35rem" }}
                         value={inputTextValue}
                         onChange={handleChange}
