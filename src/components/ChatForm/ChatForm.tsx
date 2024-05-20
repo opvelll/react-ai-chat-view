@@ -12,6 +12,7 @@ type ChatFormProps = {
     handleChatButton: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     isLoading: boolean;
     adjustHeight: () => void;
+    scrollToBottom: (textValue: string) => void;
 } & ChatFormButtonHandles;
 
 export type ChatFormButtonHandles = {
@@ -33,6 +34,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
     handleGetSelectionButton,
     handleGetSubtitlesButton,
     handleGetAllPageButton,
+    scrollToBottom
 }) => {
 
     useEffect(() => {
@@ -63,7 +65,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
                 )}
                 <div className="flex flex-col-reverse">
                     {/* 送信ボタン */}
-                    <button className="bg-gray-100 hover:bg-gray-300 border-2 border-gray-300 m-2 size-8 rounded-lg"
+                    <button className="bg-gray-100 hover:bg-gray-300 border-2 border-gray-300 m-2 size-9 rounded-lg"
                         onClick={handleChatButton}
                         title="Send">
                         <div className="flex justify-center">
@@ -75,17 +77,26 @@ const ChatForm: React.FC<ChatFormProps> = ({
             <div className="flex mt-2 mb-1">
                 <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 md:text-lg text-orange-300 text"
                     title="get selection"
-                    onClick={async () => await handleGetSelectionButton(inputTextValue, setInputTextValue)}>
+                    onClick={async () => {
+                        await handleGetSelectionButton(inputTextValue, setInputTextValue);
+                        await scrollToBottom(inputTextValue);
+                    }}>
                     <FaRegCopy />
                 </button>
                 <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg text-red-400"
                     title="subtitles"
-                    onClick={async () => await handleGetSubtitlesButton(inputTextValue, setInputTextValue)}>
+                    onClick={async () => {
+                        await handleGetSubtitlesButton(inputTextValue, setInputTextValue);
+                        await scrollToBottom(inputTextValue);
+                    }}>
                     <MdOutlineSubtitles />
                 </button>
                 <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg text-gray-500"
                     title="all page"
-                    onClick={async () => await handleGetAllPageButton(inputTextValue, setInputTextValue)}>
+                    onClick={async () => {
+                        await handleGetAllPageButton(inputTextValue, setInputTextValue);
+                        await scrollToBottom(inputTextValue);
+                    }}>
                     <SiPagekit />
                 </button>
             </div>

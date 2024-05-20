@@ -4,8 +4,6 @@ import { MdCancel } from "react-icons/md";
 import Markdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { LegacyRef } from "react";
-import React from "react";
 
 export type ChatBubbleViewProps = {
     index: number,

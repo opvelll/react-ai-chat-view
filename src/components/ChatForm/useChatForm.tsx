@@ -37,5 +37,13 @@ export default function useChatForm({ inputTextValue, setInputTextValue, textAre
         }
     }, [textAreaRef]);
 
-    return { inputTextValue, setInputTextValue, handleChange, handleKeyPress, handleChatButton, adjustHeight }
+    const scrollToBottom = useCallback((textValue: string) => {
+        if (textAreaRef.current) {
+            textAreaRef.current.focus();
+            textAreaRef.current.scrollTop = textAreaRef.current.scrollHeight;
+            textAreaRef.current.selectionStart = textAreaRef.current.selectionEnd = Array.from(textValue).length;
+        }
+    }, [textAreaRef]);
+
+    return { inputTextValue, setInputTextValue, handleChange, handleKeyPress, handleChatButton, adjustHeight, scrollToBottom };
 }
