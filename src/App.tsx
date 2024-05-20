@@ -5,9 +5,10 @@ import { ChatContextType } from './components/ChatContextType'
 function App() {
 
   const systemPrompt = "hello"
-  const fetchAIChatAPI = async (modelName: string, context: ChatContextType) => {
+  const fetchAIChatAPI = async (modelName: string, context: ChatContextType): Promise<string> => {
     console.log(modelName, context);
-    return "hello"
+    // contextの最後のcontentをコピーして返す
+    return context[context.length - 1].content
   }
   const modelName = "gpt-3.5-turbo-0125"
   const modelList = ["gpt-3.5-turbo-0125", "gpt-3.5-turbo-0126", "gpt-3.5-turbo-0127"];

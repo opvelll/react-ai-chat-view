@@ -1,7 +1,9 @@
 import { ChatContextType, ChatType } from "./ChatContextType"
 import { SlReload } from "react-icons/sl";
 import { MdCancel } from "react-icons/md";
-
+import Markdown from 'react-markdown'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 export type ChatBubbleViewProps = {
     index: number,
@@ -22,7 +24,29 @@ export default function ChatBubbleView({ index, chat, context, handleResetLastMe
                     : "bg-gray-200"
                     } inline-block rounded-lg p-2 whitespace-pre-wrap break-all`}
             >
-                {chat.content}
+                <Markdown
+                    children={chat.content}
+                    components={{
+                        code(props) {
+                            const { children, className, ...rest } = props
+                            const match = /language-(\w+)/.exec(className || '')
+                            return match ? (
+                                <SyntaxHighlighter
+                                    {...rest}
+                                    PreTag="div"
+                                    children={String(children).replace(/\n$/, '')}
+                                    language={match[1]}
+                                    style={prism}
+                                    ref={undefined}
+                                />
+                            ) : (
+                                <code {...rest} className={className}>
+                                    {children}
+                                </code>
+                            )
+                        }
+                    }}
+                />
                 <span className="text-black ml-1 inline-flex flex-row gap-1.5">
                     {/* 最後の行のアシスタント側に、アシスタントの返事再生成ボタンを作成 */}
                     {index === context.length - 2 && chat.role === 'assistant' && (
