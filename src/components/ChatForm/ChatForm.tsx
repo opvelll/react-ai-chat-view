@@ -65,7 +65,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
                 )}
                 <div className="flex flex-col-reverse">
                     {/* 送信ボタン */}
-                    <button className="bg-gray-100 hover:bg-gray-300 border-2 border-gray-300 m-2 size-9 rounded-lg"
+                    <button className="bg-gray-100 hover:bg-gray-300 border-2 border-gray-300 ml-1 mt-2 mr-2 mb-2 size-9 rounded-lg"
                         onClick={handleChatButton}
                         title="Send">
                         <div className="flex justify-center">
@@ -74,7 +74,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
                     </button>
                 </div>
             </form>
-            <div className="flex mt-2 mb-1">
+            <div className="flex mt-2 mb-1 space-x-2">
                 <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 md:text-lg text-orange-300 text"
                     title="get selection"
                     onClick={async () => {
@@ -83,7 +83,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
                     }}>
                     <FaRegCopy />
                 </button>
-                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg text-red-400"
+                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 md:text-lg text-red-400"
                     title="subtitles"
                     onClick={async () => {
                         await handleGetSubtitlesButton(inputTextValue, setInputTextValue);
@@ -91,7 +91,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
                     }}>
                     <MdOutlineSubtitles />
                 </button>
-                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 ml-1 md:text-lg text-gray-500"
+                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 md:text-lg text-gray-500"
                     title="all page"
                     onClick={async () => {
                         await handleGetAllPageButton(inputTextValue, setInputTextValue);
