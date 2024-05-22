@@ -64,9 +64,7 @@ export function useChat({
   // 入力とローディング状態のリセット
   function resetInputAndLoadingState() {
     setInputTextValue("");
-    setTimeout(() => {
-      textAreaRef.current?.focus(); // 少し遅延させてフォーカスを設定
-    }, 0);
+    setTimeout(() => textAreaRef.current?.focus(), 0); // 少し遅延させてフォーカスを設定
     setIsLoading(true);
   }
 
