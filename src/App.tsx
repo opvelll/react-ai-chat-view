@@ -15,17 +15,19 @@ function App() {
   }
   const modelName = "gpt-3.5-turbo-0125"
   const modelList = ["gpt-3.5-turbo-0125", "gpt-3.5-turbo-0126", "gpt-3.5-turbo-0127"];
-  const handleGetSelectionButton = async (inputTextValue: string, setInputTextValue: (value: string) => void) => {
+  const handleGetSelectionButton = async (inputTextValue: string) => {
     console.log(inputTextValue);
-    setInputTextValue(inputTextValue);
+    return inputTextValue;
   }
-  const handleGetSubtitlesButton = async (inputTextValue: string, setInputTextValue: (value: string) => void) => {
+  const handleGetSubtitlesButton = async (inputTextValue: string, showCaution: (value: string) => void) => {
     console.log(inputTextValue);
-    setInputTextValue(inputTextValue);
+    showCaution(inputTextValue);
+    return inputTextValue;
   }
-  const handleGetAllPageButton = async (inputTextValue: string, setInputTextValue: (value: string) => void) => {
+  const handleGetAllPageButton = async (inputTextValue: string) => {
     console.log(inputTextValue);
-    setInputTextValue(inputTextValue);
+    throw new Error("error");
+    return inputTextValue;
   }
 
   const buttonDataList: ChatFormButtonData[] = [
