@@ -2,14 +2,14 @@ import HeaderMenu from "./HeaderMenu";
 import { useChat, ChatProp } from "./useChat";
 import ChatView from "./ChatView";
 import { useState } from "react";
-import { ChatFormButtonHandles } from "./ChatForm/ChatForm";
+import { ChatFormButtonDataList } from "./ChatForm/ChatForm";
 
 
 export type ModelList = {
     modelList: string[];
 }
 
-export type AIChatViewProps = ChatProp & ChatFormButtonHandles & ModelList;
+export type AIChatViewProps = ChatProp & ModelList & ChatFormButtonDataList;
 
 export default function AIChatView({
     systemPrompt,
@@ -17,9 +17,7 @@ export default function AIChatView({
     fetchVoiceAPI,
     modelName,
     modelList,
-    handleGetSelectionButton,
-    handleGetSubtitlesButton,
-    handleGetAllPageButton,
+    buttonDataList,
 }: AIChatViewProps) {
 
     const [model, setModel] = useState(modelName);
@@ -34,11 +32,7 @@ export default function AIChatView({
             <HeaderMenu resetChat={resetChat} isOudio={!!fetchVoiceAPI} modelList={modelList} model={model} setModel={setModel} />
             <div className="flex flex-row w-full">
                 <ChatView
-                    {...{
-                        handleGetSelectionButton,
-                        handleGetSubtitlesButton,
-                        handleGetAllPageButton,
-                    }}
+                    {...{ buttonDataList }}
                     {...props} />
             </div>
         </div>

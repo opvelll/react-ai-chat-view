@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { FaArrowUp, FaRegCopy } from 'react-icons/fa';
-import { MdOutlineSubtitles } from 'react-icons/md';
-import { SiPagekit } from "react-icons/si";
+import React, { Fragment, useEffect } from 'react';
+import { FaArrowUp } from 'react-icons/fa';
+import { ChatFormButtonData } from './ChatFormSideButton';
+import ChatFormSideButton from './ChatFormSideButton';
 
 type ChatFormProps = {
     inputTextValue: string;
@@ -13,14 +13,11 @@ type ChatFormProps = {
     isLoading: boolean;
     adjustHeight: () => void;
     scrollToBottom: (textValue: string) => void;
-} & ChatFormButtonHandles;
+} & ChatFormButtonDataList;
 
-export type ChatFormButtonHandles = {
-    handleGetSelectionButton: (inputTextValue: string, setInputTextValue: (value: string) => void) => Promise<void>
-    handleGetSubtitlesButton: (inputTextValue: string, setInputTextValue: (value: string) => void) => Promise<void>
-    handleGetAllPageButton: (inputTextValue: string, setInputTextValue: (value: string) => void) => Promise<void>
+export type ChatFormButtonDataList = {
+    buttonDataList: ChatFormButtonData[];
 }
-
 
 const ChatForm: React.FC<ChatFormProps> = ({
     inputTextValue,
@@ -31,10 +28,8 @@ const ChatForm: React.FC<ChatFormProps> = ({
     handleChatButton,
     isLoading,
     adjustHeight,
-    handleGetSelectionButton,
-    handleGetSubtitlesButton,
-    handleGetAllPageButton,
-    scrollToBottom
+    scrollToBottom,
+    buttonDataList,
 }) => {
 
     useEffect(() => {
@@ -75,30 +70,16 @@ const ChatForm: React.FC<ChatFormProps> = ({
                 </div>
             </form>
             <div className="flex mt-2 mb-1 space-x-2">
-                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 md:text-lg text-orange-300 text"
-                    title="get selection"
-                    onClick={async () => {
-                        await handleGetSelectionButton(inputTextValue, setInputTextValue);
-                        await scrollToBottom(inputTextValue);
-                    }}>
-                    <FaRegCopy />
-                </button>
-                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 md:text-lg text-red-400"
-                    title="subtitles"
-                    onClick={async () => {
-                        await handleGetSubtitlesButton(inputTextValue, setInputTextValue);
-                        await scrollToBottom(inputTextValue);
-                    }}>
-                    <MdOutlineSubtitles />
-                </button>
-                <button className="rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 md:text-lg text-gray-500"
-                    title="all page"
-                    onClick={async () => {
-                        await handleGetAllPageButton(inputTextValue, setInputTextValue);
-                        await scrollToBottom(inputTextValue);
-                    }}>
-                    <SiPagekit />
-                </button>
+                {buttonDataList.map((buttonData, index) => (
+                    <Fragment key={index}>
+                        <ChatFormSideButton
+                            {...buttonData}
+                            inputTextValue={inputTextValue}
+                            setInputTextValue={setInputTextValue}
+                            scrollToBottom={scrollToBottom}
+                        />
+                    </Fragment>
+                ))}
             </div>
         </div>)
 };

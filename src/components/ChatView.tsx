@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { ChatContextType } from "./ChatContextType";
-import ChatForm, { ChatFormButtonHandles } from "./ChatForm/ChatForm";
+import ChatForm, { ChatFormButtonDataList } from "./ChatForm/ChatForm";
 import ChatBubbleView from "./ChatBubbleView";
 
 type ChatViewProps =
@@ -20,7 +20,7 @@ type ChatViewProps =
     isLastMessageUser: () => boolean,
     submitChatWithUserMessage: (inputTextValue: string) => Promise<void>,
     processChatWithoutLastMessage: () => Promise<void>
-  } & ChatFormButtonHandles;
+  } & ChatFormButtonDataList;
 
 export default function ChatView({
   inputTextValue,
@@ -33,9 +33,7 @@ export default function ChatView({
   isLastMessageUser,
   submitChatWithUserMessage,
   processChatWithoutLastMessage,
-  handleGetSelectionButton,
-  handleGetSubtitlesButton,
-  handleGetAllPageButton
+  buttonDataList,
 }: ChatViewProps) {
 
   // チャット状態の更新時に最下部にスクロール
@@ -71,7 +69,7 @@ export default function ChatView({
 
         <div ref={messagesEndRef}></div>
 
-        <ChatForm {...{ isLoading, textAreaRef, handleGetSubtitlesButton, handleGetSelectionButton, handleGetAllPageButton }} {...props} />
+        <ChatForm {...{ isLoading, textAreaRef, buttonDataList }} {...props} />
 
         {/* エラー表示 */}
         <ToastContainer position="bottom-right" closeOnClick />

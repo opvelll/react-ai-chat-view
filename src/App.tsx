@@ -1,7 +1,10 @@
 
+import { FaRegCopy } from 'react-icons/fa';
 import AIChatView from './components/AIChatView'
 import { ChatContextType } from './components/ChatContextType'
-
+import { ChatFormButtonData } from './components/ChatForm/ChatFormSideButton';
+import { MdOutlineSubtitles } from 'react-icons/md';
+import { SiPagekit } from "react-icons/si";
 function App() {
 
   const systemPrompt = "hello"
@@ -25,6 +28,18 @@ function App() {
     setInputTextValue(inputTextValue);
   }
 
+  const buttonDataList: ChatFormButtonData[] = [
+    {
+      title: "get selection", icon: <FaRegCopy />, func: handleGetSelectionButton, color: "text-orange-300",
+    },
+    {
+      title: "subtitles", icon: <MdOutlineSubtitles />, func: handleGetSubtitlesButton, color: "text-red-400",
+    },
+    {
+      title: "all page", icon: <SiPagekit />, func: handleGetAllPageButton, color: "text-gray-500",
+    }
+  ]
+
   return (
     <div>
       <AIChatView {...{
@@ -32,9 +47,7 @@ function App() {
         fetchAIChatAPI,
         modelName,
         modelList,
-        handleGetSelectionButton,
-        handleGetSubtitlesButton,
-        handleGetAllPageButton,
+        buttonDataList
       }} />
     </div>
   )
