@@ -17,22 +17,23 @@ export type SideButtonFunctions = {
 export default function ChatFormSideButton(
     { title, icon, color, func, inputTextValue, setInputTextValue, scrollToBottom }: ChatFormButtonData & SideButtonFunctions) {
 
+    const handleSideButton = async () => {
+        try {
+            const newInputValue = await func(inputTextValue, showCautionToast);
+            setInputTextValue(newInputValue);
+            await scrollToBottom(newInputValue);
+        } catch (e) {
+            const error = e as Error;
+            showErrorToast(error.message);
+            console.error(error);
+        }
+    }
+
     return (
         <button
             className={`rounded hover:bg-gray-300 border-white border bg-gray-200 px-2 py-1 md:text-lg ${color}`}
             title={title}
-            onClick={async () => {
-                try {
-                    const newInputValue = await func(inputTextValue, showCautionToast);
-                    setInputTextValue(newInputValue);
-                    await scrollToBottom(newInputValue);
-                } catch (e) {
-                    const error = e as Error;
-                    showErrorToast(error.message);
-                    console.error(error);
-                }
-            }
-            }>
+            onClick={handleSideButton}>
             {icon}
         </button>
     )
