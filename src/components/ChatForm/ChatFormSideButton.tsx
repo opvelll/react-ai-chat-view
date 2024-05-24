@@ -25,7 +25,7 @@ export default function ChatFormSideButton(
         } catch (e) {
             const error = e as Error;
             showErrorToast(error.message);
-            console.error(error);
+            console.error(error.message);
         }
     }
 

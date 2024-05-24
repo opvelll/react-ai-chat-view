@@ -30,7 +30,7 @@ function App() {
     return inputTextValue;
   }
 
-  const buttonDataList: ChatFormButtonData[] = [
+  const topButtonDataList: ChatFormButtonData[] = [
     {
       title: "get selection", icon: <FaRegCopy />, func: handleGetSelectionButton, color: "text-orange-300",
     },
@@ -49,7 +49,7 @@ function App() {
         fetchAIChatAPI,
         modelName,
         modelList,
-        buttonDataList
+        topButtonDataList,
       }} />
     </div>
   )

@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import { ChatFormButtonData } from './ChatFormSideButton';
-import ChatFormSideButton from './ChatFormSideButton';
+import ButtonList from './ButtonList';
 
 type ChatFormProps = {
     inputTextValue: string;
@@ -16,7 +16,8 @@ type ChatFormProps = {
 } & ChatFormButtonDataList;
 
 export type ChatFormButtonDataList = {
-    buttonDataList: ChatFormButtonData[];
+    topButtonDataList?: ChatFormButtonData[];
+    bottomButtonDataList?: ChatFormButtonData[];
 }
 
 const ChatForm: React.FC<ChatFormProps> = ({
@@ -29,7 +30,8 @@ const ChatForm: React.FC<ChatFormProps> = ({
     isLoading,
     adjustHeight,
     scrollToBottom,
-    buttonDataList,
+    topButtonDataList,
+    bottomButtonDataList
 }) => {
 
     useEffect(() => {
@@ -38,7 +40,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
 
     return (
         <div className="fixed bottom-0 px-4 py-1 w-full md:w-10/12">
-
+            <ButtonList buttonDataList={topButtonDataList} {...{ inputTextValue, setInputTextValue, scrollToBottom }} />
             <form id="chatForm" name="chatForm" className="flex justify-center bg-gray-100 md:shadow-md drop-shadow-md rounded-lg">
                 <div className="flex items-center w-full">
                     <textarea
@@ -69,18 +71,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
                     </button>
                 </div>
             </form>
-            <div className="flex mt-2 mb-1 space-x-2">
-                {buttonDataList.map((buttonData, index) => (
-                    <Fragment key={index}>
-                        <ChatFormSideButton
-                            {...buttonData}
-                            inputTextValue={inputTextValue}
-                            setInputTextValue={setInputTextValue}
-                            scrollToBottom={scrollToBottom}
-                        />
-                    </Fragment>
-                ))}
-            </div>
+            <ButtonList buttonDataList={bottomButtonDataList} {...{ inputTextValue, setInputTextValue, scrollToBottom }} />
         </div>)
 };
 

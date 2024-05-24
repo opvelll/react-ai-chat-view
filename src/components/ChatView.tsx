@@ -33,7 +33,8 @@ export default function ChatView({
   isLastMessageUser,
   submitChatWithUserMessage,
   processChatWithoutLastMessage,
-  buttonDataList,
+  topButtonDataList,
+  bottomButtonDataList
 }: ChatViewProps) {
 
   // チャット状態の更新時に最下部にスクロール
@@ -69,7 +70,7 @@ export default function ChatView({
 
         <div ref={messagesEndRef}></div>
 
-        <ChatForm {...{ isLoading, textAreaRef, buttonDataList }} {...props} />
+        <ChatForm {...{ isLoading, textAreaRef, topButtonDataList, bottomButtonDataList }} {...props} />
 
         {/* エラー表示 */}
         <ToastContainer position="bottom-right" closeOnClick />

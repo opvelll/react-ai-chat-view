@@ -17,7 +17,8 @@ export default function AIChatView({
     fetchVoiceAPI,
     modelName,
     modelList,
-    buttonDataList,
+    topButtonDataList,
+    bottomButtonDataList
 }: AIChatViewProps) {
 
     const [model, setModel] = useState(modelName);
@@ -32,7 +33,7 @@ export default function AIChatView({
             <HeaderMenu resetChat={resetChat} isOudio={!!fetchVoiceAPI} modelList={modelList} model={model} setModel={setModel} />
             <div className="flex flex-row w-full">
                 <ChatView
-                    {...{ buttonDataList }}
+                    {...{ topButtonDataList, bottomButtonDataList }}
                     {...props} />
             </div>
         </div>
