@@ -51,6 +51,17 @@ function App() {
     }
   ]
 
+  const bottomButtonDataList: ChatFormButtonData[] = [
+    {
+      title: "概要",
+      icon: <div>1</div>,
+      func: async (inputTextValue: string) => {
+        return inputTextValue + "\n概要";
+      },
+      color: "text-blue-500",
+    }
+  ]
+
   return (
     <div>
       <AIChatView {...{
@@ -58,6 +69,7 @@ function App() {
         fetchAIChatAPI,
         modelList,
         topButtonDataList,
+        bottomButtonDataList
       }} />
     </div>
   )

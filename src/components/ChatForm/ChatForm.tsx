@@ -37,7 +37,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
 
     useEffect(() => {
         adjustHeight();
-    }, [adjustHeight, inputTextValue]); // inputTextValueが変わるたびに実行
+    }, [adjustHeight, inputTextValue]);
 
     return (
         <div className="fixed bottom-0 px-4 py-1 w-full md:w-10/12">

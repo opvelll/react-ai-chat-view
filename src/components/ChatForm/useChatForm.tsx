@@ -62,7 +62,7 @@ export default function useChatForm({ inputTextValue,
                     setIsLoading(true);
                     const newInputValue = await func(inputTextValue, showCautionToast);
                     setInputTextValue(newInputValue);
-                    await scrollToBottom(newInputValue);
+                    scrollToBottom(newInputValue);
                     setIsLoading(false);
                 } catch (e) {
                     const error = e as Error;
