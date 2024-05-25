@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { showCautionToast, showErrorToast } from "../Toast";
+import { showCautionToast, showErrorToast } from "../../Toast";
 import { Id } from "react-toastify";
 
 export type ChatFormProps = {

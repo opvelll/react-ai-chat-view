@@ -1,6 +1,6 @@
 import AIChatView from './components/AIChatView'
-import { ChatContextType } from './components/ChatContextType'
-import { ChatFormButtonData } from './components/ChatForm/ChatFormSideButton';
+import { ChatContextType } from './components/ChatView/ChatContextType'
+import { ChatFormButtonData } from './components/ChatView/ChatForm/ChatFormSideButton';
 import { MdOutlineSubtitles } from 'react-icons/md';
 import { SiPagekit } from "react-icons/si";
 import { FaRegCopy } from 'react-icons/fa';

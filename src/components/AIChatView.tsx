@@ -1,7 +1,7 @@
-import HeaderMenu from "./HeaderMenu";
-import { useChat, ChatProp } from "./useChat";
-import ChatView from "./ChatView";
-import { ChatFormButtonDataList } from "./ChatForm/ChatForm";
+import HeaderMenu from "./ChatView/HeaderMenu";
+import { useChat, ChatProp } from "./ChatView/useChat";
+import ChatView from "./ChatView/ChatView";
+import { ChatFormButtonDataList } from "./ChatView/ChatForm/ChatForm";
 
 
 export type ModelList = {

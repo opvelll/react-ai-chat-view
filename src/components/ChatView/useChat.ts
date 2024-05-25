@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
 import { useChatContext } from "./useChatContext";
-import { showErrorToast } from "./Toast";
+import { showErrorToast } from "../Toast";
 import { useAudio } from "./useAudio";
 import { ChatContextType } from "./ChatContextType";
 import useChatStore from "./useChatStore";
