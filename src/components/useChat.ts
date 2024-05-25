@@ -94,6 +94,7 @@ export function useChat({
     setInputTextValue,
     textAreaRef,
     isLoading,
+    setIsLoading,
     removeMessage,
     submitChat,
     resetChat,

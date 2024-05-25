@@ -20,6 +20,7 @@ function App() {
   }
   const handleGetSubtitlesButton = async (inputTextValue: string, showCaution: (value: string) => void) => {
     console.log(inputTextValue);
+    await new Promise(resolve => setTimeout(resolve, 5000));
     showCaution(inputTextValue);
     return inputTextValue;
   }

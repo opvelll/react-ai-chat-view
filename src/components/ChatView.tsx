@@ -14,6 +14,7 @@ type ChatViewProps =
     setInputTextValue: (value: string) => void,
     textAreaRef: React.RefObject<HTMLTextAreaElement>,
     isLoading: boolean,
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
     context: ChatContextType,
     submitChat: () => Promise<void>,
     removeMessage: (index: number) => void,
@@ -27,6 +28,7 @@ export default function ChatView({
   setInputTextValue,
   textAreaRef,
   isLoading,
+  setIsLoading,
   context,
   submitChat,
   removeMessage,
@@ -51,7 +53,15 @@ export default function ChatView({
 
   const handleResetLastMessage = useCallback(async () => await processChatWithoutLastMessage(), [processChatWithoutLastMessage]);
 
-  const { ...props } = useChatForm({ inputTextValue, setInputTextValue, textAreaRef, submitChatWithUserMessage, submitChat, isLastMessageUser });
+  const { ...props } = useChatForm({
+    inputTextValue,
+    setInputTextValue,
+    textAreaRef,
+    submitChatWithUserMessage,
+    submitChat,
+    isLastMessageUser,
+    setIsLoading
+  });
 
   return (
     <div className="flex flex-row w-full">

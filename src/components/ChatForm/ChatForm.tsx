@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import { ChatFormButtonData } from './ChatFormSideButton';
 import ButtonList from './ButtonList';
+import { Id } from 'react-toastify';
 
 type ChatFormProps = {
     inputTextValue: string;
@@ -13,6 +14,7 @@ type ChatFormProps = {
     isLoading: boolean;
     adjustHeight: () => void;
     scrollToBottom: (textValue: string) => void;
+    handleSideButton: (func: (inputTextValue: string, showCautionToast: (cautionMessage: string) => Id) => Promise<string>) => () => Promise<void>;
 } & ChatFormButtonDataList;
 
 export type ChatFormButtonDataList = {
@@ -22,14 +24,13 @@ export type ChatFormButtonDataList = {
 
 const ChatForm: React.FC<ChatFormProps> = ({
     inputTextValue,
-    setInputTextValue,
     textAreaRef,
     handleChange,
     handleKeyPress,
     handleChatButton,
     isLoading,
     adjustHeight,
-    scrollToBottom,
+    handleSideButton,
     topButtonDataList,
     bottomButtonDataList
 }) => {
@@ -40,7 +41,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
 
     return (
         <div className="fixed bottom-0 px-4 py-1 w-full md:w-10/12">
-            <ButtonList buttonDataList={topButtonDataList} {...{ inputTextValue, setInputTextValue, scrollToBottom }} />
+            <ButtonList buttonDataList={topButtonDataList} handleSideButton={handleSideButton} />
             <form id="chatForm" name="chatForm" className="flex justify-center bg-gray-100 md:shadow-md drop-shadow-md rounded-lg">
                 <div className="flex items-center w-full">
                     <textarea
@@ -71,7 +72,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
                     </button>
                 </div>
             </form>
-            <ButtonList buttonDataList={bottomButtonDataList} {...{ inputTextValue, setInputTextValue, scrollToBottom }} />
+            <ButtonList buttonDataList={bottomButtonDataList} handleSideButton={handleSideButton} />
         </div>)
 };
 

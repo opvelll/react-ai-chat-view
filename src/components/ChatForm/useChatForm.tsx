@@ -1,4 +1,6 @@
 import { useCallback } from "react";
+import { showCautionToast, showErrorToast } from "../Toast";
+import { Id } from "react-toastify";
 
 export type ChatFormProps = {
     inputTextValue: string,
@@ -7,10 +9,18 @@ export type ChatFormProps = {
     submitChat: () => Promise<void>,
     isLastMessageUser: () => boolean,
     submitChatWithUserMessage: (inputTextValue: string) => Promise<void>,
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 // 入力画面
-export default function useChatForm({ inputTextValue, setInputTextValue, textAreaRef, submitChat, isLastMessageUser, submitChatWithUserMessage }: ChatFormProps) {
+export default function useChatForm({ inputTextValue,
+    setInputTextValue,
+    textAreaRef,
+    submitChat,
+    isLastMessageUser,
+    submitChatWithUserMessage,
+    setIsLoading
+}: ChatFormProps) {
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => setInputTextValue(e.target.value), [setInputTextValue]);
 
@@ -45,5 +55,31 @@ export default function useChatForm({ inputTextValue, setInputTextValue, textAre
         }
     }, [textAreaRef]);
 
-    return { inputTextValue, setInputTextValue, handleChange, handleKeyPress, handleChatButton, adjustHeight, scrollToBottom };
+    const handleSideButton =
+        (func: (inputTextValue: string, showCautionToast: (cautionMessage: string) => Id) => Promise<string>) => {
+            return async () => {
+                try {
+                    setIsLoading(true);
+                    const newInputValue = await func(inputTextValue, showCautionToast);
+                    setInputTextValue(newInputValue);
+                    await scrollToBottom(newInputValue);
+                    setIsLoading(false);
+                } catch (e) {
+                    const error = e as Error;
+                    showErrorToast(error.message);
+                    console.error(error.message);
+                }
+            }
+        }
+
+    return {
+        inputTextValue,
+        setInputTextValue,
+        handleChange,
+        handleKeyPress,
+        handleChatButton,
+        adjustHeight,
+        scrollToBottom,
+        handleSideButton
+    };
 }

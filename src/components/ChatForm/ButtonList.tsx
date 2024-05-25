@@ -5,7 +5,7 @@ export type ButtonListProps = {
     buttonDataList?: ChatFormButtonData[];
 } & SideButtonFunctions;
 
-export default function ButtonList({ buttonDataList, inputTextValue, setInputTextValue, scrollToBottom }: ButtonListProps) {
+export default function ButtonList({ buttonDataList, handleSideButton }: ButtonListProps) {
     return (
         <>
             {buttonDataList &&
@@ -14,9 +14,7 @@ export default function ButtonList({ buttonDataList, inputTextValue, setInputTex
                         <Fragment key={index}>
                             <ChatFormSideButton
                                 {...buttonData}
-                                inputTextValue={inputTextValue}
-                                setInputTextValue={setInputTextValue}
-                                scrollToBottom={scrollToBottom}
+                                handleSideButton={handleSideButton}
                             />
                         </Fragment>
                     ))}
