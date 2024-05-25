@@ -15,7 +15,7 @@ export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenu
     const setModel = useChatStore((state) => state.setModel);
 
     return (
-        <nav className="w-full px-2 py-2 flex items-center justify-end border-b">
+        <header className="sticky top-0 z-50 w-full px-2 py-2 flex items-center border-b bg-white">
             <div className="flex w-full text-lg gap-x-0.5 flex-row-reverse">
                 <button
                     onClick={resetChat}
@@ -51,6 +51,6 @@ export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenu
                 </div>
 
             </div>
-        </nav>
+        </header>
     )
 }
