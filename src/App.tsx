@@ -1,10 +1,10 @@
-
-import { FaRegCopy } from 'react-icons/fa';
 import AIChatView from './components/AIChatView'
 import { ChatContextType } from './components/ChatContextType'
 import { ChatFormButtonData } from './components/ChatForm/ChatFormSideButton';
 import { MdOutlineSubtitles } from 'react-icons/md';
 import { SiPagekit } from "react-icons/si";
+import { FaRegCopy } from 'react-icons/fa';
+
 function App() {
 
   const systemPrompt = "hello"
@@ -32,13 +32,22 @@ function App() {
 
   const topButtonDataList: ChatFormButtonData[] = [
     {
-      title: "get selection", icon: <FaRegCopy />, func: handleGetSelectionButton, color: "text-orange-300",
+      title: "get selection",
+      icon: <FaRegCopy />,
+      func: handleGetSelectionButton,
+      color: "text-orange-300",
     },
     {
-      title: "subtitles", icon: <MdOutlineSubtitles />, func: handleGetSubtitlesButton, color: "text-red-400",
+      title: "subtitles",
+      icon: <MdOutlineSubtitles />,
+      func: handleGetSubtitlesButton,
+      color: "text-red-400",
     },
     {
-      title: "all page", icon: <SiPagekit />, func: handleGetAllPageButton, color: "text-gray-500",
+      title: "all page",
+      icon: <SiPagekit />,
+      func: handleGetAllPageButton,
+      color: "text-gray-500",
     }
   ]
 
