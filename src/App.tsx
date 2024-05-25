@@ -13,7 +13,6 @@ function App() {
     // contextの最後のcontentをコピーして返す
     return context[context.length - 1].content
   }
-  const modelName = "gpt-3.5-turbo-0125"
   const modelList = ["gpt-3.5-turbo-0125", "gpt-3.5-turbo-0126", "gpt-3.5-turbo-0127"];
   const handleGetSelectionButton = async (inputTextValue: string) => {
     console.log(inputTextValue);
@@ -56,7 +55,6 @@ function App() {
       <AIChatView {...{
         systemPrompt,
         fetchAIChatAPI,
-        modelName,
         modelList,
         topButtonDataList,
       }} />
