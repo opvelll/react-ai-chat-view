@@ -1,15 +1,18 @@
 import { create } from "zustand";
 import { persistNSync } from "persist-and-sync";
+import { ModelName } from "./Type/AIChatAPIType";
 
 export type ChatStore = {
   isRunAudio: boolean;
   toggleAudio: () => void;
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
-  modelName: string;
-  setModel: (value: string) => void;
+  modelName: ModelName;
+  setModel: (value: ModelName) => void;
   modelContextWindow: number;
   setModelContextWindow: (value: number) => void;
+  totalTokenCount: number;
+  setTotalTokenCount: (value: number) => void;
 };
 
 const useChatStore = create<ChatStore>(
@@ -28,7 +31,10 @@ const useChatStore = create<ChatStore>(
       modelContextWindow: 0,
       setModelContextWindow: (value: number) =>
         set({ modelContextWindow: value }),
+      totalTokenCount: 0,
+      setTotalTokenCount: (value: number) => set({ totalTokenCount: value }),
     }),
+
     { name: "chatStore" }
   )
 );

@@ -1,6 +1,8 @@
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { IoReload } from "react-icons/io5";
 import useChatStore from "./useChatStore";
+import { ModelDataList, getContextWindow } from "./Type/ModelDataList";
+import { useMemo } from "react";
 
 export type HeaderMenuProps = {
     resetChat: () => void;
@@ -8,28 +10,28 @@ export type HeaderMenuProps = {
 } & ModelList;
 
 export type ModelList = {
-    modelList: ModelData[];
+    modelList: ModelDataList
 }
 
-export type ModelData = {
-    modelName: string;
-    contextWindow: number;
-}
 
 export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenuProps) {
     const isRunAudio = useChatStore((state) => state.isRunAudio);
     const toggleAudio = useChatStore((state) => state.toggleAudio);
     const modelName = useChatStore((state) => state.modelName);
     const setModel = useChatStore((state) => state.setModel);
+    const modelContextWindow = useChatStore((state) => state.modelContextWindow);
     const setModelContextWindow = useChatStore((state) => state.setModelContextWindow);
+    const totalTokenCount = useChatStore((state) => state.totalTokenCount);
 
     const handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setModel(event.target.value);
-        const modelData = modelList.find((model) => model.modelName === event.target.value);
-        if (modelData) {
-            setModelContextWindow(modelData.contextWindow);
-        }
+        setModelContextWindow(getContextWindow(event.target.value, modelList));
     }
+
+    const tokenPersentage = useMemo(() => {
+        console.log(totalTokenCount, modelContextWindow);
+        return Math.round((totalTokenCount / modelContextWindow) * 10) / 10 * 100;
+    }, [totalTokenCount, modelContextWindow]);
 
     return (
         <header className="sticky top-0 z-50 w-full bg-white">
@@ -71,9 +73,9 @@ export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenu
                 </div>
 
             </div>
-            {/* <div className="w-full bg-gray-200 h-0.5 dark:bg-gray-700">
-                <div className="bg-blue-400 h-0.5 dark:bg-blue-500" style={{ width: "40%" }}></div>
-            </div> */}
+            <div className="w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+                <div className="bg-blue-400 h-0.5 dark:bg-blue-500" style={{ width: tokenPersentage + "%" }}></div>
+            </div>
         </header>
     )
 }
