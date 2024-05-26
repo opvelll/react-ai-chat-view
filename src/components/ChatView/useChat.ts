@@ -3,22 +3,17 @@ import { useRef, useState } from "react";
 import { useChatContext } from "./useChatContext";
 import { showErrorToast } from "../Toast";
 import { useAudio } from "./useAudio";
-import { ChatContextType } from "./ChatContextType";
+import { ChatContextType } from "./Type/ChatContextType";
 import useChatStore from "./useChatStore";
+import { AIChatResponse, ModelName } from "./Type/AIChatAPIType";
 
 export type ChatProp = {
   systemPrompt: string;
   fetchAIChatAPI: (
-    modelName: string,
+    modelName: ModelName,
     context: ChatContextType
   ) => Promise<AIChatResponse>;
   fetchVoiceAPI?: ((text: string) => Promise<Blob>) | null;
-};
-
-export type AIChatResponse = {
-  content: string;
-  tokenCount: number;
-  totalTokenCount: number;
 };
 
 export function useChat({
@@ -44,6 +39,7 @@ export function useChat({
   } = useChatContext(systemPrompt);
 
   const { setVoiceAudioData, isRunAudio } = useAudio();
+  const setTotalTokenCount = useChatStore((state) => state.setTotalTokenCount);
 
   async function submitChat() {
     await processChatContext(context);
@@ -75,8 +71,13 @@ export function useChat({
   }
 
   // 応答の処理
-  async function handleResponse({ content, tokenCount }: AIChatResponse) {
+  async function handleResponse({
+    content,
+    tokenCount,
+    totalTokenCount,
+  }: AIChatResponse) {
     addAssistantMessage(content, tokenCount); // 応答をコンテキストに追加
+    setTotalTokenCount(totalTokenCount); // トークン数の更新
     if (fetchVoiceAPI && isRunAudio)
       setVoiceAudioData(await fetchVoiceAPI(content)); // 音声化
     setIsLoading(false);

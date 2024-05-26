@@ -1,4 +1,4 @@
-import { ChatContextType, ChatType } from "./ChatContextType"
+import { ChatContextType, ChatType } from "./Type/ChatContextType"
 import { SlReload } from "react-icons/sl";
 import { MdCancel } from "react-icons/md";
 import Markdown from 'react-markdown'

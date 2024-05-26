@@ -4,7 +4,7 @@ import useChatForm from "./ChatForm/useChatForm";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { ChatContextType } from "./ChatContextType";
+import { ChatContextType } from "./Type/ChatContextType";
 import ChatForm, { ChatFormButtonDataList } from "./ChatForm/ChatForm";
 import ChatBubbleView from "./ChatBubbleView";
 

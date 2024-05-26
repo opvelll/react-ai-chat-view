@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { ChatType, ChatContextType, RoleType } from "./ChatContextType";
+import { ChatType, ChatContextType, RoleType } from "./Type/ChatContextType";
 import { v4 as uuidv4 } from "uuid";
 // import { TiktokenModel, encoding_for_model } from "tiktoken";
 //import useChatStore from "./useChatStore";

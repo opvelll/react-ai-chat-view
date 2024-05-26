@@ -1,10 +1,10 @@
 import AIChatView from './components/AIChatView'
-import { ChatContextType } from './components/ChatView/ChatContextType'
+import { ChatContextType } from './components/ChatView/Type/ChatContextType'
 import { ChatFormButtonData } from './components/ChatView/ChatForm/ChatFormSideButton';
 import { MdOutlineSubtitles } from 'react-icons/md';
 import { SiPagekit } from "react-icons/si";
 import { FaRegCopy } from 'react-icons/fa';
-import { AIChatResponse } from './components/ChatView/useChat';
+import { AIChatResponse } from './components/ChatView/Type/AIChatAPIType';
 
 function App() {
 
@@ -12,7 +12,11 @@ function App() {
   const fetchAIChatAPI = async (modelName: string, context: ChatContextType): Promise<AIChatResponse> => {
     console.log(modelName, context);
     // contextの最後のcontentをコピーして返す
-    return { content: context[context.length - 1].content, tokenCount: 10 }
+    return {
+      content: context[context.length - 1].content,
+      tokenCount: 10,
+      totalTokenCount: 100
+    }
   }
   const modelList = [{ modelName: "gpt-3.5-turbo-0125", contextWindow: 1000 }, { modelName: "model2", contextWindow: 20000 }];
   const handleGetSelectionButton = async (inputTextValue: string) => {
