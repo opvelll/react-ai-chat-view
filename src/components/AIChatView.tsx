@@ -1,12 +1,8 @@
-import HeaderMenu from "./ChatView/HeaderMenu";
+import HeaderMenu, { ModelList } from "./ChatView/HeaderMenu";
 import { useChat, ChatProp } from "./ChatView/useChat";
 import ChatView from "./ChatView/ChatView";
 import { ChatFormButtonDataList } from "./ChatView/ChatForm/ChatForm";
 
-
-export type ModelList = {
-    modelList: string[];
-}
 
 export type AIChatViewProps = ChatProp & ModelList & ChatFormButtonDataList;
 
@@ -22,7 +18,11 @@ export default function AIChatView({
     const {
         resetChat,
         ...props
-    } = useChat({ fetchAIChatAPI, fetchVoiceAPI, systemPrompt });
+    } = useChat({
+        fetchAIChatAPI,
+        fetchVoiceAPI,
+        systemPrompt,
+    });
 
     return (
         <div className="w-full">

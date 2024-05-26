@@ -8,6 +8,8 @@ export type ChatStore = {
   toggleSidebar: () => void;
   modelName: string;
   setModel: (value: string) => void;
+  modelContextWindow: number;
+  setModelContextWindow: (value: number) => void;
 };
 
 const useChatStore = create<ChatStore>(
@@ -23,6 +25,9 @@ const useChatStore = create<ChatStore>(
       // Modelの選択
       modelName: "",
       setModel: (value: string) => set({ modelName: value }),
+      modelContextWindow: 0,
+      setModelContextWindow: (value: number) =>
+        set({ modelContextWindow: value }),
     }),
     { name: "chatStore" }
   )

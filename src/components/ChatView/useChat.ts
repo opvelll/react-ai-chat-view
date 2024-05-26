@@ -11,8 +11,14 @@ export type ChatProp = {
   fetchAIChatAPI: (
     modelName: string,
     context: ChatContextType
-  ) => Promise<string>;
+  ) => Promise<AIChatResponse>;
   fetchVoiceAPI?: ((text: string) => Promise<Blob>) | null;
+};
+
+export type AIChatResponse = {
+  content: string;
+  tokenCount: number;
+  totalTokenCount: number;
 };
 
 export function useChat({
@@ -69,10 +75,10 @@ export function useChat({
   }
 
   // 応答の処理
-  async function handleResponse(response: string) {
-    addAssistantMessage(response);
+  async function handleResponse({ content, tokenCount }: AIChatResponse) {
+    addAssistantMessage(content, tokenCount); // 応答をコンテキストに追加
     if (fetchVoiceAPI && isRunAudio)
-      setVoiceAudioData(await fetchVoiceAPI(response)); // 音声化
+      setVoiceAudioData(await fetchVoiceAPI(content)); // 音声化
     setIsLoading(false);
   }
 

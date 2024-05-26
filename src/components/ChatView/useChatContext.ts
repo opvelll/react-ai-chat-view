@@ -2,22 +2,43 @@ import { useState } from "react";
 
 import { ChatType, ChatContextType, RoleType } from "./ChatContextType";
 import { v4 as uuidv4 } from "uuid";
+// import { TiktokenModel, encoding_for_model } from "tiktoken";
+//import useChatStore from "./useChatStore";
 
 export function useChatContext(initialSystemPrompt: string) {
-  const createMessage = (role: RoleType, content: string): ChatType => ({
+  //const modelName = useChatStore((state) => state.modelName);
+  const createMessage = (
+    role: RoleType,
+    content: string,
+    tokenCount?: number
+  ): ChatType => ({
     id: uuidv4(),
     role,
     content,
+    tokenCount: tokenCount ? tokenCount : 0,
   });
+
+  // const getTokenCount = (content: string) => {
+  //   const enc = encoding_for_model(
+  //     modelName ? (modelName as TiktokenModel) : "gpt-4o"
+  //   );
+  //   console.log("modelName", modelName);
+  //   const encoded = enc.encode(content);
+  //   enc.free();
+  //   console.log("tokenCount", encoded.length);
+  //   return encoded.length;
+  // };
 
   const createSystemMessage = (content: string): ChatType =>
     createMessage("system", content);
 
-  const createUserMessage = (content: string): ChatType =>
-    createMessage("user", content);
+  const createUserMessage = (content: string, tokenCount?: number): ChatType =>
+    createMessage("user", content, tokenCount);
 
-  const createAssistantMessage = (content: string): ChatType =>
-    createMessage("assistant", content);
+  const createAssistantMessage = (
+    content: string,
+    tokenCount: number
+  ): ChatType => createMessage("assistant", content, tokenCount);
 
   const [chatContext, setChatContext] = useState<ChatContextType>([
     createSystemMessage(initialSystemPrompt),
@@ -35,12 +56,18 @@ export function useChatContext(initialSystemPrompt: string) {
     return chatContext.slice(0, -1);
   }
 
-  const addUserMessage = (message: string) => {
-    setChatContext((context) => [...context, createUserMessage(message)]);
+  const addUserMessage = (message: string, tokenCount: number) => {
+    setChatContext((context) => [
+      ...context,
+      createUserMessage(message, tokenCount),
+    ]);
   };
 
-  const addAssistantMessage = (message: string) => {
-    setChatContext((context) => [...context, createAssistantMessage(message)]);
+  const addAssistantMessage = (message: string, tokenCount: number) => {
+    setChatContext((context) => [
+      ...context,
+      createAssistantMessage(message, tokenCount),
+    ]);
   };
 
   const removeMessage = (index: number) => {

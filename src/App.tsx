@@ -4,16 +4,17 @@ import { ChatFormButtonData } from './components/ChatView/ChatForm/ChatFormSideB
 import { MdOutlineSubtitles } from 'react-icons/md';
 import { SiPagekit } from "react-icons/si";
 import { FaRegCopy } from 'react-icons/fa';
+import { AIChatResponse } from './components/ChatView/useChat';
 
 function App() {
 
-  const systemPrompt = "hello"
-  const fetchAIChatAPI = async (modelName: string, context: ChatContextType): Promise<string> => {
+  const systemPrompt = "hello";
+  const fetchAIChatAPI = async (modelName: string, context: ChatContextType): Promise<AIChatResponse> => {
     console.log(modelName, context);
     // contextの最後のcontentをコピーして返す
-    return context[context.length - 1].content
+    return { content: context[context.length - 1].content, tokenCount: 10 }
   }
-  const modelList = ["gpt-3.5-turbo-0125", "gpt-3.5-turbo-0126", "gpt-3.5-turbo-0127"];
+  const modelList = [{ modelName: "gpt-3.5-turbo-0125", contextWindow: 1000 }, { modelName: "model2", contextWindow: 20000 }];
   const handleGetSelectionButton = async (inputTextValue: string) => {
     console.log(inputTextValue);
     return inputTextValue;

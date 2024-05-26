@@ -5,14 +5,31 @@ import useChatStore from "./useChatStore";
 export type HeaderMenuProps = {
     resetChat: () => void;
     isOudio: boolean;
-    modelList: string[];
-};
+} & ModelList;
+
+export type ModelList = {
+    modelList: ModelData[];
+}
+
+export type ModelData = {
+    modelName: string;
+    contextWindow: number;
+}
 
 export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenuProps) {
     const isRunAudio = useChatStore((state) => state.isRunAudio);
     const toggleAudio = useChatStore((state) => state.toggleAudio);
     const modelName = useChatStore((state) => state.modelName);
     const setModel = useChatStore((state) => state.setModel);
+    const setModelContextWindow = useChatStore((state) => state.setModelContextWindow);
+
+    const handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setModel(event.target.value);
+        const modelData = modelList.find((model) => model.modelName === event.target.value);
+        if (modelData) {
+            setModelContextWindow(modelData.contextWindow);
+        }
+    }
 
     return (
         <header className="sticky top-0 z-50 w-full bg-white">
@@ -39,12 +56,12 @@ export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenu
                             id="model-select"
                             className="form-select inline-block mt-1 border border-gray-300 ml-1"
                             value={modelName}
-                            onChange={(event) => setModel(event.target.value)}
+                            onChange={handleModelChange}
                             title="Select Model"
                         >
-                            {(modelList as unknown as string[]).map((value, i) => (
-                                <option key={i} value={value}>
-                                    {value}
+                            {modelList.map(({ modelName, contextWindow }, i) => (
+                                <option key={i} value={modelName}>
+                                    {modelName} ({contextWindow})
                                 </option>
                             ))}
                         </select>
@@ -54,9 +71,9 @@ export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenu
                 </div>
 
             </div>
-            <div className="w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+            {/* <div className="w-full bg-gray-200 h-0.5 dark:bg-gray-700">
                 <div className="bg-blue-400 h-0.5 dark:bg-blue-500" style={{ width: "40%" }}></div>
-            </div>
+            </div> */}
         </header>
     )
 }
