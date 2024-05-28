@@ -6,7 +6,7 @@ import { ChatFormButtonDataList } from "./ChatView/ChatForm/ChatForm";
 
 export type AIChatViewProps = ChatProp & ModelList & ChatFormButtonDataList;
 
-export default function AIChatView({
+export default function AIChatViewLayout({
     systemPrompt,
     fetchAIChatAPI,
     fetchVoiceAPI,

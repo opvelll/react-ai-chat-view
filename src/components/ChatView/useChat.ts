@@ -4,8 +4,8 @@ import { useChatContext } from "./useChatContext";
 import { showErrorToast } from "../Toast";
 import { useAudio } from "./useAudio";
 import { ChatContextType } from "./Type/ChatContextType";
-import useChatStore from "./useChatStore";
 import { AIChatResponse, ModelName } from "./Type/AIChatAPIType";
+import useContextChatStore from "../Store/useContextStore";
 
 export type ChatProp = {
   systemPrompt: string;
@@ -25,7 +25,8 @@ export function useChat({
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const [isLoading, setIsLoading] = useState(false);
-  const modelName = useChatStore((state) => state.modelName);
+  const store = useContextChatStore();
+  const modelName = store((state) => state.modelName);
 
   const {
     context,
@@ -39,7 +40,7 @@ export function useChat({
   } = useChatContext(systemPrompt);
 
   const { setVoiceAudioData, isRunAudio } = useAudio();
-  const setTotalTokenCount = useChatStore((state) => state.setTotalTokenCount);
+  const setTotalTokenCount = store((state) => state.setTotalTokenCount);
 
   async function submitChat() {
     await processChatContext(context);

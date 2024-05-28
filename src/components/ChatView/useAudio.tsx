@@ -1,10 +1,11 @@
 
 import { useEffect, useRef, useState } from "react";
-import useChatStore from "./useChatStore";
+import useContextChatStore from "../Store/useContextStore";
 
 export function useAudio() {
   const [voiceAudioData, setVoiceAudioData] = useState<Blob>();
-  const isRunAudio = useChatStore((state) => state.isRunAudio);
+  const store = useContextChatStore();
+  const isRunAudio = store((state) => state.isRunAudio);
   // Audioを使いまわすためにrefで保持
   const audio = useRef(new Audio());
 

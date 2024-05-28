@@ -1,8 +1,8 @@
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { IoReload } from "react-icons/io5";
-import useChatStore from "./useChatStore";
 import { ModelDataList, getContextWindow } from "./Type/ModelDataList";
 import { useMemo } from "react";
+import useContextChatStore from "../Store/useContextStore";
 
 export type HeaderMenuProps = {
     resetChat: () => void;
@@ -15,13 +15,14 @@ export type ModelList = {
 
 
 export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenuProps) {
-    const isRunAudio = useChatStore((state) => state.isRunAudio);
-    const toggleAudio = useChatStore((state) => state.toggleAudio);
-    const modelName = useChatStore((state) => state.modelName);
-    const setModel = useChatStore((state) => state.setModel);
-    const modelContextWindow = useChatStore((state) => state.modelContextWindow);
-    const setModelContextWindow = useChatStore((state) => state.setModelContextWindow);
-    const totalTokenCount = useChatStore((state) => state.totalTokenCount);
+    const store = useContextChatStore();
+    const isRunAudio = store((state) => state.isRunAudio);
+    const toggleAudio = store((state) => state.toggleAudio);
+    const modelName = store((state) => state.modelName);
+    const setModel = store((state) => state.setModel);
+    const modelContextWindow = store((state) => state.modelContextWindow);
+    const setModelContextWindow = store((state) => state.setModelContextWindow);
+    const totalTokenCount = store((state) => state.totalTokenCount);
 
     const handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setModel(event.target.value);

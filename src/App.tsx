@@ -1,4 +1,4 @@
-import AIChatView from './components/AIChatView'
+import AIChatView from './components/AIChatViewRoot'
 import { ChatContextType } from './components/ChatView/Type/ChatContextType'
 import { ChatFormButtonData } from './components/ChatView/ChatForm/ChatFormSideButton';
 import { MdOutlineSubtitles } from 'react-icons/md';
@@ -10,7 +10,7 @@ function App() {
 
   const systemPrompt = "hello";
   const fetchAIChatAPI = async (modelName: string, context: ChatContextType): Promise<AIChatResponse> => {
-    console.log(modelName, context);
+    console.log("modelName", modelName);
     // contextの最後のcontentをコピーして返す
     return {
       content: context[context.length - 1].content,

@@ -5,4 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export { default as AIChatView } from "./components/AIChatView";
+export { default as AIChatView } from "./components/AIChatViewRoot";
