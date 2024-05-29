@@ -14,9 +14,6 @@ importers:
       '@types/uuid':
         specifier: ^9.0.8
         version: 9.0.8
-      persist-and-sync:
-        specifier: ^1.2.1
-        version: 1.2.1(zustand@4.5.2(@types/react@18.3.2)(react@18.3.1))
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -1604,11 +1601,6 @@ packages:
   path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
-
-  persist-and-sync@1.2.1:
-    resolution: {integrity: sha512-McPXNsMKYnMJGFuAEy//EezrKFuI1sq4TjcSNKbDegkA0mG1RzgVcRzI1qyFgPC+Qao8eHlH65Ck7Awp9u2dUg==}
-    peerDependencies:
-      zustand: ^3 || ^4
 
   picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
@@ -3748,10 +3740,6 @@ snapshots:
       minipass: 7.1.1
 
   path-type@4.0.0: {}
-
-  persist-and-sync@1.2.1(zustand@4.5.2(@types/react@18.3.2)(react@18.3.1)):
-    dependencies:
-      zustand: 4.5.2(@types/react@18.3.2)(react@18.3.1)
 
   picocolors@1.0.1: {}
 

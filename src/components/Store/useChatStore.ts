@@ -1,10 +1,10 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
-import { persistNSync } from "persist-and-sync";
 import { ModelName } from "../ChatView/Type/AIChatAPIType";
 import {
   ModelDataList,
   getContextWindow,
 } from "../ChatView/Type/ModelDataList";
+import { PersistOptions, persist } from "zustand/middleware";
 
 export type ChatStoreState = {
   isRunAudio: boolean;
@@ -22,8 +22,8 @@ export type ChatStoreState = {
 const useChatStore = (
   modelList: ModelDataList
 ): UseBoundStore<StoreApi<ChatStoreState>> =>
-  create<ChatStoreState>(
-    persistNSync(
+  create<ChatStoreState>()(
+    persist<ChatStoreState>(
       (set) => ({
         // AudioのON/OFF
         isRunAudio: false,
@@ -39,10 +39,19 @@ const useChatStore = (
         setModelContextWindow: (value: number) =>
           set({ modelContextWindow: value }),
         totalTokenCount: 0,
-        setTotalTokenCount: (value: number) => set({ totalTokenCount: value }),
+        setTotalTokenCount: (value: number) => {
+          set({ totalTokenCount: value });
+        },
       }),
-
-      { name: "chatStore", exclude: ["totalTokenCount"] }
+      {
+        name: "chatStore",
+        partialize: (state) =>
+          Object.fromEntries(
+            Object.entries(state).filter(
+              ([key]) => !["totalTokenCount"].includes(key)
+            )
+          ),
+      } as PersistOptions<ChatStoreState>
     )
   );
 
