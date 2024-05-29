@@ -31,7 +31,8 @@ export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenu
 
     const tokenPersentage = useMemo(() => {
         console.log(totalTokenCount, modelContextWindow);
-        return Math.round((totalTokenCount / modelContextWindow) * 10) / 10 * 100;
+        if (modelContextWindow === 0) return 0;
+        return Math.round((totalTokenCount / modelContextWindow) * 100);
     }, [totalTokenCount, modelContextWindow]);
 
     return (
