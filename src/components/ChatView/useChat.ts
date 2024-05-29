@@ -27,7 +27,9 @@ export function useChat({
   const [isLoading, setIsLoading] = useState(false);
   const store = useContextChatStore();
   const modelName = store((state) => state.modelName);
+  const setTotalTokenCount = store((state) => state.setTotalTokenCount);
 
+  const { setVoiceAudioData, isRunAudio } = useAudio();
   const {
     context,
     setContext,
@@ -38,9 +40,6 @@ export function useChat({
     getUpdatedContextWithUserMessage,
     getUpdatedContextWithoutLastMessage,
   } = useChatContext(systemPrompt);
-
-  const { setVoiceAudioData, isRunAudio } = useAudio();
-  const setTotalTokenCount = store((state) => state.setTotalTokenCount);
 
   async function submitChat() {
     await processChatContext(context);
