@@ -51,12 +51,3 @@ export const getUpdatedContextWithAssistantMessage = (
 export const getUpdatedContextWithoutLastMessage = (
   chatContext: ChatContextType
 ) => chatContext.slice(0, -1);
-
-export const removeMessage = (chatContext: ChatContextType, index: number) =>
-  chatContext.filter((_, i) => i !== index);
-
-export const getLastMessage = (chatContext: ChatContextType) =>
-  chatContext.slice(-1)[0];
-
-export const isLastMessageUser = (chatContext: ChatContextType) =>
-  getLastMessage(chatContext)?.role === "user";

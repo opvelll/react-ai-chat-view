@@ -20,11 +20,11 @@ export type ChatProp = {
   fetchVoiceAPI?: ((text: string) => Promise<Blob>) | null;
 };
 
-export function useChat({
+export const useChat = ({
   systemPrompt,
   fetchAIChatAPI,
   fetchVoiceAPI = null,
-}: ChatProp) {
+}: ChatProp) => {
   const [inputTextValue, setInputTextValue] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -50,56 +50,53 @@ export function useChat({
 
   const submitChat = async () => await processChatContext(chatContext);
 
-  async function submitChatWithUserMessage(userMessage: string) {
+  const submitChatWithUserMessage = async (userMessage: string) => {
     await processChatContext(
       getUpdatedContextWithUserMessage(chatContext, userMessage)
     );
-  }
+  };
 
-  async function processChatWithoutLastMessage() {
+  const processChatWithoutLastMessage = async () => {
     await processChatContext(getUpdatedContextWithoutLastMessage(chatContext));
-  }
+  };
 
-  async function processChatContext(context: ChatContextType) {
+  const processChatContext = async (context: ChatContextType) => {
     try {
       setIsLoading(true);
-      await handleResponse(context, await fetchAIChatAPI(modelName, context)); // ChatGPT等AIからの応答をフェッチ + 応答の処理 音声化も行う
+      await handleResponse(context, await fetchAIChatAPI(modelName, context));
       resetInput();
     } catch (e) {
-      handleError(e as Error); // エラー処理
+      handleError(e as Error);
     }
-  }
+  };
 
-  // 入力とローディング状態のリセット
-  function resetInput() {
+  const resetInput = () => {
     setInputTextValue("");
-    setTimeout(() => textAreaRef.current?.focus(), 0); // 少し遅延させてフォーカスを設定
-  }
+    setTimeout(() => textAreaRef.current?.focus(), 0);
+  };
 
-  // 応答の処理
-  async function handleResponse(
+  const handleResponse = async (
     chatContext: ChatContextType,
     aiChatResponse: AIChatResponse
-  ) {
+  ) => {
     setChatContext(
       getUpdatedContextWithAssistantMessage(
         chatContext,
         aiChatResponse.content,
         aiChatResponse.tokenCount
       )
-    ); // 応答をコンテキストに追加
-    setTotalTokenCount(aiChatResponse.totalTokenCount); // Storeのトークン数の更新
+    );
+    setTotalTokenCount(aiChatResponse.totalTokenCount);
     if (fetchVoiceAPI && isRunAudio)
-      setVoiceAudioData(await fetchVoiceAPI(aiChatResponse.content)); // 音声化
+      setVoiceAudioData(await fetchVoiceAPI(aiChatResponse.content));
     setIsLoading(false);
-  }
+  };
 
-  // エラー処理
-  function handleError(e: Error) {
+  const handleError = (e: Error) => {
     showErrorToast(e.message);
     console.error(e);
     setIsLoading(false);
-  }
+  };
 
   return {
     context: chatContext,
@@ -115,4 +112,4 @@ export function useChat({
     submitChatWithUserMessage,
     processChatWithoutLastMessage,
   };
-}
+};
