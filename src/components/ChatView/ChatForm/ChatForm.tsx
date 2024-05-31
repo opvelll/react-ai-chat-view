@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import { ChatFormButtonData } from './ChatFormSideButton';
 import ButtonList from './ButtonList';
@@ -35,6 +35,23 @@ const ChatForm: React.FC<ChatFormProps> = ({
     bottomButtonDataList
 }) => {
 
+    const [images, setImages] = useState<string[]>([]);
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            console.log(event.target?.result);
+            setImages([...images, event.target ? event.target.result as string : ""]);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+    };
+
     useEffect(() => {
         adjustHeight();
     }, [adjustHeight, inputTextValue]);
@@ -43,10 +60,19 @@ const ChatForm: React.FC<ChatFormProps> = ({
         <div className="fixed bottom-0 px-4 py-1 w-full md:w-10/12">
             <ButtonList buttonDataList={topButtonDataList} handleSideButton={handleSideButton} />
             <form id="chatForm" name="chatForm" className="flex justify-center bg-gray-100 md:shadow-md drop-shadow-md rounded-lg">
-                <div className="flex items-center w-full">
+                <div className="flex flex-col w-full"
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}>
+                    {images.length > 0 && <div className="preview grid grid-cols-4">
+                        {images.map((image, index) => (
+                            <div key={index} className="thumbnail w-32 h-32 border border-gray-300">
+                                <img src={image} alt={`preview-${index}`} className="w-full h-full object-cover" />
+                            </div>
+                        ))}
+                    </div>}
                     <textarea
                         ref={textAreaRef}
-                        className="bg-gray-100 box-border ml-3 mt-1 mb-1 pt-2 pb-2 pl-1 pr-1 w-full border-0 resize-none rounded-lg focus:outline-none overflow-auto whitespace-nowrap scrollbar-thin h-auto"
+                        className="bg-gray-100 ml-3 mt-1 mb-1 pt-2 pb-2 pl-1 pr-1 w-full border-0 resize-none rounded-lg focus:outline-none overflow-auto whitespace-nowrap scrollbar-thin h-auto"
                         style={{ maxHeight: "35rem" }}
                         value={inputTextValue}
                         onChange={handleChange}
