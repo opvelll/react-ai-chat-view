@@ -50,9 +50,12 @@ export const useChat = ({
 
   const submitChat = async () => await processChatContext(chatContext);
 
-  const submitChatWithUserMessage = async (userMessage: string) => {
+  const submitChatWithUserMessage = async (
+    userMessage: string,
+    images: string[]
+  ) => {
     await processChatContext(
-      getUpdatedContextWithUserMessage(chatContext, userMessage)
+      getUpdatedContextWithUserMessage(chatContext, userMessage, images)
     );
   };
 

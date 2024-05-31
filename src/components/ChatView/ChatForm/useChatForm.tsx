@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { showCautionToast, showErrorToast } from "../../Toast";
 import { Id } from "react-toastify";
 
@@ -8,7 +8,7 @@ export type ChatFormProps = {
     textAreaRef: React.RefObject<HTMLTextAreaElement>,
     submitChat: () => Promise<void>,
     isLastMessageUser: () => boolean,
-    submitChatWithUserMessage: (inputTextValue: string) => Promise<void>,
+    submitChatWithUserMessage: (inputTextValue: string, images: string[]) => Promise<void>,
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
@@ -22,23 +22,43 @@ export default function useChatForm({ inputTextValue,
     setIsLoading
 }: ChatFormProps) {
 
+    const [images, setImages] = useState<string[]>([]);
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            setImages([...images, event.target ? event.target.result as string : ""]);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleRemoveImage = (index: number) => {
+        setImages(images.filter((_, i) => i !== index));
+    };
+
     const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => setInputTextValue(e.target.value), [setInputTextValue]);
 
     const handleKeyPress = useCallback(
         async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
             if (e.key === "Enter" && !e.shiftKey && inputTextValue !== "") {
                 e.preventDefault();
-                await submitChatWithUserMessage(inputTextValue);
+                await submitChatWithUserMessage(inputTextValue, images);
+                setImages([]);
             }
         },
-        [inputTextValue, submitChatWithUserMessage],
+        [inputTextValue, submitChatWithUserMessage, images],
     );
 
     const handleChatButton = useCallback(async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        if (inputTextValue !== "") return await submitChatWithUserMessage(inputTextValue);
+        if (inputTextValue !== "" || images.length > 0) {
+            await submitChatWithUserMessage(inputTextValue, images);
+            setImages([]);
+        }
         if (isLastMessageUser()) return await submitChat();// 会話の編集時(最後のアシスタントメッセージを削除した状態)用
-    }, [inputTextValue, isLastMessageUser, submitChatWithUserMessage, submitChat]);
+    }, [inputTextValue, isLastMessageUser, submitChatWithUserMessage, submitChat, images]);
 
     const adjustHeight = useCallback(() => {
         if (textAreaRef.current) {
@@ -80,6 +100,9 @@ export default function useChatForm({ inputTextValue,
         handleChatButton,
         adjustHeight,
         scrollToBottom,
-        handleSideButton
+        handleSideButton,
+        images,
+        handleDrop,
+        handleRemoveImage,
     };
 }

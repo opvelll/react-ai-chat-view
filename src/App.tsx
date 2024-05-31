@@ -11,9 +11,11 @@ function App() {
   const systemPrompt = "hello";
   const fetchAIChatAPI = async (modelName: string, context: ChatContextType): Promise<AIChatResponse> => {
     console.log("modelName", modelName);
+    console.log("context", context);
     // contextの最後のcontentをコピーして返す
+    const last = context[context.length - 1].content;
     return {
-      content: context[context.length - 1].content,
+      content: typeof last === "string" ? last : (last[0].type === "text" ? last[0].text : last[0].image_url),
       tokenCount: 10,
       totalTokenCount: 100
     }

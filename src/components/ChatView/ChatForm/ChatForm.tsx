@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import { ChatFormButtonData } from './ChatFormSideButton';
 import ButtonList from './ButtonList';
 import { Id } from 'react-toastify';
+import { IoMdClose } from "react-icons/io";
 
 type ChatFormProps = {
     inputTextValue: string;
@@ -15,6 +16,9 @@ type ChatFormProps = {
     adjustHeight: () => void;
     scrollToBottom: (textValue: string) => void;
     handleSideButton: (func: (inputTextValue: string, showCautionToast: (cautionMessage: string) => Id) => Promise<string>) => () => Promise<void>;
+    images: string[];
+    handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
+    handleRemoveImage: (index: number) => void;
 } & ChatFormButtonDataList;
 
 export type ChatFormButtonDataList = {
@@ -32,21 +36,13 @@ const ChatForm: React.FC<ChatFormProps> = ({
     adjustHeight,
     handleSideButton,
     topButtonDataList,
-    bottomButtonDataList
+    bottomButtonDataList,
+    images,
+    handleDrop,
+    handleRemoveImage
 }) => {
 
-    const [images, setImages] = useState<string[]>([]);
 
-    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        const file = e.dataTransfer.files[0];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            console.log(event.target?.result);
-            setImages([...images, event.target ? event.target.result as string : ""]);
-        };
-        reader.readAsDataURL(file);
-    };
 
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -63,9 +59,15 @@ const ChatForm: React.FC<ChatFormProps> = ({
                 <div className="flex flex-col w-full"
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}>
-                    {images.length > 0 && <div className="preview grid grid-cols-4">
+                    {images.length > 0 && <div className="preview grid grid-cols-4 p-2">
                         {images.map((image, index) => (
-                            <div key={index} className="thumbnail w-32 h-32 border border-gray-300">
+                            <div key={index} className="thumbnail w-32 h-32 border border-gray-300 relative">
+                                <button
+                                    onClick={() => handleRemoveImage(index)}
+                                    className="absolute top-1 right-1 rounded-full w-6 h-6 flex items-center justify-center bg-white  hover:bg-red-100 hover:text-red-700"
+                                >
+                                    <IoMdClose />
+                                </button>
                                 <img src={image} alt={`preview-${index}`} className="w-full h-full object-cover" />
                             </div>
                         ))}
