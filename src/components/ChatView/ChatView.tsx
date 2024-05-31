@@ -71,7 +71,7 @@ export default function ChatView({
             .filter((chat) => chat.role !== "system") // contextから1引く
             .map((chat, index) => {
               return (
-                <Fragment key={chat.id}>
+                <Fragment key={index}>
                   <ChatBubbleView {...{ index, chat, context, handleResetLastMessage, removeMessage }} />
                 </Fragment>
               );
