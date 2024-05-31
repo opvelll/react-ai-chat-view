@@ -1,9 +1,13 @@
 import { useRef, useState } from "react";
-
-import { useChatContext } from "./useChatContext";
 import { showErrorToast } from "../Toast";
 import { useAudio } from "./useAudio";
-import { ChatContextType } from "./Type/ChatContextType";
+import {
+  ChatContextType,
+  createSystemMessage,
+  getUpdatedContextWithAssistantMessage,
+  getUpdatedContextWithUserMessage,
+  getUpdatedContextWithoutLastMessage,
+} from "./Type/ChatContextType";
 import { AIChatResponse, ModelName } from "./Type/AIChatAPIType";
 import useContextChatStore from "../Store/useContextStore";
 
@@ -30,56 +34,63 @@ export function useChat({
   const setTotalTokenCount = store((state) => state.setTotalTokenCount);
 
   const { setVoiceAudioData, isRunAudio } = useAudio();
-  const {
-    context,
-    setContext,
-    addAssistantMessage,
-    resetContext,
-    removeMessage,
-    isLastMessageUser,
-    getUpdatedContextWithUserMessage,
-    getUpdatedContextWithoutLastMessage,
-  } = useChatContext(systemPrompt);
 
-  async function submitChat() {
-    await processChatContext(context);
-  }
+  const [chatContext, setChatContext] = useState<ChatContextType>([
+    createSystemMessage(systemPrompt),
+  ]);
+
+  const resetChat = () => setChatContext([createSystemMessage(systemPrompt)]);
+
+  const getLastMessage = () => chatContext.slice(-1)[0];
+
+  const isLastMessageUser = () => getLastMessage()?.role === "user";
+
+  const removeMessage = (index: number) =>
+    setChatContext((prev) => prev.filter((_, i) => i !== index));
+
+  const submitChat = async () => await processChatContext(chatContext);
 
   async function submitChatWithUserMessage(userMessage: string) {
-    await processChatContext(getUpdatedContextWithUserMessage(userMessage));
+    await processChatContext(
+      getUpdatedContextWithUserMessage(chatContext, userMessage)
+    );
   }
 
   async function processChatWithoutLastMessage() {
-    await processChatContext(getUpdatedContextWithoutLastMessage());
+    await processChatContext(getUpdatedContextWithoutLastMessage(chatContext));
   }
 
   async function processChatContext(context: ChatContextType) {
     try {
-      resetInputAndLoadingState(); // 入力とローディング状態のリセット
-      setContext(context); // コンテキストの更新、画面に反映されるのは後なので//
-      await handleResponse(await fetchAIChatAPI(modelName, context)); // ChatGPT等AIからの応答をフェッチ + 応答の処理 音声化も行う
+      setIsLoading(true);
+      await handleResponse(context, await fetchAIChatAPI(modelName, context)); // ChatGPT等AIからの応答をフェッチ + 応答の処理 音声化も行う
+      resetInput();
     } catch (e) {
       handleError(e as Error); // エラー処理
     }
   }
 
   // 入力とローディング状態のリセット
-  function resetInputAndLoadingState() {
+  function resetInput() {
     setInputTextValue("");
     setTimeout(() => textAreaRef.current?.focus(), 0); // 少し遅延させてフォーカスを設定
-    setIsLoading(true);
   }
 
   // 応答の処理
-  async function handleResponse({
-    content,
-    tokenCount,
-    totalTokenCount,
-  }: AIChatResponse) {
-    addAssistantMessage(content, tokenCount); // 応答をコンテキストに追加
-    setTotalTokenCount(totalTokenCount); // トークン数の更新
+  async function handleResponse(
+    chatContext: ChatContextType,
+    aiChatResponse: AIChatResponse
+  ) {
+    setChatContext(
+      getUpdatedContextWithAssistantMessage(
+        chatContext,
+        aiChatResponse.content,
+        aiChatResponse.tokenCount
+      )
+    ); // 応答をコンテキストに追加
+    setTotalTokenCount(aiChatResponse.totalTokenCount); // Storeのトークン数の更新
     if (fetchVoiceAPI && isRunAudio)
-      setVoiceAudioData(await fetchVoiceAPI(content)); // 音声化
+      setVoiceAudioData(await fetchVoiceAPI(aiChatResponse.content)); // 音声化
     setIsLoading(false);
   }
 
@@ -90,13 +101,8 @@ export function useChat({
     setIsLoading(false);
   }
 
-  function resetChat() {
-    resetContext(systemPrompt);
-  }
-
   return {
-    context,
-    setContext,
+    context: chatContext,
     inputTextValue,
     setInputTextValue,
     textAreaRef,
