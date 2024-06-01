@@ -27,6 +27,14 @@ export default function useChatForm({ inputTextValue,
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         const file = e.dataTransfer.files[0];
+        // 許可されたファイル形式のリスト
+        const allowedFormats = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+
+        // ファイルのタイプが許可された形式に含まれているか確認
+        if (!allowedFormats.includes(file.type)) {
+            showCautionToast("png,jpeg,webp,gifファイルのみ対応しています");
+            return;
+        }
         const reader = new FileReader();
         reader.onload = (event) => {
             setImages([...images, event.target ? event.target.result as string : ""]);
