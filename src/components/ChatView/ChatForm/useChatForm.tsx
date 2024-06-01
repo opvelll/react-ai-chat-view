@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { showCautionToast, showErrorToast } from "../../Toast";
-import { Id } from "react-toastify";
+import { SideButtonFunc } from "./ChatFormSideButton";
 
 export type ChatFormProps = {
     inputTextValue: string,
@@ -76,18 +76,20 @@ export default function useChatForm({ inputTextValue,
     }, [textAreaRef]);
 
     const handleSideButton =
-        (func: (inputTextValue: string, showCautionToast: (cautionMessage: string) => Id) => Promise<string>) => {
+        (func: SideButtonFunc) => {
             return async () => {
                 try {
                     setIsLoading(true);
-                    const newInputValue = await func(inputTextValue, showCautionToast);
-                    setInputTextValue(newInputValue);
-                    scrollToBottom(newInputValue);
+                    const { newText, newImages } = await func(inputTextValue, images, showCautionToast);
+                    setInputTextValue(newText);
+                    if (newImages) setImages(newImages);
+                    scrollToBottom(newText);
                     setIsLoading(false);
                 } catch (e) {
                     const error = e as Error;
                     showErrorToast(error.message);
                     console.error(error.message);
+                    setIsLoading(false);
                 }
             }
         }

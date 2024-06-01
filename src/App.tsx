@@ -15,7 +15,7 @@ function App() {
     // contextの最後のcontentをコピーして返す
     const last = context[context.length - 1].content;
     return {
-      content: typeof last === "string" ? last : (last[0].type === "text" ? last[0].text : last[0].image_url),
+      content: typeof last === "string" ? last : (last[0].type === "text" ? last[0].text : last[0].image_url.url),
       tokenCount: 10,
       totalTokenCount: 100
     }
@@ -23,18 +23,18 @@ function App() {
   const modelList = [{ modelName: "gpt-3.5-turbo-0125", contextWindow: 1000 }, { modelName: "model2", contextWindow: 20000 }];
   const handleGetSelectionButton = async (inputTextValue: string) => {
     console.log(inputTextValue);
-    return inputTextValue;
+    return { newText: inputTextValue, newImages: [] };
   }
-  const handleGetSubtitlesButton = async (inputTextValue: string, showCaution: (value: string) => void) => {
+  const handleGetSubtitlesButton = async (inputTextValue: string, images: string[], showCaution: (value: string) => void) => {
     console.log(inputTextValue);
     await new Promise(resolve => setTimeout(resolve, 5000));
     showCaution(inputTextValue);
-    return inputTextValue;
+    return { newText: inputTextValue, newImages: images };
   }
   const handleGetAllPageButton = async (inputTextValue: string) => {
     console.log(inputTextValue);
     throw new Error("error");
-    return inputTextValue;
+    return { newText: inputTextValue, newImages: [] };
   }
 
   const topButtonDataList: ChatFormButtonData[] = [
@@ -63,7 +63,7 @@ function App() {
       title: "概要",
       icon: <div>1</div>,
       func: async (inputTextValue: string) => {
-        return inputTextValue + "\n概要";
+        return { newText: inputTextValue + "\n概要", newImages: [] };
       },
       color: "text-blue-500",
     }

@@ -12,7 +12,7 @@ export type ChatContent = string | ChatContentListType[];
 
 export type ChatContentListType =
   | { type: "text"; text: string }
-  | { type: "image_url"; image_url: string };
+  | { type: "image_url"; image_url: { url: string; detail: string } };
 
 export const chatContentToStringList = (
   content: ChatContentListType[]
@@ -25,7 +25,7 @@ export const chatContentToStringList = (
 export const chatContentToImageURLList = (content: ChatContentListType[]) => {
   return content
     .filter((c) => c.type === "image_url")
-    .map((c) => (c.type === "image_url" ? c.image_url : ""));
+    .map((c) => (c.type === "image_url" ? c.image_url.url : ""));
 };
 
 export type CreateMessageType = {
@@ -42,9 +42,9 @@ export const createMessage = ({
   tokenCount,
 }: CreateMessageType): ChatType => {
   if (images && images.length > 0) {
-    const contentList: ChatContentListType[] = images.map((image) => ({
+    const contentList: ChatContentListType[] = images.map((image: string) => ({
       type: "image_url",
-      image_url: image,
+      image_url: { url: image, detail: "high" },
     }));
     return {
       role,

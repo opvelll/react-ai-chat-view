@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
-import { ChatFormButtonData } from './ChatFormSideButton';
+import { ChatFormButtonData, SideButtonFunctions } from './ChatFormSideButton';
 import ButtonList from './ButtonList';
-import { Id } from 'react-toastify';
 import { IoMdClose } from "react-icons/io";
 
 type ChatFormProps = {
@@ -15,11 +14,10 @@ type ChatFormProps = {
     isLoading: boolean;
     adjustHeight: () => void;
     scrollToBottom: (textValue: string) => void;
-    handleSideButton: (func: (inputTextValue: string, showCautionToast: (cautionMessage: string) => Id) => Promise<string>) => () => Promise<void>;
     images: string[];
     handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
     handleRemoveImage: (index: number) => void;
-} & ChatFormButtonDataList;
+} & ChatFormButtonDataList & SideButtonFunctions;
 
 export type ChatFormButtonDataList = {
     topButtonDataList?: ChatFormButtonData[];

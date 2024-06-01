@@ -3,12 +3,19 @@ import { Id } from "react-toastify";
 export type ChatFormButtonData = {
     title?: string;
     icon?: JSX.Element;
-    func: (inputTextValue: string, showCaution: (cautionMessage: string) => Id) => Promise<string>;
+    func: SideButtonFunc;
     color?: string;
 };
 
 export type SideButtonFunctions = {
-    handleSideButton: (func: (inputTextValue: string, showCautionToast: (cautionMessage: string) => Id) => Promise<string>) => () => Promise<void>;
+    handleSideButton: (func: SideButtonFunc) => () => Promise<void>;
+}
+
+export type SideButtonFunc = (inputTextValue: string, images: string[], showCautionToast: (cautionMessage: string) => Id) => Promise<SideButtonFuncResponse>;
+
+export type SideButtonFuncResponse = {
+    newText: string;
+    newImages?: string[];
 }
 
 export default function ChatFormSideButton(

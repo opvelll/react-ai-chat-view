@@ -19,7 +19,7 @@ type ChatViewProps =
     submitChat: () => Promise<void>,
     removeMessage: (index: number) => void,
     isLastMessageUser: () => boolean,
-    submitChatWithUserMessage: (inputTextValue: string) => Promise<void>,
+    submitChatWithUserMessage: (inputTextValue: string, images: string[]) => Promise<void>,
     processChatWithoutLastMessage: () => Promise<void>
   } & ChatFormButtonDataList;
 
