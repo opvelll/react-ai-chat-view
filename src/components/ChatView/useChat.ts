@@ -66,6 +66,7 @@ export const useChat = ({
   const processChatContext = async (context: ChatContextType) => {
     try {
       setIsLoading(true);
+      setChatContext(context); // ユーザー入力を画面に表示しておく
       await handleResponse(context, await fetchAIChatAPI(modelName, context));
       resetInput();
     } catch (e) {
