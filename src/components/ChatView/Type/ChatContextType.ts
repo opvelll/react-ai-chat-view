@@ -71,7 +71,7 @@ export const createUserMessage = (
 
 export const createAssistantMessage = (
   content: string,
-  tokenCount: number
+  tokenCount?: number
 ): ChatType => createMessage({ role: "assistant", content, tokenCount });
 
 export const getUpdatedContextWithUserMessage = (
@@ -83,7 +83,7 @@ export const getUpdatedContextWithUserMessage = (
 export const getUpdatedContextWithAssistantMessage = (
   chatContext: ChatContextType,
   message: string,
-  tokenCount: number
+  tokenCount?: number
 ) => [...chatContext, createAssistantMessage(message, tokenCount)];
 
 export const getUpdatedContextWithoutLastMessage = (

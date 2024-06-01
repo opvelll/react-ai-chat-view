@@ -1,6 +1,6 @@
 export type AIChatResponse = {
   content: string;
-  tokenCount: number;
+  tokenCount?: number;
   totalTokenCount: number;
 };
 
