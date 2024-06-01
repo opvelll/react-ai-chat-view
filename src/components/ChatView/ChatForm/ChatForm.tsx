@@ -53,13 +53,16 @@ const ChatForm: React.FC<ChatFormProps> = ({
     return (
         <div className="fixed bottom-0 px-4 py-1 w-full md:w-10/12">
             <ButtonList buttonDataList={topButtonDataList} handleSideButton={handleSideButton} />
-            <form id="chatForm" name="chatForm" className="flex justify-center bg-gray-100 md:shadow-md drop-shadow-md rounded-lg">
+            <form id="chatForm"
+                name="chatForm"
+                className="flex justify-center bg-gray-100 md:shadow-md drop-shadow-md rounded-lg"
+                style={{ maxHeight: "30rem" }}>
                 <div className="flex flex-col w-full"
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}>
-                    {images.length > 0 && <div className="preview grid grid-cols-4 p-2">
+                    {images.length > 0 && <div className="preview grid grid-cols-4 max-h-36 overflow-auto pl-2 pt-2" style={{ minHeight: "8rem" }}>
                         {images.map((image, index) => (
-                            <div key={index} className="thumbnail w-32 h-32 border border-gray-300 relative">
+                            <div key={index} className="thumbnail w-32 h-32 border border-gray-300 relative ">
                                 <button
                                     onClick={() => handleRemoveImage(index)}
                                     className="absolute top-1 right-1 rounded-full w-6 h-6 flex items-center justify-center bg-white  hover:bg-red-100 hover:text-red-700"
@@ -72,8 +75,8 @@ const ChatForm: React.FC<ChatFormProps> = ({
                     </div>}
                     <textarea
                         ref={textAreaRef}
-                        className="bg-gray-100 ml-3 mt-1 mb-1 pt-2 pb-2 pl-1 pr-1 w-full border-0 resize-none rounded-lg focus:outline-none overflow-auto whitespace-nowrap scrollbar-thin h-auto"
-                        style={{ maxHeight: "35rem" }}
+                        className="bg-gray-100 w-full pl-2 pt-2 pb-1 border-0 resize-none rounded-lg focus:outline-none overflow-auto whitespace-nowrap h-auto"
+                        style={{ maxHeight: "30rem" }}
                         value={inputTextValue}
                         onChange={handleChange}
                         onKeyDown={handleKeyPress}
