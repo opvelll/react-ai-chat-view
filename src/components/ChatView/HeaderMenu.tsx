@@ -75,7 +75,8 @@ export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenu
                 </div>
 
             </div>
-            <div className="w-full bg-gray-200 h-0.5 dark:bg-gray-700">
+            <div className="w-full bg-gray-200 h-0.5 dark:bg-gray-700"
+                title={"Percentage of tokens " + totalTokenCount + "/" + modelContextWindow + " (" + tokenPersentage + "%)"}>
                 <div className="bg-blue-400 h-0.5 dark:bg-blue-500" style={{ width: tokenPersentage + "%" }}></div>
             </div>
         </header>
