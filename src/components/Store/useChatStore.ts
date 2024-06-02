@@ -33,9 +33,12 @@ const useChatStore = (
         toggleSidebar: () =>
           set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
         // Modelの選択
-        modelName: modelList[0].modelName,
+        modelName: modelList.length > 0 ? modelList[0].modelName : "",
         setModel: (value: string) => set({ modelName: value }),
-        modelContextWindow: getContextWindow(modelList[0].modelName, modelList),
+        modelContextWindow: getContextWindow(
+          modelList.length > 0 ? modelList[0].modelName : "",
+          modelList
+        ),
         setModelContextWindow: (value: number) =>
           set({ modelContextWindow: value }),
         totalTokenCount: 0,
