@@ -3,6 +3,7 @@ import { showErrorToast } from "../Toast";
 import { useAudio } from "./useAudio";
 import {
   ChatContextType,
+  ChatType,
   createSystemMessage,
   getUpdatedContextWithAssistantMessage,
   getUpdatedContextWithUserMessage,
@@ -41,7 +42,7 @@ export const useChat = ({
 
   const resetChat = () => setChatContext([createSystemMessage(systemPrompt)]);
 
-  const getLastMessage = () => chatContext.slice(-1)[0];
+  const getLastMessage = (): ChatType | undefined => chatContext.slice(-1)[0];
 
   const isLastMessageUser = () => getLastMessage()?.role === "user";
 

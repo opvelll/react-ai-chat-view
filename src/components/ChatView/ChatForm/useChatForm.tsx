@@ -27,6 +27,7 @@ export default function useChatForm({ inputTextValue,
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         const file = e.dataTransfer.files[0];
+        if (!file) return;
         // 許可されたファイル形式のリスト
         const allowedFormats = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 
