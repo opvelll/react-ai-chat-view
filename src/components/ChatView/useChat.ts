@@ -66,18 +66,14 @@ export const useChat = ({
 
   const processChatContext = async (context: ChatContextType) => {
     try {
-      setIsLoading(true);
       setChatContext(context); // ユーザー入力を画面に表示しておく
+      setInputTextValue(""); // フォームをクリア
+      setIsLoading(true);
       await handleResponse(context, await fetchAIChatAPI(modelName, context));
-      resetInput();
+      setTimeout(() => textAreaRef.current?.focus(), 0); // フォーカスを戻す
     } catch (e) {
       handleError(e as Error);
     }
-  };
-
-  const resetInput = () => {
-    setInputTextValue("");
-    setTimeout(() => textAreaRef.current?.focus(), 0);
   };
 
   const handleResponse = async (
