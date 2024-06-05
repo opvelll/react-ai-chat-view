@@ -1,9 +1,4 @@
-export type ModelData = {
-  modelName: string;
-  contextWindow: number;
-};
-
-export type ModelDataList = ModelData[];
+export type ModelDataList = AIModelData[];
 
 export type AIModelData = {
   corporation: string;

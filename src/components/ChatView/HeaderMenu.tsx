@@ -7,11 +7,10 @@ import useContextChatStore from "../Store/useContextStore";
 export type HeaderMenuProps = {
     resetChat: () => void;
     isOudio: boolean;
-} & ModelList;
-
-export type ModelList = {
-    modelList: ModelDataList
+    modelList: ModelDataList;
 }
+
+
 
 
 export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenuProps) {

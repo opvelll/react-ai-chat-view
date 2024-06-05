@@ -20,7 +20,6 @@ function App() {
       totalTokenCount: 100
     }
   }
-  const modelList = [{ modelName: "gpt-3.5-turbo-0125", contextWindow: 1000 }, { modelName: "model2", contextWindow: 20000 }];
   const handleGetSelectionButton = async (inputTextValue: string) => {
     console.log(inputTextValue);
     return { newText: inputTextValue, newImages: [] };
@@ -74,7 +73,6 @@ function App() {
       <AIChatView {...{
         systemPrompt,
         fetchAIChatAPI,
-        modelList,
         topButtonDataList,
         bottomButtonDataList
       }} />

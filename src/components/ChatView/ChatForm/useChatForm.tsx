@@ -72,12 +72,9 @@ export default function useChatForm({ inputTextValue,
     const adjustHeight = useCallback(() => {
         if (textAreaRef.current) {
             const lineHeight = parseFloat(getComputedStyle(textAreaRef.current).lineHeight);
-            console.log("lineHeight", lineHeight);
             textAreaRef.current.style.height = 'auto';  // 高さを一旦リセット
             const minHeight = lineHeight * 3;
-            console.log("minHeight", minHeight);
             const scrollHeight = textAreaRef.current.scrollHeight;
-            console.log("scrollHeight", scrollHeight);
             textAreaRef.current.style.height = `${Math.max(minHeight, scrollHeight)}px`; // 最低二行分の高さを確保
         }
     }, [textAreaRef]);
