@@ -75,8 +75,8 @@ const ChatForm: React.FC<ChatFormProps> = ({
                     </div>}
                     <textarea
                         ref={textAreaRef}
-                        className="bg-gray-100 w-full pl-2 pt-2 pb-1 border-0 resize-none rounded-lg focus:outline-none overflow-auto whitespace-nowrap h-auto"
-                        style={{ maxHeight: "30rem" }}
+                        className="bg-gray-100 w-full pl-2 pt-2 pb-1 border-0 resize-none rounded-lg focus:outline-none overflow-auto whitespace-nowrap"
+                        style={{ maxHeight: "30rem", minHeight: "3rem" }}
                         value={inputTextValue}
                         onChange={handleChange}
                         onKeyDown={handleKeyPress}
