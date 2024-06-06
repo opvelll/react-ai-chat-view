@@ -1,6 +1,6 @@
 import { ChatContent, ChatContextType, ChatType, chatContentToImageURLList, chatContentToStringList } from "./Type/ChatContextType"
 import { SlReload } from "react-icons/sl";
-import { MdCancel } from "react-icons/md";
+import { IoMdClose } from "react-icons/io";
 import Markdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -63,12 +63,13 @@ export default function ChatBubbleView({
                             <SlReload />
                         </button>
                     )}
+                    {/* 削除ボタン */}
                     <button
                         type="button"
                         onClick={() => removeMessage(index + 1)} // systemの分を除く
                         className=" bg-transparent hover:bg-slate-300 text-slate-600 font-bold p-1.5 rounded-full"
                     >
-                        <MdCancel />
+                        <IoMdClose />
                     </button >
                 </span>
             </div>
