@@ -69,13 +69,12 @@ export default function useChatForm({ inputTextValue,
         if (isLastMessageUser()) return await submitChat();// 会話の編集時(最後のアシスタントメッセージを削除した状態)用
     }, [inputTextValue, isLastMessageUser, submitChatWithUserMessage, submitChat, images]);
 
-    const adjustHeight = useCallback(() => {
-        if (textAreaRef.current) {
-            const lineHeight = parseFloat(getComputedStyle(textAreaRef.current).lineHeight);
+    const adjustHeight = useCallback((rightSideRef: React.RefObject<HTMLDivElement>) => {
+        if (textAreaRef.current && rightSideRef.current) {
             textAreaRef.current.style.height = 'auto';  // 高さを一旦リセット
-            const minHeight = lineHeight * 3;
+            const minHeight = rightSideRef.current.offsetHeight;
             const scrollHeight = textAreaRef.current.scrollHeight;
-            textAreaRef.current.style.height = `${Math.max(minHeight, scrollHeight)}px`; // 最低二行分の高さを確保
+            textAreaRef.current.style.height = `${Math.max(minHeight, scrollHeight)}px`; // 最低横のボックスの高さに合わせる
         }
     }, [textAreaRef]);
 

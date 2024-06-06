@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import { ChatFormButtonData, SideButtonFunctions } from './ChatFormSideButton';
 import ButtonList from './ButtonList';
@@ -12,7 +12,7 @@ type ChatFormProps = {
     handleKeyPress: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
     handleChatButton: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     isLoading: boolean;
-    adjustHeight: () => void;
+    adjustHeight: (rightSideRef: React.RefObject<HTMLDivElement>) => void;
     scrollToBottom: (textValue: string) => void;
     images: string[];
     handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
@@ -42,14 +42,14 @@ const ChatForm: React.FC<ChatFormProps> = ({
     handleClearButton
 }) => {
 
-
+    const rightSideRef = useRef<HTMLDivElement>(null);
 
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
     };
 
     useEffect(() => {
-        adjustHeight();
+        adjustHeight(rightSideRef);
     }, [adjustHeight, inputTextValue]);
 
     return (
@@ -78,7 +78,7 @@ const ChatForm: React.FC<ChatFormProps> = ({
                     <textarea
                         ref={textAreaRef}
                         className="bg-gray-100 w-full pl-2 pt-2 pb-1 border-0 resize-none rounded-lg focus:outline-none overflow-auto whitespace-nowrap"
-                        style={{ maxHeight: "30rem", minHeight: "3rem" }}
+                        style={{ maxHeight: "30rem" }}
                         value={inputTextValue}
                         onChange={handleChange}
                         onKeyDown={handleKeyPress}
@@ -92,23 +92,18 @@ const ChatForm: React.FC<ChatFormProps> = ({
                         <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                 )}
-                <div className="flex flex-col justify-end">
+                <div ref={rightSideRef} className={inputTextValue ? "flex flex-col justify-between" : "flex flex-col justify-end"}>
                     {/* クリアボタン */}
-                    {inputTextValue && <button className="bg-gray-100 hover:bg-gray-300 border-gray-300 ml-1 mt-2 mr-2 mb-2 size-9 rounded-full"
+                    {inputTextValue && <button className="bg-gray-100 hover:bg-gray-300 border-gray-300 m-2 size-9 rounded-full flex items-center justify-center"
                         onClick={handleClearButton}
                         title="Clear">
-                        <div className="flex justify-center">
-                            <IoMdClose />
-                        </div>
+                        <IoMdClose />
                     </button>}
-                    <div className='flex-1'></div>
                     {/* 送信ボタン */}
-                    <button className="bg-gray-100 hover:bg-gray-300 border-2 border-gray-300 ml-1 mt-2 mr-2 mb-2 size-9 rounded-lg"
+                    <button className="bg-gray-100 hover:bg-gray-300 border-2 border-gray-300 m-2 size-9 rounded-lg flex items-center justify-center"
                         onClick={handleChatButton}
                         title="Send">
-                        <div className="flex justify-center">
-                            <FaArrowUp />
-                        </div>
+                        <FaArrowUp />
                     </button>
                 </div>
             </form>
