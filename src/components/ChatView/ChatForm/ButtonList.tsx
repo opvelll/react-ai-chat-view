@@ -9,7 +9,7 @@ export default function ButtonList({ buttonDataList, handleSideButton }: ButtonL
     return (
         <>
             {buttonDataList &&
-                (<div className="flex mt-2 mb-1 space-x-2">
+                (<div className="flex flex-wrap mt-2 mb-1 space-x-2">
                     {buttonDataList.map((buttonData, index) => (
                         <Fragment key={index}>
                             <ChatFormSideButton
