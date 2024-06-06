@@ -14,16 +14,11 @@ function App() {
     return { content: "hello", totalTokenCount: 100 }
   }
 
-  const modelList = [
-    { modelName: "gpt-3.5-turbo-0125", contextWindow: 1000 },
-    { modelName: "model2", contextWindow: 20000 }];
-
   return (
     <div>
       <AIChatView {...{
         systemPrompt,
         fetchAIChatAPI,
-        modelList
       }} />
     </div>
   )
