@@ -17,6 +17,7 @@ type ChatFormProps = {
     images: string[];
     handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
     handleRemoveImage: (index: number) => void;
+    handleClearButton: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 } & ChatFormButtonDataList & SideButtonFunctions;
 
 export type ChatFormButtonDataList = {
@@ -37,7 +38,8 @@ const ChatForm: React.FC<ChatFormProps> = ({
     bottomButtonDataList,
     images,
     handleDrop,
-    handleRemoveImage
+    handleRemoveImage,
+    handleClearButton
 }) => {
 
 
@@ -90,7 +92,16 @@ const ChatForm: React.FC<ChatFormProps> = ({
                         <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                 )}
-                <div className="flex flex-col-reverse">
+                <div className="flex flex-col justify-end">
+                    {/* クリアボタン */}
+                    {inputTextValue && <button className="bg-gray-100 hover:bg-gray-300 border-gray-300 ml-1 mt-2 mr-2 mb-2 size-9 rounded-full"
+                        onClick={handleClearButton}
+                        title="Clear">
+                        <div className="flex justify-center">
+                            <IoMdClose />
+                        </div>
+                    </button>}
+                    <div className='flex-1'></div>
                     {/* 送信ボタン */}
                     <button className="bg-gray-100 hover:bg-gray-300 border-2 border-gray-300 ml-1 mt-2 mr-2 mb-2 size-9 rounded-lg"
                         onClick={handleChatButton}

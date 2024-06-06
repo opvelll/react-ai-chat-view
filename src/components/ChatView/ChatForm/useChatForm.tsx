@@ -106,6 +106,12 @@ export default function useChatForm({ inputTextValue,
             }
         }
 
+    const handleClearButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        setInputTextValue("");
+        setImages([]);
+    }
+
     return {
         inputTextValue,
         setInputTextValue,
@@ -118,5 +124,6 @@ export default function useChatForm({ inputTextValue,
         images,
         handleDrop,
         handleRemoveImage,
+        handleClearButton
     };
 }
