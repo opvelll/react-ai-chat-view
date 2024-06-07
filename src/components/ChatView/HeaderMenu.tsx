@@ -1,6 +1,6 @@
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { IoReload } from "react-icons/io5";
-import { ModelDataList, getContextWindow } from "./Type/ModelDataList";
+import { ModelDataList, getModelDataByModelName } from "./Type/ModelDataList";
 import { useMemo } from "react";
 import useContextChatStore from "../Store/useContextStore";
 
@@ -17,22 +17,19 @@ export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenu
     const store = useContextChatStore();
     const isRunAudio = store((state) => state.isRunAudio);
     const toggleAudio = store((state) => state.toggleAudio);
-    const modelName = store((state) => state.modelName);
+    const { modelName, contextWindow } = store((state) => state.modelData);
     const setModel = store((state) => state.setModel);
-    const modelContextWindow = store((state) => state.modelContextWindow);
-    const setModelContextWindow = store((state) => state.setModelContextWindow);
     const totalTokenCount = store((state) => state.totalTokenCount);
 
     const handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setModel(event.target.value);
-        setModelContextWindow(getContextWindow(event.target.value, modelList));
+        setModel(getModelDataByModelName(event.target.value, modelList));
     }
 
     const tokenPersentage = useMemo(() => {
         //console.log(totalTokenCount, modelContextWindow);
-        if (modelContextWindow === 0) return 0;
-        return Math.round((totalTokenCount / modelContextWindow) * 100);
-    }, [totalTokenCount, modelContextWindow]);
+        if (contextWindow === 0) return 0;
+        return Math.round((totalTokenCount / contextWindow) * 100);
+    }, [totalTokenCount, contextWindow]);
 
     return (
         <header className="sticky top-0 z-50 w-full bg-white">
@@ -75,7 +72,7 @@ export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenu
 
             </div>
             <div className="w-full bg-gray-200 h-0.5 dark:bg-gray-700"
-                title={"Percentage of tokens " + totalTokenCount + "/" + modelContextWindow + " (" + tokenPersentage + "%)"}>
+                title={"Percentage of tokens " + totalTokenCount + "/" + contextWindow + " (" + tokenPersentage + "%)"}>
                 <div className="bg-blue-400 h-0.5 dark:bg-blue-500" style={{ width: tokenPersentage + "%" }}></div>
             </div>
         </header>

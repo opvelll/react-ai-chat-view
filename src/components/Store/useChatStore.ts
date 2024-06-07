@@ -1,8 +1,8 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
-import { ModelName } from "../ChatView/Type/AIChatAPIType";
 import {
+  AIModelData,
   ModelDataList,
-  getContextWindow,
+  initModelData,
 } from "../ChatView/Type/ModelDataList";
 import { PersistOptions, persist } from "zustand/middleware";
 
@@ -11,10 +11,8 @@ export type ChatStoreState = {
   toggleAudio: () => void;
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
-  modelName: ModelName;
-  setModel: (value: ModelName) => void;
-  modelContextWindow: number;
-  setModelContextWindow: (value: number) => void;
+  modelData: AIModelData;
+  setModel: (value: AIModelData) => void;
   totalTokenCount: number;
   setTotalTokenCount: (value: number) => void;
 };
@@ -33,14 +31,9 @@ const useChatStore = (
         toggleSidebar: () =>
           set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
         // Modelの選択
-        modelName: modelList.length > 0 ? modelList[0].modelName : "",
-        setModel: (value: string) => set({ modelName: value }),
-        modelContextWindow: getContextWindow(
-          modelList.length > 0 ? modelList[0].modelName : "",
-          modelList
-        ),
-        setModelContextWindow: (value: number) =>
-          set({ modelContextWindow: value }),
+        modelData: modelList.length > 0 ? modelList[0] : initModelData,
+        setModel: (value: AIModelData) => set({ modelData: value }),
+
         totalTokenCount: 0,
         setTotalTokenCount: (value: number) => {
           set({ totalTokenCount: value });

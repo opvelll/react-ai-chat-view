@@ -31,7 +31,7 @@ export const useChat = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const store = useContextChatStore();
-  const modelName = store((state) => state.modelName);
+  const { modelName } = store((state) => state.modelData);
   const setTotalTokenCount = store((state) => state.setTotalTokenCount);
 
   const { setVoiceAudioData, isRunAudio } = useAudio();

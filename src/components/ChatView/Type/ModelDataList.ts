@@ -1,12 +1,23 @@
 export type ModelDataList = AIModelData[];
 
 export type AIModelData = {
-  corporation: string;
+  corporation: Corporation;
   modelName: string;
   contextWindow: number;
   isJsonMode: boolean;
   isVision: boolean;
   isFunctionCall: boolean;
+};
+
+export type Corporation = "OpenAI" | "Google" | "Other";
+
+export const initModelData: AIModelData = {
+  corporation: "Other",
+  modelName: "",
+  contextWindow: 0,
+  isJsonMode: false,
+  isVision: false,
+  isFunctionCall: false,
 };
 
 export const allModelList: AIModelData[] = [
@@ -174,12 +185,12 @@ export const allModelList: AIModelData[] = [
   },
 ];
 
-export const getContextWindow = (
+export const getModelDataByModelName = (
   modelName: string,
-  modelDataList: ModelDataList
-) => {
-  const modelData = modelDataList.find(
+  modelList: AIModelData[]
+): AIModelData => {
+  const modelData = modelList.find(
     (modelData) => modelData.modelName === modelName
   );
-  return modelData ? modelData.contextWindow : 0;
+  return modelData ? modelData : initModelData;
 };
