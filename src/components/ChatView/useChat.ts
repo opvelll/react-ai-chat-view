@@ -9,13 +9,14 @@ import {
   getUpdatedContextWithUserMessage,
   getUpdatedContextWithoutLastMessage,
 } from "./Type/ChatContextType";
-import { AIChatResponse, ModelName } from "./Type/AIChatAPIType";
+import { AIChatResponse } from "./Type/AIChatAPIType";
 import useContextChatStore from "../Store/useContextStore";
+import { AIModelData } from "./Type/ModelDataList";
 
 export type ChatProp = {
   systemPrompt: string;
   fetchAIChatAPI: (
-    modelName: ModelName,
+    modelData: AIModelData,
     context: ChatContextType
   ) => Promise<AIChatResponse>;
   fetchVoiceAPI?: ((text: string) => Promise<Blob>) | null;
@@ -31,7 +32,7 @@ export const useChat = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const store = useContextChatStore();
-  const { modelName } = store((state) => state.modelData);
+  const modelData = store((state) => state.modelData);
   const setTotalTokenCount = store((state) => state.setTotalTokenCount);
 
   const { setVoiceAudioData, isRunAudio } = useAudio();
@@ -69,7 +70,7 @@ export const useChat = ({
       setChatContext(context); // ユーザー入力を画面に表示しておく
       setInputTextValue(""); // フォームをクリア
       setIsLoading(true);
-      await handleResponse(context, await fetchAIChatAPI(modelName, context));
+      await handleResponse(context, await fetchAIChatAPI(modelData, context));
       setTimeout(() => textAreaRef.current?.focus(), 0); // フォーカスを戻す
     } catch (e) {
       handleError(e as Error);

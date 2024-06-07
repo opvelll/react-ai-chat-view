@@ -20,6 +20,25 @@ export const initModelData: AIModelData = {
   isFunctionCall: false,
 };
 
+export const testModelList: AIModelData[] = [
+  {
+    corporation: "OpenAI",
+    modelName: "gpt-4o",
+    contextWindow: 128000,
+    isJsonMode: false,
+    isVision: false,
+    isFunctionCall: false,
+  },
+  {
+    corporation: "Other",
+    modelName: "test-model",
+    contextWindow: 128000,
+    isJsonMode: false,
+    isVision: false,
+    isFunctionCall: false,
+  },
+];
+
 export const allModelList: AIModelData[] = [
   {
     corporation: "OpenAI",
