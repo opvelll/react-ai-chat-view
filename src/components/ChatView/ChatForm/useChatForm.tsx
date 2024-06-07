@@ -69,14 +69,26 @@ export default function useChatForm({ inputTextValue,
         if (isLastMessageUser()) return await submitChat();// 会話の編集時(最後のアシスタントメッセージを削除した状態)用
     }, [inputTextValue, isLastMessageUser, submitChatWithUserMessage, submitChat, images]);
 
-    const adjustHeight = useCallback((rightSideRef: React.RefObject<HTMLDivElement>) => {
-        if (textAreaRef.current && rightSideRef.current) {
+    const adjustHeight = (rightSideRef: React.RefObject<HTMLDivElement>, buttonRef: React.RefObject<HTMLButtonElement>) => {
+        if (textAreaRef.current && rightSideRef.current && buttonRef.current) {
             textAreaRef.current.style.height = 'auto';  // 高さを一旦リセット
-            const minHeight = rightSideRef.current.offsetHeight;
+            const fontSize = window.getComputedStyle(textAreaRef.current).fontSize; // 文字の高さを取得
             const scrollHeight = textAreaRef.current.scrollHeight;
-            textAreaRef.current.style.height = `${Math.max(minHeight, scrollHeight)}px`; // 最低横のボックスの高さに合わせる
+            // 画像がない場合
+            if (images.length === 0) {
+                const minHeight = rightSideRef.current.offsetHeight; // 最低横のボックスの高さに合わせる
+                const maxHeight = parseInt(fontSize) * 30;
+                textAreaRef.current.style.height = `${Math.min(maxHeight, Math.max(minHeight, scrollHeight))}px`;
+            } else {
+                const minHeight = buttonRef.current.offsetHeight; // ボタンの高さに合わせる
+                const maxHeight = parseInt(fontSize) * 24; // 24行分の高さ
+                // テキストエリアの高さを、minHeightとmaxHeightの間で調整
+                textAreaRef.current.style.height = `${Math.min(maxHeight, Math.max(minHeight, scrollHeight))}px`;
+
+            }
+
         }
-    }, [textAreaRef]);
+    }
 
     const scrollToBottom = useCallback((textValue: string) => {
         if (textAreaRef.current) {
