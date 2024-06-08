@@ -48,8 +48,8 @@ export default function ChatBubbleView({
         >
             <div
                 className={`${chat.role === "user"
-                    ? "bg-blue-100"
-                    : "bg-gray-200"
+                    ? "bg-blue-100 rounded-bl-none"
+                    : "bg-gray-200 rounded-br-none"
                     } inline-block rounded-lg p-2 whitespace-pre-wrap break-all max-w-full`}
             >
                 {/* 文字列はMarkdownコンポーネントで表示 */}
