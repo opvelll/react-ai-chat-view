@@ -5,7 +5,11 @@ React用のAIチャットコンポーネント。
 
 ## サンプル
 
+### 基本
+
 ```typescript
+import { AIChatView } from 'react-ai-chat-view';
+import type { AIModelData, ChatContextType, ChatFormButtonData, AIChatResponse } from 'react-ai-chat-view';
 
 function App() {
 
@@ -28,7 +32,38 @@ export default App
 
 
 ```
+### モデルのリストを変更する
 
+```typescript
+const testModelList: AIModelData[] = [
+  {
+    corporation: "OpenAI",
+    modelName: "gpt-4o",
+    contextWindow: 128000,
+    isJsonMode: false,
+    isVision: false,
+    isFunctionCall: false,
+  },
+  {
+    corporation: "Other",
+    modelName: "test-model",
+    contextWindow: 128000,
+    isJsonMode: false,
+    isVision: false,
+    isFunctionCall: false,
+  },
+];
+
+...
+
+    <div>
+      <AIChatView {...{
+        systemPrompt,
+        fetchAIChatAPI,
+        modelList: testModelList,
+      }} />
+    </div>
+```
 
 ## 開発時
 

@@ -2,7 +2,8 @@
 import { MdOutlineSubtitles } from 'react-icons/md';
 import { SiPagekit } from "react-icons/si";
 import { FaRegCopy } from 'react-icons/fa';
-import { AIChatResponse, AIChatView, AIModelData, ChatContextType, ChatFormButtonData } from '.';
+import { AIChatView } from '.';
+import type { AIModelData, ChatContextType, ChatFormButtonData, AIChatResponse } from '.';
 import { testModelList } from './components/ChatView/Type/ModelDataList';
 
 function App() {
