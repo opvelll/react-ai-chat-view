@@ -39,7 +39,7 @@ export const testModelList: AIModelData[] = [
   },
 ];
 
-export const allModelList: AIModelData[] = [
+export const defaultModelList: AIModelData[] = [
   {
     corporation: "OpenAI",
     modelName: "gpt-4o",
