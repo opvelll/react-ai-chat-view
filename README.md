@@ -1,9 +1,25 @@
 # Simple React AI Chat View Component
 
-React用のAIチャットコンポーネント。
-![react ai chat view](doc/chatview.png)
+AI試したいときにさっと試せるような、React用のAIチャットコンポーネント。
+![view](doc/chatview1.gif)
+
+### できること
+* モデルの選択
+* 会話の削除、再生成
+* フォームへの画像のドラッグアンドドロップ
+
+### できないこと
+* 通信
+* 履歴機能
+* asistantや、funcモードへの対応
+* 動画関連
+* 音声関連
+
+などなど
 
 ## サンプル
+
+### インストール
 
 ### 基本
 
@@ -63,12 +79,4 @@ const testModelList: AIModelData[] = [
         modelList: testModelList,
       }} />
     </div>
-```
-
-## 開発時
-
-```
-npm install -g pnpm
-pnpm install
-pnpm run build
 ```
