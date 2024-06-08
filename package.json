@@ -1,6 +1,6 @@
 {
   "name": "react-ai-chat-view",
-  "private": true,
+  "private": false,
   "version": "0.7.6-alpha.0",
   "description": "A simple visual component for AI chat interfaces in React",
   "main": "dist/react-ai-chat-view.umd.js",
