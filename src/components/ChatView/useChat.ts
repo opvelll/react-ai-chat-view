@@ -41,7 +41,10 @@ export const useChat = ({
     createSystemMessage(systemPrompt),
   ]);
 
-  const resetChat = () => setChatContext([createSystemMessage(systemPrompt)]);
+  const resetChat = () => {
+    setChatContext([createSystemMessage(systemPrompt)]);
+    setTotalTokenCount(0);
+  };
 
   const getLastMessage = (): ChatType | undefined => chatContext.slice(-1)[0];
 
