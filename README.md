@@ -21,6 +21,9 @@ AI試したいときにさっと試せるような、React用のAIチャット�
 
 ### インストール
 
+```
+pnpm add react-ai-chat-view
+```
 ### 基本
 
 ```typescript
