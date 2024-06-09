@@ -33,7 +33,9 @@ import type { AIModelData, ChatContextType, ChatFormButtonData, AIChatResponse }
 function App() {
 
   const systemPrompt = "hello";
-  const fetchAIChatAPI = async (modelName: string, context: ChatContextType): Promise<AIChatResponse> => {
+  const fetchAIChatAPI = async (modelData: AIModelData, context: ChatContextType): Promise<AIChatResponse> => {
+        //modlData.modelNameに選択したmodelの名前が入る。
+    ... //例えばopenai apiと通信する. 
     return { content: "hello", totalTokenCount: 100 }
   }
 
