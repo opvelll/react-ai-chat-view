@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { showErrorToast } from "../Toast";
-import { useAudio } from "./useAudio";
 import {
   ChatContextType,
   ChatType,
@@ -31,11 +30,11 @@ export const useChat = ({
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const [isLoading, setIsLoading] = useState(false);
-  const store = useContextChatStore();
-  const modelData = store((state) => state.modelData);
-  const setTotalTokenCount = store((state) => state.setTotalTokenCount);
 
-  const { setVoiceAudioData, isRunAudio } = useAudio();
+  const store = useContextChatStore();
+  const { modelData, setTotalTokenCount, play, isRunAudio } = store(
+    (state) => state
+  );
 
   const [chatContext, setChatContext] = useState<ChatContextType>([
     createSystemMessage(systemPrompt),
@@ -93,7 +92,7 @@ export const useChat = ({
     );
     setTotalTokenCount(aiChatResponse.totalTokenCount);
     if (fetchVoiceAPI && isRunAudio)
-      setVoiceAudioData(await fetchVoiceAPI(aiChatResponse.content));
+      play(await fetchVoiceAPI(aiChatResponse.content));
     setIsLoading(false);
   };
 
