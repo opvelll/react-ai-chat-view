@@ -3,6 +3,7 @@ import { useChat, ChatProp } from "./ChatView/useChat";
 import ChatView from "./ChatView/ChatView";
 import { ChatFormButtonDataList } from "./ChatView/ChatForm/ChatForm";
 import { ModelDataList, defaultModelList } from "./ChatView/Type/ModelDataList";
+import AudioComponent from "./ChatView/AudioComponent";
 
 
 export type AIChatViewProps = ChatProp & ModelList & ChatFormButtonDataList;
@@ -32,6 +33,7 @@ export default function AIChatViewLayout({
     return (
         <div className="w-full">
             <HeaderMenu resetChat={resetChat} isOudio={!!fetchVoiceAPI} modelList={modelList || defaultModelList} />
+            <AudioComponent />
             <div className="flex flex-row w-full">
                 <ChatView
                     {...{ topButtonDataList, bottomButtonDataList }}

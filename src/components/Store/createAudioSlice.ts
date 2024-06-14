@@ -4,6 +4,7 @@ import { ChatStoreState } from "./useChatStore";
 export type AudioSlice = {
   voiceAudioData: Blob | null;
   isRunAudio: boolean;
+  toggleAudio: () => void;
   audio: HTMLAudioElement;
   play: (data: Blob) => void;
   stop: () => void;
@@ -14,21 +15,23 @@ const createAudioSlice: StateCreator<
   [["zustand/persist", unknown]],
   [],
   AudioSlice
-> = (set) => ({
+> = (set, get) => ({
   voiceAudioData: null,
   isRunAudio: false,
+  toggleAudio: () => set((state) => ({ isRunAudio: !state.isRunAudio })),
   audio: new Audio(),
-  play: (data) =>
-    set((state) => {
-      state.audio.src = URL.createObjectURL(data);
-      state.audio.play();
-      return { voiceAudioData: data, isRunAudio: true };
-    }),
-  stop: () =>
-    set((state) => {
-      state.audio.pause();
-      return { isRunAudio: false };
-    }),
+  play: (data) => {
+    const audio = get().audio;
+    audio.src = URL.createObjectURL(data);
+    audio.play();
+    set({ voiceAudioData: data, isRunAudio: true });
+  },
+  stop: () => {
+    const audio = get().audio;
+    if (!audio.src) return;
+    audio.pause();
+    set({ isRunAudio: false });
+  },
 });
 
 export default createAudioSlice;

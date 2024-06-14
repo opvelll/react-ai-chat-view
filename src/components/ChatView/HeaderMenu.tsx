@@ -15,8 +15,7 @@ export type HeaderMenuProps = {
 
 export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenuProps) {
     const store = useContextChatStore();
-    const isRunAudio = store((state) => state.isRunAudio);
-    const toggleAudio = store((state) => state.toggleAudio);
+    const { isRunAudio, toggleAudio } = store((state) => state);
     const { modelName, contextWindow } = store((state) => state.modelData);
     const setModel = store((state) => state.setModel);
     const totalTokenCount = store((state) => state.totalTokenCount);
