@@ -1,49 +1,36 @@
 import React, { useEffect, useRef } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
-import { ChatFormButtonData, SideButtonFunctions } from './ChatFormSideButton';
+import { ChatFormButtonData } from './ChatFormSideButton';
 import ButtonList from './ButtonList';
 import { IoMdClose } from "react-icons/io";
-
-type ChatFormProps = {
-    inputTextValue: string;
-    setInputTextValue: (value: string) => void;
-    textAreaRef: React.RefObject<HTMLTextAreaElement>;
-    handleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-    handleKeyPress: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
-    handleChatButton: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    isLoading: boolean;
-    adjustHeight: (rightSideRef: React.RefObject<HTMLDivElement>, buttonRef: React.RefObject<HTMLButtonElement>) => void;
-    scrollToBottom: (textValue: string) => void;
-    images: string[];
-    handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
-    handleRemoveImage: (index: number) => void;
-    handleClearButton: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-} & ChatFormButtonDataList & SideButtonFunctions;
+import useChatForm from './useChatForm';
+import useContextChatStore from '../../Store/useContextStore';
 
 export type ChatFormButtonDataList = {
     topButtonDataList?: ChatFormButtonData[];
     bottomButtonDataList?: ChatFormButtonData[];
 }
 
-const ChatForm: React.FC<ChatFormProps> = ({
-    inputTextValue,
-    textAreaRef,
-    handleChange,
-    handleKeyPress,
-    handleChatButton,
-    isLoading,
-    adjustHeight,
-    handleSideButton,
+const ChatForm: React.FC<ChatFormButtonDataList> = ({
     topButtonDataList,
     bottomButtonDataList,
-    images,
-    handleDrop,
-    handleRemoveImage,
-    handleClearButton
 }) => {
 
     const rightSideRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const store = useContextChatStore();
+    const { isLoading, inputTextValue, textAreaRef } = store();
+    const {
+        adjustHeight,
+        images,
+        handleDrop,
+        handleRemoveImage,
+        handleClearButton,
+        handleSideButton,
+        handleChatButton,
+        handleChange,
+        handleKeyPress
+    } = useChatForm()
 
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();

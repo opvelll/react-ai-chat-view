@@ -1,21 +1,16 @@
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { IoReload } from "react-icons/io5";
-import { ModelDataList, getModelDataByModelName } from "./Type/ModelDataList";
+import { getModelDataByModelName } from "../Type/ModelDataList";
 import { useMemo } from "react";
 import useContextChatStore from "../Store/useContextStore";
 
 export type HeaderMenuProps = {
-    resetChat: () => void;
     isOudio: boolean;
-    modelList: ModelDataList;
 }
 
-
-
-
-export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenuProps) {
+export default function HeaderMenu({ isOudio, }: HeaderMenuProps) {
     const store = useContextChatStore();
-    const { isRunAudio, toggleAudio } = store((state) => state);
+    const { modelList, resetChat, isRunAudio, toggleAudio } = store((state) => state);
     const { modelName, contextWindow } = store((state) => state.modelData);
     const setModel = store((state) => state.setModel);
     const totalTokenCount = store((state) => state.totalTokenCount);
@@ -70,6 +65,7 @@ export default function HeaderMenu({ resetChat, isOudio, modelList }: HeaderMenu
                 </div>
 
             </div>
+            {/* トークン量がcontextWindowの何％か表示 */}
             <div className="w-full bg-gray-200 h-0.5 dark:bg-gray-700"
                 title={"Percentage of tokens " + totalTokenCount + "/" + contextWindow + " (" + tokenPersentage + "%)"}>
                 <div className="bg-blue-400 h-0.5 dark:bg-blue-500" style={{ width: tokenPersentage + "%" }}></div>

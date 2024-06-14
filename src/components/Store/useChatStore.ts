@@ -1,21 +1,21 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
-import { ModelDataList } from "../ChatView/Type/ModelDataList";
 import { PersistOptions, persist } from "zustand/middleware";
 import createAudioSlice, { AudioSlice } from "./createAudioSlice";
 import createSidebarSlice, { SidebarSlice } from "./createSidebarSlice";
 import createChatSlice, { ChatSlice } from "./createChatSlice";
+import { AIChatViewProps } from "../AIChatViewLayout";
 
 export type ChatStoreState = ChatSlice & AudioSlice & SidebarSlice;
 
 const useChatStore = (
-  modelList: ModelDataList
+  props: AIChatViewProps
 ): UseBoundStore<StoreApi<ChatStoreState>> =>
   create(
     persist<ChatStoreState>(
       (...a) => ({
         ...createAudioSlice(...a),
         ...createSidebarSlice(...a),
-        ...createChatSlice(modelList)(...a),
+        ...createChatSlice(props)(...a),
       }),
       {
         name: "chatStore",

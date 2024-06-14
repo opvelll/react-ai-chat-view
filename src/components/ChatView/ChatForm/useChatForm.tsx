@@ -1,26 +1,18 @@
 import { useCallback, useState } from "react";
 import { showCautionToast, showErrorToast } from "../../Toast";
 import { SideButtonFunc } from "./ChatFormSideButton";
-
-export type ChatFormProps = {
-    inputTextValue: string,
-    setInputTextValue: (value: string) => void,
-    textAreaRef: React.RefObject<HTMLTextAreaElement>,
-    submitChat: () => Promise<void>,
-    isLastMessageUser: () => boolean,
-    submitChatWithUserMessage: (inputTextValue: string, images: string[]) => Promise<void>,
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-}
+import useContextChatStore from "../../Store/useContextStore";
 
 // 入力画面
-export default function useChatForm({ inputTextValue,
-    setInputTextValue,
-    textAreaRef,
-    submitChat,
-    isLastMessageUser,
-    submitChatWithUserMessage,
-    setIsLoading
-}: ChatFormProps) {
+export default function useChatForm() {
+    const store = useContextChatStore();
+    const { textAreaRef,
+        inputTextValue,
+        setInputTextValue,
+        submitChat,
+        isLastMessageUser,
+        submitChatWithUserMessage,
+        setIsLoading } = store();
 
     const [images, setImages] = useState<string[]>([]);
 

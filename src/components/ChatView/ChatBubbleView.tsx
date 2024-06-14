@@ -1,4 +1,4 @@
-import { ChatContent, ChatContextType, ChatType, chatContentToImageURLList, chatContentToStringList } from "./Type/ChatContextType"
+import { ChatContent, ChatContextType, ChatType, chatContentToImageURLList, chatContentToStringList } from "../Type/ChatContextType"
 import { SlReload } from "react-icons/sl";
 import { IoMdClose } from "react-icons/io";
 import Markdown from 'react-markdown'
@@ -9,7 +9,7 @@ import { Fragment } from "react/jsx-runtime";
 export type ChatBubbleViewProps = {
     index: number,
     chat: ChatType,
-    context: ChatContextType,
+    chatContext: ChatContextType,
     handleResetLastMessage: () => void,
     removeMessage: (index: number) => void
 }
@@ -17,7 +17,7 @@ export type ChatBubbleViewProps = {
 export default function ChatBubbleView({
     index,
     chat,
-    context,
+    chatContext,
     handleResetLastMessage,
     removeMessage }: ChatBubbleViewProps) {
 
@@ -56,7 +56,7 @@ export default function ChatBubbleView({
                 {contentView(chat.content)}
                 <span className="text-black ml-1 inline-flex flex-row gap-1.5">
                     {/* 最後の行のアシスタント側に、アシスタントの返事再生成ボタンを作成 */}
-                    {index === context.length - 2 && chat.role === 'assistant' && (
+                    {index === chatContext.length - 2 && chat.role === 'assistant' && (
                         <button type="button"
                             onClick={() => handleResetLastMessage()}
                             className=" bg-transparent hover:bg-slate-300 text-slate-600 font-bold p-1.5 rounded-full">
