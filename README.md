@@ -33,25 +33,27 @@ pnpm add react-ai-chat-view
 
 ```typescript
 import { AIChatView } from 'react-ai-chat-view';
-import type { AIModelData, ChatContextType, ChatFormButtonData, AIChatResponse } from 'react-ai-chat-view';
+import type { AIModelData, ChatContextType, AIChatResponse } from 'react-ai-chat-view';
 
 function App() {
 
-  const systemPrompt = "hello";
-  const fetchAIChatAPI = async (modelData: AIModelData, context: ChatContextType): Promise<AIChatResponse> => {
+    const systemPrompt = "hello";
+    const fetchAIChatAPI = async (modelData: AIModelData, context: ChatContextType): Promise<AIChatResponse> => {
         // The name of the selected model will be in modelData.modelName.
-    ... // For example, communicate with the OpenAI API.
-    return { content: "hello", totalTokenCount: 100 }
-  }
+        // For example, communicate with the OpenAI API.
+        console.log("modelData", modelData);
+        console.log("context", context);
+        return { content: "hello", totalTokenCount: 100 }
+    }
 
-  return (
-    <div>
-      <AIChatView {...{
-        systemPrompt,
-        fetchAIChatAPI,
-      }} />
-    </div>
-  )
+    return (
+        <div>
+            <AIChatView {...{
+                systemPrompt,
+                fetchAIChatAPI,
+            }} />
+        </div>
+    )
 }
 
 export default App
