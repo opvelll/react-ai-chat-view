@@ -1,12 +1,13 @@
 import { StateCreator } from "zustand";
 import { ChatStoreState } from "./useChatStore";
+import { AudioSource } from "../ChatView/useChat";
 
 export type AudioSlice = {
-  voiceAudioData: Blob | null;
+  voiceAudioData: AudioSource | null;
   isRunAudio: boolean;
   toggleAudio: () => void;
   audio: HTMLAudioElement;
-  play: (data: Blob) => void;
+  play: (data: AudioSource) => void;
   stop: () => void;
 };
 
@@ -20,12 +21,23 @@ const createAudioSlice: StateCreator<
   isRunAudio: false,
   toggleAudio: () => set((state) => ({ isRunAudio: !state.isRunAudio })),
   audio: new Audio(),
+
   play: (data) => {
     const audio = get().audio;
-    audio.src = URL.createObjectURL(data);
-    audio.play();
+    if (typeof data === "string") {
+      audio.src = data;
+    } else {
+      audio.src = URL.createObjectURL(data);
+    }
+    audio.oncanplaythrough = () => {
+      audio.play().catch((error) => {
+        throw new Error(error);
+      });
+    };
+    audio.load();
     set({ voiceAudioData: data, isRunAudio: true });
   },
+
   stop: () => {
     const audio = get().audio;
     if (!audio.src) return;
