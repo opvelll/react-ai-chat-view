@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand";
 import { ChatStoreState } from "./useChatStore";
-import { AudioSource } from "../ChatView/useChat";
+import { AudioSource } from "../Type/AIChatViewProp";
 
 export type AudioSlice = {
   voiceAudioData: AudioSource | null;

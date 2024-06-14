@@ -16,4 +16,4 @@ export type {
   SideButtonFuncResponse,
 } from "./components/ChatView/ChatForm/ChatFormSideButton";
 export type { AIChatResponse } from "./components/Type/AIChatAPIType";
-export type { AIChatViewProp as ChatProp } from "./components/ChatView/useChat";
+export type { AIChatViewProps } from "./components/AIChatViewLayout";

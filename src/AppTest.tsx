@@ -13,6 +13,7 @@ function App() {
   const fetchAIChatAPI = async (modelData: AIModelData, context: ChatContextType): Promise<AIChatResponse> => {
     console.log("modelData", modelData);
     console.log("context", context);
+    await new Promise(resolve => setTimeout(resolve, 3000));
     // contextの最後のcontentをコピーして返す
     const last = context[context.length - 1].content;
     return {

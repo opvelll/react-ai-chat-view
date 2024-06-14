@@ -5,6 +5,7 @@ import { AIModelData } from "./ModelDataList";
 export type AudioSource = string | Blob;
 
 export type AIChatViewProp = {
+  modelList?: AIModelData[];
   systemPrompt: string;
   fetchAIChatAPI: (
     modelData: AIModelData,

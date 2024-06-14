@@ -1,8 +1,8 @@
 import HeaderMenu from "./ChatView/HeaderMenu";
-import { AIChatViewProp } from "./ChatView/useChat";
 import ChatView from "./ChatView/ChatView";
 import { ChatFormButtonDataList } from "./ChatView/ChatForm/ChatForm";
 import AudioComponent from "./ChatView/AudioComponent";
+import { AIChatViewProp } from "./Type/AIChatViewProp";
 
 
 export type AIChatViewProps = AIChatViewProp & ChatFormButtonDataList;
