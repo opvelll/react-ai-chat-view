@@ -4,7 +4,7 @@ import { SiPagekit } from "react-icons/si";
 import { FaRegCopy } from 'react-icons/fa';
 import { AIChatView } from '.';
 import type { AIModelData, ChatContextType, ChatFormButtonData, AIChatResponse } from '.';
-import { testModelList } from './components/ChatView/Type/ModelDataList';
+import { testModelList } from './components/Type/ModelDataList';
 import sampleAudio from "./assets/konnnitiwa.wav";
 
 function App() {

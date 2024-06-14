@@ -9,11 +9,11 @@ export { default as AIChatView } from "./components/AIChatViewRoot";
 export type {
   AIModelData,
   defaultModelList,
-} from "./components/ChatView/Type/ModelDataList";
-export type { ChatContextType } from "./components/ChatView/Type/ChatContextType";
+} from "./components/Type/ModelDataList";
+export type { ChatContextType } from "./components/Type/ChatContextType";
 export type {
   ChatFormButtonData,
   SideButtonFuncResponse,
 } from "./components/ChatView/ChatForm/ChatFormSideButton";
-export type { AIChatResponse } from "./components/ChatView/Type/AIChatAPIType";
-export type { ChatProp } from "./components/ChatView/useChat";
+export type { AIChatResponse } from "./components/Type/AIChatAPIType";
+export type { AIChatViewProp as ChatProp } from "./components/ChatView/useChat";
