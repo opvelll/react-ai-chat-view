@@ -21,8 +21,8 @@ const useChatStore = (
         name: "chatStore",
         partialize: (state) =>
           Object.fromEntries(
-            Object.entries(state).filter(
-              ([key]) => !["totalTokenCount"].includes(key)
+            Object.entries(state).filter(([key]) =>
+              ["isRunAudio", "isSidebarOpen", "modelData"].includes(key)
             )
           ),
       } as PersistOptions<ChatStoreState>
