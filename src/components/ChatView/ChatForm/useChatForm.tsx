@@ -9,9 +9,9 @@ export default function useChatForm() {
     const { textAreaRef,
         inputTextValue,
         setInputTextValue,
-        submitChat,
         isLastMessageUser,
         submitChatWithUserMessage,
+        resubmitChatContextAsIs,
         setIsLoading } = store();
 
     const [images, setImages] = useState<string[]>([]);
@@ -58,8 +58,8 @@ export default function useChatForm() {
             await submitChatWithUserMessage(inputTextValue, images);
             setImages([]);
         }
-        if (isLastMessageUser()) return await submitChat();// 会話の編集時(最後のアシスタントメッセージを削除した状態)用
-    }, [inputTextValue, isLastMessageUser, submitChatWithUserMessage, submitChat, images]);
+        if (isLastMessageUser()) return await resubmitChatContextAsIs();// 会話の編集時(最後のアシスタントメッセージを削除した状態)用
+    }, [inputTextValue, isLastMessageUser, submitChatWithUserMessage, resubmitChatContextAsIs, images]);
 
     const adjustHeight = (rightSideRef: React.RefObject<HTMLDivElement>, buttonRef: React.RefObject<HTMLButtonElement>) => {
         if (textAreaRef.current && rightSideRef.current && buttonRef.current) {

@@ -38,7 +38,7 @@ export type ChatSlice = {
   getLastMessage: () => ChatType | undefined;
   isLastMessageUser: () => boolean;
   removeMessage: (index: number) => void;
-  submitChat: () => Promise<void>;
+  resubmitChatContextAsIs: () => Promise<void>;
   submitChatWithUserMessage: (
     userMessage: string,
     images: string[]
@@ -102,7 +102,8 @@ const createChatSlice: (
       getUpdatedContextWithoutLastMessage(get().chatContext)
     );
   },
-  submitChat: async () => await get().processChatContext(get().chatContext),
+  resubmitChatContextAsIs: async () =>
+    await get().processChatContext(get().chatContext),
 
   processChatContext: async (context: ChatContextType) => {
     try {
