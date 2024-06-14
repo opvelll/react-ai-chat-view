@@ -24,9 +24,7 @@ const createChatSlice: (
   modelData: modelList.length > 0 ? modelList[0] : initModelData,
   setModel: (value: AIModelData) => set({ modelData: value }),
   totalTokenCount: 0,
-  setTotalTokenCount: (value: number) => {
-    set({ totalTokenCount: value });
-  },
+  setTotalTokenCount: (value: number) => set({ totalTokenCount: value }),
 });
 
 export default createChatSlice;
