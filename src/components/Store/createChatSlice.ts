@@ -77,7 +77,7 @@ const createChatSlice: (
   setInputTextValue: (value: string) => set({ inputTextValue: value }),
   isLoading: false,
   setIsLoading: (value: boolean) => set({ isLoading: value }),
-  chatContext: [createSystemMessage("")],
+  chatContext: [createSystemMessage(props.systemPrompt)],
   setChatContext: (context: ChatContextType) => set({ chatContext: context }),
   resetChat: () => {
     set({
