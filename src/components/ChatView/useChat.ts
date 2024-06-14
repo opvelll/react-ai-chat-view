@@ -12,19 +12,21 @@ import { AIChatResponse } from "./Type/AIChatAPIType";
 import useContextChatStore from "../Store/useContextStore";
 import { AIModelData } from "./Type/ModelDataList";
 
+export type AudioSource = string | Blob;
+
 export type ChatProp = {
   systemPrompt: string;
   fetchAIChatAPI: (
     modelData: AIModelData,
     context: ChatContextType
   ) => Promise<AIChatResponse>;
-  fetchVoiceAPI?: ((text: string) => Promise<Blob>) | null;
+  fetchVoiceAPI?: (text: string) => Promise<AudioSource>;
 };
 
 export const useChat = ({
   systemPrompt,
   fetchAIChatAPI,
-  fetchVoiceAPI = null,
+  fetchVoiceAPI,
 }: ChatProp) => {
   const [inputTextValue, setInputTextValue] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
