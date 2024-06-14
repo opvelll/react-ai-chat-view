@@ -5,21 +5,26 @@ import Markdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Fragment } from "react/jsx-runtime";
+import useContextChatStore from "../Store/useContextStore";
+import { useCallback } from "react";
 
 export type ChatBubbleViewProps = {
     index: number,
     chat: ChatType,
     chatContext: ChatContextType,
-    handleResetLastMessage: () => void,
-    removeMessage: (index: number) => void
 }
 
 export default function ChatBubbleView({
     index,
     chat,
-    chatContext,
-    handleResetLastMessage,
-    removeMessage }: ChatBubbleViewProps) {
+    chatContext }: ChatBubbleViewProps) {
+
+    const store = useContextChatStore();
+    const {
+        removeMessage,
+        retryChatWithoutLastMessage
+    } = store();
+    const handleResetLastMessage = useCallback(async () => await retryChatWithoutLastMessage(), [retryChatWithoutLastMessage]);
 
     const contentView = (content: ChatContent) => {
         if (typeof content === "string") {

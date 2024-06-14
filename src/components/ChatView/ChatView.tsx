@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,8 +16,7 @@ export default function ChatView({
   const store = useContextChatStore();
   const {
     chatContext,
-    removeMessage,
-    processChatWithoutLastMessage
+
   } = store();
 
   // チャット状態の更新時に最下部にスクロール
@@ -32,8 +31,6 @@ export default function ChatView({
     setPrevMessageCount(chatContext.length);
   }, [chatContext.length, prevMessageCount]);
 
-  const handleResetLastMessage = useCallback(async () => await processChatWithoutLastMessage(), [processChatWithoutLastMessage]);
-
   return (
     <div className="flex flex-row w-full">
       <main className="flex-1 flex flex-col items-center w-full px-0 md:px-20">
@@ -43,7 +40,7 @@ export default function ChatView({
             .map((chat, index) => {
               return (
                 <Fragment key={index}>
-                  <ChatBubbleView {...{ index, chat, chatContext, handleResetLastMessage, removeMessage }} />
+                  <ChatBubbleView {...{ index, chat, chatContext }} />
                 </Fragment>
               );
             })}

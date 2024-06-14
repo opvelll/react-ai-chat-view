@@ -43,7 +43,7 @@ export type ChatSlice = {
     userMessage: string,
     images: string[]
   ) => Promise<void>;
-  processChatWithoutLastMessage: () => Promise<void>;
+  retryChatWithoutLastMessage: () => Promise<void>;
   processChatContext: (context: ChatContextType) => Promise<void>;
   handleResponse: (
     chatContext: ChatContextType,
@@ -92,17 +92,18 @@ const createChatSlice: (
       chatContext: state.chatContext.filter((_, i) => i !== index),
     })),
 
-  submitChat: async () => await get().processChatContext(get().chatContext),
   submitChatWithUserMessage: async (userMessage: string, images: string[]) => {
     await get().processChatContext(
       getUpdatedContextWithUserMessage(get().chatContext, userMessage, images)
     );
   },
-  processChatWithoutLastMessage: async () => {
+  retryChatWithoutLastMessage: async () => {
     await get().processChatContext(
       getUpdatedContextWithoutLastMessage(get().chatContext)
     );
   },
+  submitChat: async () => await get().processChatContext(get().chatContext),
+
   processChatContext: async (context: ChatContextType) => {
     try {
       set({ chatContext: context, inputTextValue: "", isLoading: true });
