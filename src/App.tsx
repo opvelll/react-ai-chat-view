@@ -5,6 +5,7 @@ import { FaRegCopy } from 'react-icons/fa';
 import { AIChatView } from '.';
 import type { AIModelData, ChatContextType, ChatFormButtonData, AIChatResponse } from '.';
 import { testModelList } from './components/ChatView/Type/ModelDataList';
+import sampleAudio from "./assets/konnnitiwa.wav";
 
 function App() {
 
@@ -68,11 +69,17 @@ function App() {
     }
   ]
 
+  const fetchVoiceAPI = async (text: string) => {
+    console.log(text);
+    return sampleAudio;
+  }
+
   return (
     <div>
       <AIChatView {...{
         systemPrompt,
         fetchAIChatAPI,
+        fetchVoiceAPI,
         modelList: testModelList,
         topButtonDataList,
         bottomButtonDataList
