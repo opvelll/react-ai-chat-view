@@ -14,10 +14,7 @@ export default function ChatView({
   bottomButtonDataList
 }: ChatViewProps) {
   const store = useContextChatStore();
-  const {
-    chatContext,
-
-  } = store();
+  const { chatContext } = store();
 
   // チャット状態の更新時に最下部にスクロール
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -34,6 +31,7 @@ export default function ChatView({
   return (
     <div className="flex flex-row w-full">
       <main className="flex-1 flex flex-col items-center w-full px-0 md:px-20">
+        {/* チャット表示 */}
         <div className="pt-2 min-h-screen md:border-l md:border-r w-full px-5 pb-36">
           {chatContext
             .filter((chat) => chat.role !== "system") // contextから1引く
@@ -47,10 +45,11 @@ export default function ChatView({
           <div ref={messagesEndRef}></div>
         </div>
 
+        {/* チャットフォーム */}
         <ChatForm {...{ topButtonDataList, bottomButtonDataList }} />
 
         {/* エラー表示 */}
-        <ToastContainer position="bottom-right" closeOnClick />
+        <ToastContainer position="top-right" closeOnClick />
       </main>
 
     </div>
