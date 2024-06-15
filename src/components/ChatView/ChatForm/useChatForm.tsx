@@ -1,20 +1,20 @@
-import { useCallback, useState } from "react";
-import { showCautionToast, showErrorToast } from "../../Toast";
-import { SideButtonFunc } from "./ChatFormSideButton";
+import { useCallback } from "react";
+import { showCautionToast } from "../../Toast";
 import useContextChatStore from "../../Store/useContextStore";
 
 // 入力画面
 export default function useChatForm() {
     const store = useContextChatStore();
-    const { textAreaRef,
+    const {
+        textAreaRef,
         inputTextValue,
         setInputTextValue,
         isLastMessageUser,
         submitChatWithUserMessage,
         resubmitChatContextAsIs,
-        setIsLoading } = store();
-
-    const [images, setImages] = useState<string[]>([]);
+        images,
+        setImages
+    } = store();
 
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -49,14 +49,13 @@ export default function useChatForm() {
                 setImages([]);
             }
         },
-        [inputTextValue, submitChatWithUserMessage, images],
+        [inputTextValue, submitChatWithUserMessage, images, setImages],
     );
 
     const handleChatButton = useCallback(async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (inputTextValue !== "" || images.length > 0) {
             await submitChatWithUserMessage(inputTextValue, images);
-            setImages([]);
         }
         if (isLastMessageUser()) return await resubmitChatContextAsIs();// 会話の編集時(最後のアシスタントメッセージを削除した状態)用
     }, [inputTextValue, isLastMessageUser, submitChatWithUserMessage, resubmitChatContextAsIs, images]);
@@ -82,32 +81,6 @@ export default function useChatForm() {
         }
     }
 
-    const scrollToBottom = useCallback((textValue: string) => {
-        if (textAreaRef.current) {
-            textAreaRef.current.focus();
-            textAreaRef.current.selectionStart = textAreaRef.current.selectionEnd = Array.from(textValue).length;
-            setTimeout(() => { if (textAreaRef.current) textAreaRef.current.scrollTop = textAreaRef.current.scrollHeight }, 0);
-        }
-    }, [textAreaRef]);
-
-    const handleSideButton =
-        (func: SideButtonFunc) => {
-            return async () => {
-                try {
-                    setIsLoading(true);
-                    const { newText, newImages } = await func(inputTextValue, images, showCautionToast);
-                    setInputTextValue(newText);
-                    if (newImages) setImages(newImages);
-                    scrollToBottom(newText);
-                    setIsLoading(false);
-                } catch (e) {
-                    const error = e as Error;
-                    showErrorToast(error.message);
-                    console.error(error.message);
-                    setIsLoading(false);
-                }
-            }
-        }
 
     const handleClearButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -116,15 +89,10 @@ export default function useChatForm() {
     }
 
     return {
-        inputTextValue,
-        setInputTextValue,
         handleChange,
         handleKeyPress,
         handleChatButton,
         adjustHeight,
-        scrollToBottom,
-        handleSideButton,
-        images,
         handleDrop,
         handleRemoveImage,
         handleClearButton

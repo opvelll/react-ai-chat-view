@@ -19,14 +19,12 @@ const ChatForm: React.FC<ChatFormButtonDataList> = ({
     const rightSideRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const store = useContextChatStore();
-    const { isLoading, inputTextValue, textAreaRef } = store();
+    const { isLoading, inputTextValue, textAreaRef, images } = store();
     const {
         adjustHeight,
-        images,
         handleDrop,
         handleRemoveImage,
         handleClearButton,
-        handleSideButton,
         handleChatButton,
         handleChange,
         handleKeyPress
@@ -42,7 +40,7 @@ const ChatForm: React.FC<ChatFormButtonDataList> = ({
 
     return (
         <div className="fixed bottom-0 px-4 py-1 w-full md:w-10/12">
-            <ButtonList buttonDataList={topButtonDataList} handleSideButton={handleSideButton} />
+            <ButtonList buttonDataList={topButtonDataList} />
             <form id="chatForm"
                 name="chatForm"
                 className="flex justify-center bg-gray-100 md:shadow-md drop-shadow-md rounded-lg"
@@ -97,7 +95,7 @@ const ChatForm: React.FC<ChatFormButtonDataList> = ({
                     </button>
                 </div>
             </form>
-            <ButtonList buttonDataList={bottomButtonDataList} handleSideButton={handleSideButton} />
+            <ButtonList buttonDataList={bottomButtonDataList} />
         </div>)
 };
 

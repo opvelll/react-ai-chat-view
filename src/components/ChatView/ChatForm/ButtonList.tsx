@@ -1,11 +1,11 @@
 import { Fragment } from "react/jsx-runtime";
-import ChatFormSideButton, { ChatFormButtonData, SideButtonFunctions } from "./ChatFormSideButton";
+import ChatFormSideButton, { ChatFormButtonData } from "./ChatFormSideButton";
 
 export type ButtonListProps = {
     buttonDataList?: ChatFormButtonData[];
-} & SideButtonFunctions;
+};
 
-export default function ButtonList({ buttonDataList, handleSideButton }: ButtonListProps) {
+export default function ButtonList({ buttonDataList }: ButtonListProps) {
     return (
         <>
             {buttonDataList &&
@@ -14,7 +14,6 @@ export default function ButtonList({ buttonDataList, handleSideButton }: ButtonL
                         <Fragment key={index}>
                             <ChatFormSideButton
                                 {...buttonData}
-                                handleSideButton={handleSideButton}
                             />
                         </Fragment>
                     ))}

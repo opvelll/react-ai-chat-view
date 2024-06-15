@@ -1,4 +1,6 @@
 import { Id } from "react-toastify";
+import useContextChatStore from "../../Store/useContextStore";
+import { showCautionToast, showErrorToast } from "../../Toast";
 
 export type ChatFormButtonData = {
     title?: string;
@@ -7,11 +9,10 @@ export type ChatFormButtonData = {
     color?: string;
 };
 
-export type SideButtonFunctions = {
-    handleSideButton: (func: SideButtonFunc) => () => Promise<void>;
-}
 
-export type SideButtonFunc = (inputTextValue: string, images: string[], showCautionToast: (cautionMessage: string) => Id) => Promise<SideButtonFuncResponse>;
+export type SideButtonFunc = (inputTextValue: string,
+    images: string[],
+    showCautionToast: (cautionMessage: string) => Id) => Promise<SideButtonFuncResponse>;
 
 export type SideButtonFuncResponse = {
     newText: string;
@@ -19,7 +20,34 @@ export type SideButtonFuncResponse = {
 }
 
 export default function ChatFormSideButton(
-    { title, icon, color, func, handleSideButton }: ChatFormButtonData & SideButtonFunctions) {
+    { title, icon, color, func }: ChatFormButtonData) {
+    const store = useContextChatStore();
+    const {
+        inputTextValue,
+        setInputTextValue,
+        images,
+        setImages,
+        scrollToBottomInForm,
+        setIsLoading } = store();
+
+    const handleSideButton =
+        (func: SideButtonFunc) => {
+            return async () => {
+                try {
+                    setIsLoading(true);
+                    const { newText, newImages } = await func(inputTextValue, images, showCautionToast);
+                    setInputTextValue(newText);
+                    if (newImages) setImages(newImages);
+                    scrollToBottomInForm(newText);
+                    setIsLoading(false);
+                } catch (e) {
+                    const error = e as Error;
+                    showErrorToast(error.message);
+                    console.error(error.message);
+                    setIsLoading(false);
+                }
+            }
+        }
 
     return (
         <button

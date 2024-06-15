@@ -50,6 +50,9 @@ export type ChatSlice = {
     aiChatResponse: AIChatResponse
   ) => Promise<void>;
   handleError: (e: Error) => void;
+  scrollToBottomInForm: (textValue: string) => void;
+  images: string[];
+  setImages: (value: string[]) => void;
 };
 
 const createChatSlice: (
@@ -107,7 +110,13 @@ const createChatSlice: (
 
   processChatContext: async (context: ChatContextType) => {
     try {
-      set({ chatContext: context, inputTextValue: "", isLoading: true });
+      // 現在のコンテキストの表示と、チャットのフォームのリセット。awaitで反映される
+      set({
+        chatContext: context,
+        inputTextValue: "",
+        isLoading: true,
+        images: [],
+      });
       const response = await props.fetchAIChatAPI(get().modelData, context);
       await get().handleResponse(context, response);
       setTimeout(() => get().textAreaRef.current?.focus(), 0);
@@ -136,6 +145,21 @@ const createChatSlice: (
     console.error(e);
     set({ isLoading: false });
   },
+
+  scrollToBottomInForm: (textValue: string) => {
+    const textAreaRef = get().textAreaRef;
+    setTimeout(() => {
+      if (textAreaRef.current) {
+        textAreaRef.current.selectionStart = textAreaRef.current.selectionEnd =
+          Array.from(textValue).length;
+        textAreaRef.current.scrollTop = textAreaRef.current.scrollHeight;
+        textAreaRef.current.focus();
+      }
+    }, 0);
+  },
+
+  images: [],
+  setImages: (value: string[]) => set({ images: value }),
 });
 
 export default createChatSlice;
