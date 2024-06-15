@@ -17,7 +17,7 @@ function App() {
     // contextの最後のcontentをコピーして返す
     const last = context[context.length - 1].content;
     return {
-      content: typeof last === "string" ? last : (last[0].type === "text" ? last[0].text : last[0].image_url.url),
+      content: typeof last === "string" ? last : (last[1].type == "text" ? last[1].text : last[1].image_url.url.substring(0, 40)),
       tokenCount: 10,
       totalTokenCount: 100
     }
@@ -55,6 +55,15 @@ function App() {
       title: "all page",
       icon: <SiPagekit />,
       func: handleGetAllPageButton,
+      color: "text-gray-500",
+    },
+    {
+      title: "many text",
+      icon: <SiPagekit />,
+      func: async (inputTextValue: string) => {
+        const row = "test".repeat(100) + "\n";
+        return { newText: inputTextValue + row.repeat(100) + "\ntest", newImages: [] }
+      },
       color: "text-gray-500",
     }
   ]
