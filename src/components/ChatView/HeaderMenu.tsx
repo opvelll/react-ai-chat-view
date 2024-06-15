@@ -10,10 +10,14 @@ export type HeaderMenuProps = {
 
 export default function HeaderMenu({ isOudio, }: HeaderMenuProps) {
     const store = useContextChatStore();
-    const { modelList, resetChat, isRunAudio, toggleAudio } = store((state) => state);
+    const {
+        totalTokenCount,
+        setModel,
+        modelList,
+        resetChat,
+        isRunAudio,
+        toggleAudio } = store();
     const { modelName, contextWindow } = store((state) => state.modelData);
-    const setModel = store((state) => state.setModel);
-    const totalTokenCount = store((state) => state.totalTokenCount);
 
     const handleModelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setModel(getModelDataByModelName(event.target.value, modelList));
