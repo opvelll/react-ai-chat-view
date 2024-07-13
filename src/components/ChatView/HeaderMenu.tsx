@@ -30,7 +30,7 @@ export default function HeaderMenu({ isOudio, }: HeaderMenuProps) {
     }, [totalTokenCount, contextWindow]);
 
     return (
-        <header className="sticky top-0 z-50 w-full bg-white">
+        <header className="sticky top-0 w-full bg-white">
             <div className=" w-full p-2 flex flex-col border-b">
                 <div className="flex w-full text-lg gap-x-0.5 flex-row-reverse">
                     <button
