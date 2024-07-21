@@ -1,15 +1,13 @@
 /*!
- * Copyright (c) 2024, Opvel
+ * Copyright (c) 2024, Opvel, opvelll
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
 export { default as AIChatView } from "./components/AIChatViewRoot";
-export type {
-  AIModelData,
-  defaultModelList,
-} from "./components/Type/ModelDataList";
+export { defaultModelList } from "./components/Type/ModelDataList";
+export type { AIModelData } from "./components/Type/ModelDataList";
 export type { ChatContextType } from "./components/Type/ChatContextType";
 export type {
   ChatFormButtonData,
