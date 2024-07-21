@@ -67,17 +67,13 @@ const testModelList: AIModelData[] = [
     corporation: "OpenAI",
     modelName: "gpt-4o",
     contextWindow: 128000,
-    isJsonMode: false,
-    isVision: false,
-    isFunctionCall: false,
+    trainingData: "2023-10",
   },
   {
     corporation: "Other",
     modelName: "test-model",
     contextWindow: 128000,
-    isJsonMode: false,
-    isVision: false,
-    isFunctionCall: false,
+    trainingData: "2023-10",
   },
 ];
 
@@ -163,17 +159,13 @@ const testModelList: AIModelData[] = [
     corporation: "OpenAI",
     modelName: "gpt-4o",
     contextWindow: 128000,
-    isJsonMode: false,
-    isVision: false,
-    isFunctionCall: false,
+    trainingData: "2023-10",
   },
   {
     corporation: "Other",
     modelName: "test-model",
     contextWindow: 128000,
-    isJsonMode: false,
-    isVision: false,
-    isFunctionCall: false,
+    trainingData: "2023-10",
   },
 ];
 
